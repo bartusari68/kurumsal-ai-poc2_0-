@@ -1,0 +1,119 @@
+{
+  "accounts": [
+    {
+      "username": "ihtiyac_admin",
+      "total": 22,
+      "queueViews": [
+        "",
+        "actionable",
+        "unit",
+        "info",
+        "planned",
+        "completed"
+      ],
+      "detail": {
+        "state": "REFERRED",
+        "actions": [
+          "RETURN_REVIEW",
+          "REVIEW",
+          "REVIEW_ADVANCE",
+          "REFER",
+          "ASSIGN"
+        ],
+        "owner": "TECHNICAL_DESIGN",
+        "overflow": false,
+        "history": true
+      }
+    },
+    {
+      "username": "calisan",
+      "total": 7,
+      "queueViews": [
+        "",
+        "actionable",
+        "info",
+        "planned",
+        "completed"
+      ],
+      "detail": {
+        "state": "REFERRED",
+        "actions": [],
+        "owner": "TECHNICAL_DESIGN",
+        "overflow": false,
+        "history": true
+      }
+    },
+    {
+      "username": "teknik_admin",
+      "total": 2,
+      "queueViews": [
+        "",
+        "actionable",
+        "unit",
+        "info",
+        "planned",
+        "completed"
+      ],
+      "detail": {
+        "state": "REFERRED",
+        "actions": [
+          "REQUEST_INFO",
+          "RETURN_REVIEW",
+          "REVIEW",
+          "SAVE_PLAN",
+          "ASSIGN"
+        ],
+        "owner": "TECHNICAL_DESIGN",
+        "overflow": false,
+        "history": true
+      }
+    },
+    {
+      "username": "muhendislik_admin",
+      "total": 2,
+      "queueViews": [
+        "",
+        "actionable",
+        "unit",
+        "info",
+        "planned",
+        "completed"
+      ],
+      "detail": {
+        "state": "REFERRED",
+        "actions": [
+          "REQUEST_INFO",
+          "RETURN_REVIEW",
+          "REVIEW",
+          "SAVE_PLAN",
+          "ASSIGN"
+        ],
+        "owner": "ENGINEERING_DESIGN",
+        "overflow": false,
+        "history": true
+      }
+    }
+  ],
+  "errors": [],
+  "unitFilter": {
+    "rows": [
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST",
+      "NEEDS_ANALYST"
+    ],
+    "total": 16
+  }
+}

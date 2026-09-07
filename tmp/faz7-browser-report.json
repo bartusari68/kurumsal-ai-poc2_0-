@@ -1,0 +1,22 @@
+{
+  "report": [
+    {
+      "requestId": 1,
+      "developmentId": 1,
+      "state": "READY",
+      "requestUnchanged": true,
+      "outcomes": 2,
+      "modules": 1
+    },
+    {
+      "requestId": 2,
+      "developmentId": 2,
+      "state": "READY",
+      "requestUnchanged": true,
+      "outcomes": 2,
+      "modules": 1
+    }
+  ],
+  "notificationOpensDevelopment": true,
+  "errors": []
+}

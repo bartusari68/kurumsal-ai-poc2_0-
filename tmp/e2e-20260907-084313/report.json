@@ -1,0 +1,70 @@
+{
+  "synthetic_only": true,
+  "isolated_directory": "C:\\Users\\Administrator\\Desktop\\kurumsal-ai-poc\\tmp\\e2e-20260907-084313",
+  "cases": [
+    {
+      "case": "matching",
+      "request_id": 1,
+      "coverage": "VAR",
+      "fit_percent": 97,
+      "missing_topics": []
+    },
+    {
+      "case": "partial",
+      "request_id": 2,
+      "coverage": "KISMEN_VAR",
+      "fit_percent": 46,
+      "missing_topics": [
+        "Sonlu elemanlar yöntemiyle yapısal gerilme analizi"
+      ]
+    },
+    {
+      "case": "missing",
+      "request_id": 3,
+      "coverage": "YOK",
+      "fit_percent": 0,
+      "missing_topics": [
+        "Seramik sır hazırlama",
+        "Seramik fırını pişirme programı"
+      ]
+    }
+  ],
+  "review_report": {
+    "summary": {
+      "total_requests": 3,
+      "reviewed_requests": 1,
+      "pending_review": 2,
+      "decisions_total": 2,
+      "approved": 0,
+      "modified": 1,
+      "rejected": 0,
+      "agreement_percent": 0.0,
+      "correction_percent": 100.0
+    },
+    "repeated_needs": [],
+    "scope_gaps": [
+      {
+        "topic": "Hedef seviye ve uygulama ortamı",
+        "count": 1,
+        "request_ids": [
+          3
+        ]
+      },
+      {
+        "topic": "Sonlu elemanlar yöntemiyle yapısal gerilme analizi",
+        "count": 1,
+        "request_ids": [
+          2
+        ]
+      }
+    ],
+    "excess_scope": [],
+    "learning": {
+      "mode": "validated_feedback_retrieval",
+      "model_weights_trained": false,
+      "autonomous_decisions_enabled": false,
+      "explanation": "Her talebin son insan kararı rapora tek örnek olarak girer. Güncel PDF ile doğrulanan ders kararları yalnızca benzer niyetli arama sırasını etkiler; eşleşme yüzdesini artırmaz. Model ağırlıkları eğitilmez ve özerk karar verme etkin değildir."
+    }
+  },
+  "saved_requests": 3
+}

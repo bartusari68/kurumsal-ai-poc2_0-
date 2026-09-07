@@ -1,0 +1,29 @@
+{
+  "employee": {
+    "visible_ids": [
+      1,
+      2,
+      3
+    ]
+  },
+  "analyst": {
+    "visible_ids": [
+      1,
+      2,
+      3
+    ]
+  },
+  "technical": {
+    "visible_ids": [
+      3
+    ]
+  },
+  "engineering": {
+    "visible_ids": [
+      2
+    ]
+  },
+  "wrong_department_direct_detail": 404,
+  "list_detail_owner_aligned": true,
+  "synthetic_only": true
+}

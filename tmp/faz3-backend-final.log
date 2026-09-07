@@ -1,0 +1,15 @@
+..........Executing <Task finished name='Task-21' coro=<RetrievalReliabilityTests.test_long_course_does_not_hide_other_course_evidence() done, defined at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_ai_reliability.py:139> result=None created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.125 seconds
+............AI request failed: component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+....AI operation failed: path=/api/requests/analyze component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+........AI operation failed: path=/api/requests/analyze component=analysis code=AI_INVALID_RESPONSE
+........PDF index failed: scan.pdf (ValueError)
+.PDF index failed: course.pdf (AIResponseError)
+PDF index failed: course.pdf (AIResponseError)
+.....PDF index failed: broken.pdf (FileDataError)
+......PDF index failed: two.pdf (AIResponseError)
+...................................................AI request failed: component=analysis code=AI_RATE_LIMITED
+......................................................
+----------------------------------------------------------------------
+Ran 159 tests in 49.029s
+
+OK

@@ -1,0 +1,11 @@
+{
+  "delegationCreated": true,
+  "delegatedInbox": true,
+  "originalAssignmentPreservedOnReview": true,
+  "delegatedAuditVisible": true,
+  "employeeNotification": true,
+  "readOnOpen": true,
+  "employeeActionInbox": true,
+  "overflow": false,
+  "errors": []
+}

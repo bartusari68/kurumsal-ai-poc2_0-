@@ -1,0 +1,41 @@
+{
+  "login": {
+    "overflow": false,
+    "canvas": 1270,
+    "assets": [
+      "stars-1920.webp",
+      "earth-day-4k.webp",
+      "earth-night-4k.webp"
+    ]
+  },
+  "transition": {
+    "hasLogin": true,
+    "inert": true,
+    "credentialValue": "",
+    "animation": "experience-entry-zoom"
+  },
+  "audio": [
+    0.11,
+    0.0001
+  ],
+  "detail": {
+    "titleCount": 1,
+    "process": true,
+    "history": true,
+    "currentAction": true,
+    "overflow": false,
+    "activeSteps": 1,
+    "historyFakeActions": 0
+  },
+  "mobileDetail": {
+    "overflow": false,
+    "stepColumns": "316px"
+  },
+  "mobileLogin": {
+    "overflow": false,
+    "canvas": 1024,
+    "starSource": "http://127.0.0.1:8000/static/assets/experience/stars-1280.webp",
+    "highTextures": false
+  },
+  "errors": []
+}

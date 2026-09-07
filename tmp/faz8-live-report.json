@@ -1,0 +1,30 @@
+[
+  {
+    "username": "calisan",
+    "catalogCourses": 8,
+    "allCourseDetailsOpened": true,
+    "legacyVersionReadonly": true,
+    "errors": []
+  },
+  {
+    "username": "ihtiyac_admin",
+    "catalogCourses": 8,
+    "allCourseDetailsOpened": true,
+    "legacyVersionReadonly": true,
+    "errors": []
+  },
+  {
+    "username": "teknik_admin",
+    "catalogCourses": 8,
+    "allCourseDetailsOpened": true,
+    "legacyVersionReadonly": true,
+    "errors": []
+  },
+  {
+    "username": "muhendislik_admin",
+    "catalogCourses": 8,
+    "allCourseDetailsOpened": true,
+    "legacyVersionReadonly": true,
+    "errors": []
+  }
+]

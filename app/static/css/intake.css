@@ -1,0 +1,9 @@
+.intake-modes{display:flex;gap:12px;margin:0 0 20px}
+.intake-panel{margin-bottom:20px;max-width:1060px}
+.intake-messages{max-height:340px;overflow:auto;overscroll-behavior:contain;margin:20px 0}
+.intake-message{padding:12px 16px;margin-bottom:10px;border-left:3px solid #354881;background:#f5f7fb}
+.intake-user{border-color:#a7b1c5;background:transparent}
+.intake-message strong{font-size:12px;color:#53617c}
+.intake-message p{white-space:pre-wrap;margin:6px 0;line-height:1.65;overflow-wrap:anywhere}
+.intake-panel .inline-actions{margin:12px 0;gap:10px}
+.portal-request-form[hidden]{display:none!important}

@@ -1,0 +1,7 @@
+.env
+.venv/
+
+# These original model bytes are preserved in model-transfer/*.part via Git LFS.
+# Restore their original paths with scripts/restore_model_files.py.
+/data/models/BAAI--bge-m3-5617a9f61b02/pytorch_model.bin
+/data/models/BAAI--bge-reranker-v2-m3-953dc6f6f85a/model.safetensors

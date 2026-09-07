@@ -1,0 +1,11 @@
+Executing <Task finished name='Task-2' coro=<DirectoryIndexTests.test_api_upload_joins_the_same_index_without_duplicates() done, defined at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_indexing.py:294> result=None created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.297 seconds
+......PDF index failed: scan.pdf (ValueError)
+.PDF index failed: course.pdf (AIResponseError)
+PDF index failed: course.pdf (AIResponseError)
+.....PDF index failed: broken.pdf (FileDataError)
+......PDF index failed: two.pdf (AIResponseError)
+...
+----------------------------------------------------------------------
+Ran 21 tests in 1.551s
+
+OK

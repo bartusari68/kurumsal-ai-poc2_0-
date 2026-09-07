@@ -1,0 +1,16 @@
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\.venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+Intake failed: code=SERVICE_UNAVAILABLE type=AIUnavailableError
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow_core.py:35: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = datetime.utcnow()
+........Intake failed: code=INVALID_RESPONSE type=ValidationError
+...Intake failed: code=INVALID_RESPONSE type=ValidationError
+Intake failed: code=INVALID_RESPONSE type=ValidationError
+Intake failed: code=INVALID_RESPONSE type=ValidationError
+Intake failed: code=INVALID_RESPONSE type=ValidationError
+......
+----------------------------------------------------------------------
+Ran 17 tests in 11.327s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

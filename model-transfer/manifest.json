@@ -1,0 +1,49 @@
+{
+  "format": 1,
+  "models": [
+    {
+      "path": "data/models/BAAI--bge-m3-5617a9f61b02/pytorch_model.bin",
+      "size": 2271145830,
+      "parts": [
+        {
+          "path": "model-transfer/model-01-001.part",
+          "size": 1073741824,
+          "sha256": "ac6d253816a139d9dede7fff44df5968acf56b55cd92b197801384310183327f"
+        },
+        {
+          "path": "model-transfer/model-01-002.part",
+          "size": 1073741824,
+          "sha256": "aef5909b713b4b5723ac5022f6da8b67638c17c7e3c709f1029c2da005b560f5"
+        },
+        {
+          "path": "model-transfer/model-01-003.part",
+          "size": 123662182,
+          "sha256": "2ac7f0ff1a5a98068c75a390e2007a727981153d033e0a5637c579d896c3e1f6"
+        }
+      ],
+      "sha256": "b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38"
+    },
+    {
+      "path": "data/models/BAAI--bge-reranker-v2-m3-953dc6f6f85a/model.safetensors",
+      "size": 2271071852,
+      "parts": [
+        {
+          "path": "model-transfer/model-02-001.part",
+          "size": 1073741824,
+          "sha256": "eb7476cfbc86cc0ecdcb0b69253284157bd5278c21411140815b28b4ceb15198"
+        },
+        {
+          "path": "model-transfer/model-02-002.part",
+          "size": 1073741824,
+          "sha256": "11fcf8ef3970aeb01c2b20cdb5c37fe469a8fdcb6934e0d9d326f474b2123a43"
+        },
+        {
+          "path": "model-transfer/model-02-003.part",
+          "size": 123588204,
+          "sha256": "53640a6721af5630893185d3825b62c5b7e37c070938c664d5fb5164579d4dbf"
+        }
+      ],
+      "sha256": "d9e3e081faff1eefb84019509b2f5558fd74c1a05a2c7db22f74174fcedb5286"
+    }
+  ]
+}

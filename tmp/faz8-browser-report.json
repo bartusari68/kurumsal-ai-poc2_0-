@@ -1,0 +1,22 @@
+{
+  "report": [
+    {
+      "requestId": 1,
+      "version": 1,
+      "state": "PUBLISHED",
+      "courseId": 2,
+      "requestAndDevelopmentUnchanged": true
+    },
+    {
+      "requestId": 2,
+      "version": 2,
+      "state": "PUBLISHED",
+      "courseId": 1,
+      "requestAndDevelopmentUnchanged": true
+    }
+  ],
+  "conflictDraftPreserved": true,
+  "catalogSearch": true,
+  "notificationOpensPublication": true,
+  "errors": []
+}

@@ -1,0 +1,89 @@
+✔ reduced motion enters immediately without overlay or delayed callback (1.6302ms)
+✔ entry animation renders authenticated content immediately and always removes overlay (0.6656ms)
+✔ failed login keeps inputs, blocks duplicate submissions and allows retry (1.9298ms)
+✔ a late login response cannot authenticate after its form has been replaced (0.7053ms)
+✔ record identifiers remain unchanged while interface text is translated (9.2524ms)
+✔ long phrases are translated before their shorter fragments (0.8752ms)
+✔ complete status tokens reach the localization layer (0.3564ms)
+✔ raw content is escaped and excluded from interface translation (0.234ms)
+✔ translated option label does not change its implicit submitted value (0.1929ms)
+✔ zero-length chart values do not create a misleading visible bar (0.1461ms)
+✔ employee result shows explained fit percentages and summaries, never page excerpts or raw scores (12.2255ms)
+✔ employee request uses the full form width and has no developer or guidance sidebar (0.1179ms)
+✔ fit display clamps nonfinite or out-of-range values (0.1635ms)
+✔ fit breakdown preserves decimal points and explains final rounding (0.2965ms)
+✔ an unsupported request explicitly shows zero catalog fit without inventing a course (0.121ms)
+✔ navigation separates authenticated employee and manager workspaces (0.0702ms)
+✔ login uses username and password and never asks users to choose their own role (0.3152ms)
+✔ changing status immediately applies the current filter and resets pagination (1.1977ms)
+✔ out-of-order filter responses cannot replace the newest visible results (0.8203ms)
+✔ account changes invalidate pending request results and erase private UI state (0.084ms)
+✔ unknown route has one inline target choice while a resolved route hides that choice (1.9433ms)
+✔ canonical brand colors and locally served assets are configured (0.4251ms)
+✔ quota response replaces the green badge and preserves an actionable error (5.0097ms)
+✔ service error appears once and form-only errors remain visible without losing draft (0.5644ms)
+✔ actual fetch failure shows an application-server error instead of green AI (0.6618ms)
+✔ provider timeout remains distinct from a browser connection failure (0.6141ms)
+✔ unreadable response is not falsely labelled a network failure (0.6072ms)
+✔ a timed-out request does not become a generic server-down message (0.5857ms)
+✔ knowledge sources omit deleted filenames and show pagination for a large corpus (0.6308ms)
+✔ 40 percent catalog match becomes a new course need without a course recommendation (0.1044ms)
+✔ partial matches explain enrichment while resolved requests show their current outcome (0.6904ms)
+✔ human review accepts approval without a duplicate checkbox and keeps corrections separate from AI (0.6655ms)
+✖ decision history compares original AI and human judgment without exposing audit excerpts (4.3999ms)
+✔ human decision history separates operational assignment from the original AI department verdict (0.576ms)
+✔ learning report distinguishes an unmeasured agreement rate from zero and links source requests (0.841ms)
+✔ PDF extraction preserves typed request and never submits an analysis (0.786ms)
+✔ PDF append rejects combined overflow and requires an explicit append action (0.709ms)
+✔ a delayed PDF response is discarded after an account switch (0.6689ms)
+✔ prior-case disagreements remain visible instead of presenting a false consensus (0.6683ms)
+✔ returning from correction to approval submits the AI verdict without stale corrections or duplicate confirmation (1.4138ms)
+✔ single unresolved target is sent as routing metadata without falsely modifying AI approval (0.7439ms)
+✔ full course match bypasses target choice while a human-added gap needs a real target (0.72ms)
+✔ corrected category uses the server routing rule and clears a stale suggested department (0.7694ms)
+✔ non-training and rejection keep their meaning and department feedback cannot advance an analyst workflow (1.3039ms)
+✔ duplicate decision submissions are ignored and a conflict preserves the typed draft (0.8021ms)
+✔ filters persist only status and sorting per authenticated account, never the request search (0.7193ms)
+✔ activity history shows only recorded events, named actors and rejection reasons (1.7292ms)
+✔ single valid target is selected automatically and submitted without a second confirmation (0.7274ms)
+✔ case layout separates recorded history from current action and preserves status transitions (1.0249ms)
+✔ missing identity and dates are honest, raw technical status does not leak into the UI (0.7553ms)
+✔ full-course analysis brief uses actual next action and labels generic planning information optional (0.6608ms)
+✔ first review appears before optional AI detail, then a recorded review collapses behind the next action (1.3346ms)
+✔ empty generated drafts never show update warnings while a changed note remains visible (0.6781ms)
+✔ logout removes prior live-region feedback and cancels only the local document polling timer (0.7015ms)
+✔ role report uses each units reviewed requests as denominator and keeps missing roles unmeasured (0.7319ms)
+✔ scope signals distinguish confirmed training needs from unconfirmed and unavailable counts (0.6045ms)
+✔ status actions are supplied by backend and missing policy fails closed (0.5681ms)
+✔ solution plan and assignment use real backend data and escape content (0.569ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 57
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.7756
+
+✖ failing tests:
+
+test at tests\frontend.test.cjs:287:1
+✖ decision history compares original AI and human judgment without exposing audit excerpts (4.3999ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(html.includes('İLK YAPAY ZEKÂ ÖNERİSİ'))
+  
+      at TestContext.<anonymous> (C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\frontend.test.cjs:292:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

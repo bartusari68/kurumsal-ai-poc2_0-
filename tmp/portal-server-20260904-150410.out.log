@@ -1,0 +1,90 @@
+INFO:     127.0.0.1:63562 - "GET /api/admin/requests HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63562 - "GET /api/requests/mine HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63562 - "GET /api/documents/status HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63562 - "GET /api/health HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63563 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63564 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63565 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63566 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63565 - "GET /api/documents/status HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63566 - "GET /api/documents/status HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63564 - "GET /api/documents/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63564 - "GET /api/admin/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63564 - "GET /api/admin/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63563 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63564 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63565 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63566 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61415 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61415 - "GET /static/css/platform.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54813 - "GET /static/css/accounts.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61415 - "GET /static/js/portal.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54813 - "GET /static/js/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58400 - "GET /static/js/i18n-tr.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54813 - "GET /api/portal/session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61415 - "GET /static/assets/brand/logo-white.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54813 - "GET /api/requests/mine?limit=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58400 - "GET /api/portal/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53547 - "POST /api/portal/prepare HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53547 - "GET /api/portal/preparation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53547 - "POST /api/requests/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61838 - "GET /api/requests/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57183 - "GET /api/requests/mine?limit=20&offset=0&status=RESOLVED&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57183 - "GET /api/requests/mine?limit=20&offset=0&status=RESOLVED&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57183 - "GET /api/requests/mine?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57183 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58691 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58691 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:61723 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61723 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61723 - "GET /api/admin/requests/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59303 - "POST /api/admin/requests/17/refer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59303 - "GET /api/admin/requests/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52190 - "PATCH /api/admin/requests/17/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52190 - "GET /api/admin/requests/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52190 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54573 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60736 - "GET /static/assets/brand/emblem.svg HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54573 - "GET /api/requests/mine?limit=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54573 - "GET /api/requests/mine?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61980 - "GET /api/portal/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61980 - "GET /api/requests/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54805 - "PATCH /api/requests/17/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54805 - "GET /api/requests/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63251 - "GET /api/requests/mine?limit=20&offset=0&status=RESOLVED&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63251 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58946 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58946 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50688 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64653 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64653 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64730 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55453 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52624 - "GET /api/portal/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55453 - "GET /api/requests/mine?limit=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55112 - "POST /api/portal/prepare HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55112 - "GET /api/portal/preparation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55112 - "POST /api/requests/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53603 - "GET /api/requests/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57279 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52683 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52683 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52683 - "GET /api/admin/requests/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53418 - "POST /api/admin/requests/18/refer HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53418 - "GET /api/admin/requests/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53418 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51270 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51270 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51270 - "GET /api/admin/requests/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50312 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50312 - "GET /api/admin/requests/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54416 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54416 - "GET /static/css/platform.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64639 - "GET /static/css/accounts.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52784 - "GET /static/js/app.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55493 - "GET /static/js/portal.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65230 - "GET /static/js/i18n-tr.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65230 - "GET /api/portal/session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55493 - "GET /static/assets/brand/logo-white.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65230 - "GET /api/admin/requests?limit=20&offset=0&status=&search= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51898 - "GET /api/admin/requests/18 HTTP/1.1" 200 OK

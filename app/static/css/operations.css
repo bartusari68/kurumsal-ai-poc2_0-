@@ -1,0 +1,6 @@
+.operations-bell{gap:8px;white-space:nowrap}.operations-bell .icon{width:18px;height:18px}
+.operations-notification{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 16px;border-bottom:1px solid #e2e6ef}
+.operations-notification.unread{background:#f5f7fc;border-left:3px solid #354881}
+.operations-notification h2{font-size:16px;margin:0 0 8px}.operations-notification p{margin:6px 0}
+.operations-notification .inline-actions{flex-shrink:0;gap:12px}
+.operations-delegation-banner{margin:0 0 16px}

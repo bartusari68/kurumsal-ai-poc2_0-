@@ -1,0 +1,39 @@
+[
+  {
+    "case": "clear",
+    "status": "ready",
+    "questions": 0,
+    "draft_length": 590,
+    "question": null,
+    "context": {
+      "clarified_problem": "Haftalık Excel raporları için 5 dosyayı elle birleştirme süreci mevcut.",
+      "desired_outcome": "Power Query kullanarak dosya birleştirme ve raporlama sürecinin otomatikleştirilmesi.",
+      "current_context": "Kullanıcının temel Excel bilgisi mevcut; talep yalnızca kendi raporları için geçerli.",
+      "scope": "Haftalık Excel raporları ve 5 dosyalık birleştirme işlemi.",
+      "urgency_signal": "",
+      "impact_signal": "",
+      "suspected_need_type": "education_possible"
+    }
+  },
+  {
+    "case": "vague",
+    "status": "needs_more_info",
+    "questions": 1,
+    "draft_length": 0,
+    "question": "Excel ile hangi işi yaparken desteğe ihtiyaç duyuyorsunuz?",
+    "context": {
+      "clarified_problem": "",
+      "desired_outcome": "",
+      "current_context": "",
+      "scope": "",
+      "urgency_signal": "",
+      "impact_signal": "",
+      "suspected_need_type": "education_possible"
+    },
+    "after_answer": {
+      "status": "ready",
+      "questions": 1,
+      "draft_length": 303
+    }
+  }
+]

@@ -1,0 +1,43 @@
+INFO:     127.0.0.1:53285 - "GET /?v=qa-6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53285 - "GET /static/css/platform.css?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49955 - "GET /static/css/experience.css?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64217 - "GET /static/css/accounts.css?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59227 - "GET /static/css/workflow.css?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52525 - "GET /static/js/app.js?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60333 - "GET /static/js/experience.js?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53285 - "GET /static/js/portal.js?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52525 - "GET /static/js/i18n-tr.js?v=20260907-5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52525 - "GET /api/portal/session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52525 - "GET /static/assets/experience/earth-day-night.webp HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53285 - "GET /static/assets/experience/earth-night.webp HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59227 - "GET /static/assets/experience/earth-clouds.webp HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52525 - "GET /static/assets/experience/earth-day.webp HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50574 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50574 - "GET /api/admin/requests?limit=20&offset=0&status=ACTION_PLANNED&search=&sort=oldest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64938 - "GET /api/admin/requests/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64938 - "GET /api/taxonomy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64944 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64944 - "GET /api/requests/mine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64944 - "GET /api/requests/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64944 - "GET /api/requests/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64944 - "GET /api/requests/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64945 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64945 - "GET /api/admin/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64945 - "GET /api/admin/requests/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64945 - "GET /api/admin/requests/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64945 - "GET /api/admin/requests/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64946 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64946 - "GET /api/admin/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64946 - "GET /api/admin/requests/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64947 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64947 - "GET /api/admin/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64947 - "GET /api/admin/requests/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64946 - "GET /api/admin/requests/2 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64947 - "GET /api/admin/requests/3 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64944 - "GET /api/admin/requests HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64944 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64945 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64946 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64947 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54362 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54362 - "GET /static/assets/experience/earth-clouds.webp HTTP/1.1" 304 Not Modified

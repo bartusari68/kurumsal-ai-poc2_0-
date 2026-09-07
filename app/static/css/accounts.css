@@ -1,0 +1,103 @@
+/* Named account entry and referral workflow; existing brand system retained. */
+.portal-login-screen .sidebar,.portal-login-screen .topbar,.portal-login-screen .demo-strip,.portal-login-screen .page-footer{display:none!important}
+.portal-login-screen .app{display:block;min-height:100vh}
+.portal-login-screen .main{margin:0;width:100%}
+.portal-login-screen .content{max-width:none;margin:0;padding:0}
+.portal-starting{padding:50px;text-align:center;color:var(--brand-blue)}
+.account-login-layout{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr;background:#fff}
+.account-login-story{background:var(--brand-blue);color:white;padding:clamp(35px,6vw,95px);display:flex;flex-direction:column;justify-content:center}
+.account-login-story>img{width:215px;height:auto;margin-bottom:60px;align-self:flex-start}
+.account-login-story .eyebrow{color:#d9def2;font-size:10px;letter-spacing:.14em}
+.account-login-story h1{color:white;font-size:clamp(30px,3.3vw,48px);letter-spacing:-.03em;line-height:1.25;margin:20px 0}
+.account-login-story p{color:#e3e7f7;font-size:14px;line-height:1.9}
+.account-login-steps{display:flex;flex-direction:column;gap:15px;border-top:1px solid #ffffff35;padding-top:25px;margin-top:35px;font-size:12px;color:#e3e7f7}
+.account-login-form{align-self:center;justify-self:center;padding:48px;width:100%;max-width:530px}
+.account-login-form h2{font-size:32px;letter-spacing:-.02em;margin:16px 0}
+.account-login-form>p{font-size:14px;line-height:1.8;margin-bottom:32px}
+.account-login-form input{width:100%;min-height:48px;font-size:16px}
+.account-login-form .field{margin-bottom:22px}
+.account-login-form form>.btn{width:100%;justify-content:space-between;min-height:48px;margin-top:10px}
+.account-login-form>.caption{font-size:11px;margin-top:26px}
+.account-logout{margin-top:18px;background:#ffffff12;color:#fff;border-color:#ffffff55;width:100%;justify-content:center}
+.account-logout:hover{background:#ffffff25;color:#fff}
+.state-REFERRED{background:#e8f1fc;color:#214a78}
+.portal-admin .connection-badge{display:none}
+.referral-editor,.referral-summary{margin-top:22px;overflow-wrap:anywhere}
+.referral-editor{border-top:3px solid var(--brand-blue)}
+.referral-editor h2{margin-top:10px}
+.referral-editor select{width:100%;padding:12px;border:1px solid var(--line);border-radius:6px;background:#fff;font:inherit;color:var(--text)}
+.referral-confirm{display:flex;align-items:flex-start;gap:12px;line-height:1.7;font-size:13px;margin:20px 0}
+.referral-confirm input{width:18px;height:18px;flex-shrink:0;margin-top:3px;accent-color:var(--brand-blue)}
+[aria-busy="true"] .portal-request-list{opacity:.55;pointer-events:none}
+.portal-filters select{cursor:pointer;max-width:280px}
+@media(max-width:760px){.account-login-layout{grid-template-columns:1fr}.account-login-story{padding:30px}.account-login-story>img{width:155px;margin-bottom:28px}.account-login-story h1{font-size:28px;margin:12px 0}.account-login-story p,.account-login-steps{display:none}.account-login-form{padding:32px 25px}.account-login-form h2{font-size:26px}.account-login-form>p{font-size:13px}}
+@media(max-width:620px){.workflow-badge{white-space:normal}.portal-filters select{max-width:none}.request-row-end{flex-wrap:wrap}}
+
+/* Request intake, explainable review and department handoff. */
+.request-pdf{margin:8px 0 24px;border:1px solid var(--line);border-radius:10px;padding:16px 20px;background:#fcfcfe}
+.request-pdf summary{cursor:pointer;font-weight:600;color:var(--brand-blue);line-height:1.6}
+.request-pdf summary>span{font-size:11px;font-weight:400;color:var(--muted);margin-left:12px}
+.request-pdf[open]>summary{margin-bottom:12px}
+.pdf-select{display:flex;align-items:center;gap:14px;margin:18px 0 10px}
+.pdf-select input{min-width:0;flex:1;font-size:13px}
+.pdf-select input::file-selector-button{border:1px solid var(--line);background:#fff;color:var(--brand-blue);border-radius:6px;padding:10px 12px;margin-right:12px;font:inherit;cursor:pointer}
+.pdf-select .btn{flex-shrink:0}
+.pdf-preview{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+.pdf-preview>strong,.pdf-preview>.caption{display:block;overflow-wrap:anywhere;margin-bottom:8px}
+.pdf-preview .field{margin-top:18px}
+.next-step{display:flex;align-items:flex-start;gap:17px;background:var(--soft-blue);border:1px solid #dbe1f4;border-radius:10px;padding:22px;margin:22px 0}
+.next-step-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:none;border-radius:50%;background:#fff;color:var(--brand-blue)}
+.next-step .eyebrow{font-size:10px}.next-step h3{font-size:18px;margin:6px 0 9px}.next-step p{font-size:13px;line-height:1.8;margin:0;max-width:850px}
+.next-URGENT_REVIEW{background:#fff6e8;border-color:#e9d2a2}
+.workflow-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;margin:0 0 24px;padding:20px;background:#fff;border:1px solid var(--line);border-radius:12px;gap:16px}
+.workflow-steps li{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.workflow-steps li>span{border:1px solid var(--line);border-radius:50%;width:29px;height:29px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+.workflow-steps .complete>span{background:#e7f2eb;color:#21543a;border-color:#e7f2eb}
+.workflow-steps .current{color:var(--brand-blue)}.workflow-steps .current>span{background:var(--brand-blue);border-color:var(--brand-blue);color:#fff}
+.analysis-brief,.decision-editor,.decision-history,.ai-result-details,.learning-summary,.repeated-needs{margin-top:22px}
+.analysis-brief{border-top:3px solid var(--brand-blue)}
+.analysis-brief h2,.decision-editor h2,.learning-summary h2{margin:8px 0 12px}
+.brief-heading{margin:18px 0 22px}.brief-heading h3{font-size:18px;margin:0 0 10px}.brief-heading p{font-size:14px;line-height:1.8}
+.review-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:20px;background:#f5f6fb;border-radius:8px}
+.review-meta>div{min-width:0}.review-meta span{font-size:11px;color:var(--muted);display:block;margin-bottom:8px}.review-meta strong{font-size:13px;line-height:1.6;display:block;color:var(--brand-blue)}.review-meta p{font-size:12px;color:var(--muted);margin:8px 0 0}
+.brief-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 32px;margin-top:24px}
+.brief-grid h3{font-size:14px;margin:0 0 12px}.brief-list{padding-left:20px;margin:0;font-size:13px;line-height:1.8}.brief-list li+li{margin-top:6px}
+.ai-result-details>summary{font-weight:600;color:var(--brand-blue);font-size:13px;cursor:pointer}
+.ai-result-details>.portal-result{margin:20px 0 0;padding:20px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;box-shadow:none}
+.ai-result-details .portal-result> .section-title h2{font-size:20px}
+.review-outcome{border:0;margin:24px 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.review-outcome legend{font-size:13px;font-weight:600;margin-bottom:12px}
+.review-outcome label{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:8px;padding:16px 14px;cursor:pointer;background:#fff}
+.review-outcome label:has(input:checked){border-color:var(--brand-blue);background:var(--soft-blue);box-shadow:inset 0 0 0 1px var(--brand-blue)}
+.review-outcome input{width:17px;height:17px;margin:2px 0 0;flex:none;accent-color:var(--brand-blue)}
+.review-outcome strong{display:block;font-size:13px}.review-outcome small{display:block;font-size:11px;color:var(--muted);line-height:1.6;margin-top:5px}
+.review-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}.review-fields .field{margin:0;min-width:0}.review-full{grid-column:1/-1}
+.decision-editor select{width:100%;padding:12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font-size:13px;min-height:45px;text-overflow:ellipsis}
+.decision-editor [disabled]{background:#f4f4f8;color:#656575;opacity:1;cursor:not-allowed}
+.decision-editor>p{max-width:920px;font-size:13px;line-height:1.8}.decision-editor .referral-confirm{margin-bottom:8px}.decision-editor form>.hint{margin-bottom:20px}
+.decision-entry{padding:22px 0;border-top:1px solid var(--line)}.decision-entry:last-child{padding-bottom:0}
+.decision-APPROVED{background:#e7f2eb;color:#21543a}.decision-MODIFIED{background:#fff3d5;color:#795700}.decision-REJECTED{background:#fbecea;color:#9d2d27}
+.decision-reason{white-space:pre-wrap;font-size:13px;line-height:1.8}
+.decision-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:8px;margin:18px 0;overflow:hidden}
+.decision-comparison>div{padding:17px;min-width:0}.decision-comparison>div+div{border-left:1px solid var(--line);background:#fafafe}
+.decision-comparison strong{display:block;font-size:13px;line-height:1.6;margin:8px 0}.decision-comparison p{font-size:12px;margin:0 0 7px}.decision-comparison .eyebrow{font-size:9px;letter-spacing:.05em}.decision-topics{font-size:12px}
+.review-outcome-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+.review-outcome-stats>div{padding:18px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px}.review-outcome-stats span{font-size:12px}.review-outcome-stats strong{font-size:26px;line-height:1}
+.learning-summary>p{line-height:1.8;max-width:1000px;font-size:13px}.learning-summary>.caption{font-size:11px}
+.report-table-wrap{overflow-x:auto;margin-top:20px;border:1px solid var(--line);border-radius:8px}
+.report-table{width:100%;min-width:680px;border-collapse:collapse;font-size:12px;text-align:left}
+.report-table thead{background:#f3f5fb}.report-table th,.report-table td{padding:16px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.7}
+.report-table th[scope="row"]{font-weight:600;min-width:170px;max-width:270px}.report-table tbody tr:last-child>*{border-bottom:0}
+.report-table td:nth-child(2),.report-table td:nth-child(3){font-weight:650;color:var(--brand-blue)}.report-table td>.caption{display:block;margin-top:7px}
+.report-request-links{display:flex;flex-wrap:wrap;gap:6px 12px;min-width:95px}.report-request-links button{font-size:12px;padding:2px}
+.scope-report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:22px}
+.scope-report ul{list-style:none;margin:22px 0 0;padding:0}.scope-report li{padding:16px 0;border-top:1px solid var(--line)}.scope-report li:last-child{padding-bottom:0}.scope-report li>div:first-child{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;margin-bottom:10px}.scope-report li strong{font-size:13px;font-weight:600;line-height:1.7}.scope-report .badge{flex-shrink:0}
+.report-empty{padding:26px 0 8px;font-size:13px;color:var(--muted)}
+.scope-confirmation{font-size:11px;color:var(--muted);line-height:1.8;margin:0 0 10px}.scope-report li .scope-confirmation strong{font-size:11px;color:var(--brand-blue)}.scope-confirmation-note{padding-top:16px;margin-top:18px;border-top:1px solid var(--line)}
+.role-review-report{margin-top:22px}.role-review-report h2{margin:8px 0 12px}.role-review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}.role-review-card{padding:20px;border:1px solid var(--line);border-radius:9px;background:#fafafe;min-width:0}.role-review-card h3{font-size:14px;line-height:1.6;margin:0 0 18px;min-height:45px}.role-agreement strong{display:block;font-size:30px;line-height:1.1;color:var(--brand-blue)}.role-agreement span{display:block;margin-top:8px;font-size:11px;color:var(--muted)}.role-review-card dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:16px;margin:18px 0 0;border-top:1px solid var(--line)}.role-review-card dt{font-size:11px;color:var(--muted)}.role-review-card dd{margin:5px 0 0;font-size:17px;font-weight:650;color:var(--brand-deep)}
+@media(max-width:900px){.role-review-grid{grid-template-columns:1fr}.role-review-card h3{min-height:0;margin-bottom:14px}.role-review-card{padding:18px}}
+.prior-cases{margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}.prior-cases h3{font-size:14px;margin:0}.prior-cases>.caption{margin-top:16px}.prior-cases .brief-grid{margin:16px 0}.prior-votes{list-style:none;padding:0;margin:10px 0 0}.prior-votes li{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;font-size:12px;line-height:1.7;padding:9px 0;border-top:1px solid #eeedf3}.prior-votes strong{white-space:nowrap;font-weight:600;color:var(--brand-blue)}
+.portal-detail .section-title{flex-wrap:wrap}.portal-detail form .field textarea{font-size:14px;line-height:1.7}.portal-detail .caption{line-height:1.7}
+@media(max-width:1100px){.review-outcome{grid-template-columns:1fr}.review-outcome label{padding:13px 15px}.review-outcome label span{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.review-outcome small{margin:0}.workflow-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.review-meta,.brief-grid,.review-fields,.decision-comparison,.scope-report-grid{grid-template-columns:1fr}.review-full{grid-column:auto}.decision-comparison>div+div{border-left:0;border-top:1px solid var(--line)}.review-outcome-stats{gap:8px}.review-outcome-stats>div{padding:14px;align-items:flex-start;flex-direction:column}.pdf-select{align-items:stretch;flex-direction:column}.next-step{padding:17px;gap:12px}.next-step h3{font-size:16px}.request-pdf{padding:16px}.request-pdf summary>span{display:block;margin:3px 0 0}.workflow-steps{padding:16px;gap:16px 10px}.workflow-steps li{font-size:11px}.review-outcome label span{display:block}.review-outcome small{margin-top:3px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}

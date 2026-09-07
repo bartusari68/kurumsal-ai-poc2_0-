@@ -1,0 +1,45 @@
+✔ record identifiers remain unchanged while interface text is translated (2.096ms)
+✔ long phrases are translated before their shorter fragments (1.3814ms)
+✔ complete status tokens reach the localization layer (0.3603ms)
+✔ raw content is escaped and excluded from interface translation (0.22ms)
+✔ translated option label does not change its implicit submitted value (0.1657ms)
+✔ zero-length chart values do not create a misleading visible bar (0.1589ms)
+✔ employee result shows explained fit percentages and summaries, never page excerpts or raw scores (13.1031ms)
+✔ employee request uses the full form width and has no developer or guidance sidebar (0.1337ms)
+✔ fit display clamps nonfinite or out-of-range values (0.1579ms)
+✔ fit breakdown preserves decimal points and explains final rounding (0.3367ms)
+✔ an unsupported request explicitly shows zero catalog fit without inventing a course (0.1129ms)
+✔ navigation separates authenticated employee and manager workspaces (0.0902ms)
+✔ login uses username and password and never asks users to choose their own role (0.0712ms)
+✔ changing status immediately applies the current filter and resets pagination (1.2466ms)
+✔ out-of-order filter responses cannot replace the newest visible results (0.8053ms)
+✔ account changes invalidate pending request results and erase private UI state (0.0795ms)
+✔ referral form renders both departments as valid selectable options (0.5098ms)
+✔ canonical brand colors and locally served assets are configured (0.6104ms)
+✔ quota response replaces the green badge and preserves an actionable error (5.2428ms)
+✔ service error appears once and form-only errors remain visible without losing draft (0.6709ms)
+✔ actual fetch failure shows an application-server error instead of green AI (0.6908ms)
+✔ provider timeout remains distinct from a browser connection failure (0.8125ms)
+✔ unreadable response is not falsely labelled a network failure (0.9484ms)
+✔ a timed-out request does not become a generic server-down message (0.6638ms)
+✔ test panel omits deleted filenames and shows pagination for a large corpus (0.7605ms)
+✔ 40 percent catalog match becomes a new course need without a course recommendation (0.1446ms)
+✔ partial matches explain enrichment while resolved requests show their current outcome (1.2453ms)
+✔ human review requires explicit training confirmation and keeps corrections separate from AI (0.6656ms)
+✔ decision history compares original AI and human judgment without exposing audit excerpts (0.6901ms)
+✔ learning report distinguishes an unmeasured agreement rate from zero and links source requests (0.7988ms)
+✔ PDF extraction preserves typed request and never submits an analysis (0.8789ms)
+✔ PDF append rejects combined overflow and requires an explicit append action (0.7131ms)
+✔ a delayed PDF response is discarded after an account switch (0.608ms)
+✔ prior-case disagreements remain visible instead of presenting a false consensus (0.5785ms)
+✔ switching a correction back to approval restores the AI baseline before saving (1.0572ms)
+✔ role report uses each units reviewed requests as denominator and keeps missing roles unmeasured (0.7187ms)
+✔ scope signals distinguish confirmed training needs from unconfirmed and unavailable counts (0.6503ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123.4929

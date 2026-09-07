@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="TUSAŞ kurumsal öğrenme ve yapay zekâ platformu. Kanıta dayalı ihtiyaç analizi, izlenebilir kararlar ve insan kontrolü.">
+<meta name="theme-color" content="#050a16">
+<title>TUSAŞ | Kurumsal Öğrenme ve Yapay Zekâ</title>
+
+
+
+
+<link rel="stylesheet" href="/static/css/platform.css?v=20260907-8">
+<link rel="stylesheet" href="/static/css/accounts.css?v=20260907-8">
+<link rel="stylesheet" href="/static/css/experience.css?v=20260907-8">
+<link rel="stylesheet" href="/static/css/workflow.css?v=20260907-8">
+<link rel="stylesheet" href="/static/css/intake.css?v=20260907-9">
+<link rel="stylesheet" href="/static/css/operations.css?v=20260907-15">
+<link rel="stylesheet" href="/static/css/development.css?v=20260907-15">
+<link rel="stylesheet" href="/static/css/publishing.css?v=20260907-15">
+</head>
+<body class="portal-login-screen">
+<a class="skip-link" href="#appView">İçeriğe geç</a>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Ana navigasyon"></aside>
+  <button class="nav-backdrop" id="navBackdrop" aria-label="Menüyü kapat" tabindex="-1" hidden></button>
+  <main class="main">
+    <header class="topbar">
+      <div class="top-left">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Menüyü aç" aria-controls="sidebar" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div><div class="product-kicker" id="experienceBreadcrumb">Çalışma alanı</div><div class="product-context" id="roleContext">Kurumsal öğrenme</div></div>
+      </div>
+      <div class="top-actions">
+        <span class="badge b-gray connection-badge" id="aiConnectionBadge" role="status" title="Yapay zekâ bağlantı durumu">YZ kontrol ediliyor</span>
+        <button class="experience-search" id="experienceSearch" type="button" aria-label="Taleplerde ara"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4 4"/></svg><span>Taleplerde ara</span><kbd>Ctrl K</kbd></button>
+        <div class="experience-profile" id="experienceProfile"></div>
+      </div>
+    </header>
+    <div class="content">
+      <div id="appView" tabindex="-1"></div>
+      <footer class="page-footer" data-no-translate><span>TUSAŞ · Kurumsal Öğrenme ve Yapay Zekâ</span><span>Kanıta dayalı analiz. İnsan kontrollü karar.</span></footer>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="İşlem penceresi"><div class="modal" id="modal"></div></div>
+<script src="/static/js/app.js?v=20260907-15" defer></script>
+<script src="/static/js/experience.js?v=20260907-8" defer></script>
+<script src="/static/js/intake.js?v=20260907-9" defer></script>
+<script src="/static/js/publishing.js?v=20260907-15" defer></script>
+<script src="/static/js/development.js?v=20260907-15" defer></script>
+<script src="/static/js/operations.js?v=20260907-15" defer></script>
+<script src="/static/js/portal.js?v=20260907-15" defer></script>
+
+<script src="/static/js/i18n-tr.js?v=20260907-8" defer></script>
+
+
+</body>
+</html>

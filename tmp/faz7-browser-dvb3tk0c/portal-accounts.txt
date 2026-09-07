@@ -1,0 +1,20 @@
+YEREL TEST HESAPLARI
+Adres: http://127.0.0.1:8000/
+
+Çalışan
+Kullanıcı adı: calisan
+Parola: 1234
+
+İhtiyaç Analizi Yöneticisi
+Kullanıcı adı: ihtiyac_admin
+Parola: 1234
+
+Teknik Eğitim Tasarım Yöneticisi
+Kullanıcı adı: teknik_admin
+Parola: 1234
+
+Mühendislik Eğitim Tasarım Yöneticisi
+Kullanıcı adı: muhendislik_admin
+Parola: 1234
+
+Tüm mevcut ve yeni yerel hesapların parolası 1234'tür.

@@ -1,0 +1,11 @@
+{
+  "followup": true,
+  "navigationPreservesAnswer": true,
+  "noRequestBeforeApproval": true,
+  "editedTextSubmitted": true,
+  "duplicateProtected": true,
+  "offlineFallbackSubmitted": true,
+  "requests": 2,
+  "errors": [],
+  "overflow": false
+}

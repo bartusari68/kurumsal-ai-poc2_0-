@@ -1,0 +1,183 @@
+/* Aerospace entry. Real Earth maps and the still-image fallback are replaceable
+   through EXPERIENCE_ASSETS in experience.js. The white TUSAŞ mark is unchanged. */
+.experience-login{--entry-text:#f4f6fc;--entry-muted:#aebad1;position:relative;isolation:isolate;min-height:100dvh;overflow:hidden;background:var(--surface-space);color:var(--entry-text)}
+.experience-login:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 25%,#070d1bd9 67%,#0a1020 100%);pointer-events:none;z-index:-1}
+.experience-space{position:absolute;inset:0;z-index:-2;overflow:hidden;background:radial-gradient(ellipse at 28% 24%,#15294855 0,transparent 51%),linear-gradient(145deg,#030812,#080f22 68%,#0e1629)}
+.experience-starfield{position:absolute;inset:0;opacity:.48}.experience-starfield img{width:100%;height:100%;object-fit:cover;display:block}
+.experience-space-light{position:absolute;width:75vw;height:75vw;left:-20vw;top:-23vw;opacity:.36;background:radial-gradient(ellipse,#1d3b641f 0,#25557814 30%,transparent 62%);pointer-events:none}
+.experience-login-header{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(24px,4.5vw,76px) 0}
+.experience-brand-clearspace{width:240px;padding:20px;flex:none;box-sizing:content-box;margin-left:-20px}
+.experience-brand-clearspace img{display:block;width:200px;height:auto;max-width:100%}
+.experience-product-label{color:#c1cce0;font-size:10px;font-weight:500;letter-spacing:.18em;line-height:1.7;text-align:right}
+.experience-login-layout{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(340px,.86fr);align-items:center;min-height:calc(100dvh - 207px);max-width:1630px;margin:0 auto;padding:0 clamp(24px,4.5vw,76px);gap:clamp(32px,5vw,96px)}
+.experience-story{position:relative;align-self:stretch;min-height:630px;display:flex;flex-direction:column;justify-content:flex-end;padding:280px 0 100px;z-index:0}
+.experience-story:after{content:none}
+.experience-planet-scene{position:absolute;z-index:-2;width:clamp(480px,54vw,790px);height:clamp(480px,54vw,790px);left:-115px;top:-10px;pointer-events:none}
+.experience-earth{position:absolute;width:84%;height:84%;left:8%;top:2%;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 35% 28%,#264364,#071323 54%,#020713);box-shadow:0 0 28px 1px #5f9bcc13,0 0 2px #9ccaff42}
+.experience-earth-fallback{display:block;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.96;transform:scale(1.18)}
+.experience-earth-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.2s ease}
+.experience-earth.earth-ready .experience-earth-canvas{opacity:1}
+.experience-earth.earth-ready .experience-earth-fallback{opacity:0}
+.experience-earth-halo{position:absolute;inset:2% 8% 14%;border-radius:50%;box-shadow:-17px -8px 55px #9dcfff13;opacity:.8}
+.experience-story-copy{position:relative;z-index:3;max-width:650px;text-shadow:0 2px 12px #020611b8}
+.experience-eyebrow{display:flex;align-items:center;gap:10px;color:#c0cce1;font-size:10px;font-weight:500;letter-spacing:.16em;margin-bottom:21px}
+.experience-eyebrow>span{width:22px;height:2px;background:var(--brand-red);opacity:.95}
+.experience-story h1{font-size:clamp(38px,4.25vw,67px);line-height:1.12;font-weight:500;letter-spacing:-.045em;color:#fff;margin:0 0 22px}
+.experience-story-copy>p{max-width:405px;line-height:1.9;font-size:14px;font-weight:400;color:#bac5dc}
+.experience-story-bottom{position:absolute;display:flex;align-items:center;gap:17px;bottom:35px;left:0;right:0;color:#99a8c1;font-size:10px;line-height:1.8}
+.experience-story-bottom i{width:18px;height:1px;background:#677c9d66}
+.experience-auth{position:relative;z-index:3;justify-self:end;width:100%;max-width:434px;margin:24px 0 70px;padding:38px 38px 31px;border:1px solid #ffffff16;border-radius:var(--radius-xl);background:linear-gradient(145deg,#182238b3,#0b1324bd);box-shadow:0 24px 70px #00000026;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.experience-auth-line{position:absolute;height:1px;left:32px;right:32px;top:-1px;background:linear-gradient(90deg,transparent,#a0b6da66,transparent)}
+.experience-auth-kicker{font-size:10px;font-weight:600;letter-spacing:.18em;color:#b6c4dd;margin-bottom:18px}
+.experience-auth h2{font-size:35px;line-height:1.2;letter-spacing:-.035em;font-weight:500;color:#fff;margin:0 0 15px}
+.experience-auth-intro{color:#abb9d1;font-size:12px;line-height:1.85;margin-bottom:31px}
+.experience-auth .field{margin:0 0 22px}
+.experience-auth .field label{color:#dfe6f4;font-size:12px;font-weight:500;display:block;margin-bottom:9px}
+.experience-auth input{width:100%;min-height:49px;border:1px solid #ffffff20;border-radius:var(--radius-sm);padding:13px 14px;background:#060d1c70;color:#fff;font-size:13px;line-height:1.5;box-shadow:inset 0 1px 3px #00000015;transition:border-color var(--motion-fast),background var(--motion-fast)}
+.experience-auth input:hover{border-color:#ffffff39}
+.experience-auth input:focus{background:#071122;outline:2px solid #8dace5;outline-offset:2px;border-color:transparent}
+.experience-auth input::placeholder{color:#71829d;opacity:1;font-size:12px}
+.experience-auth input:-webkit-autofill{-webkit-text-fill-color:#f4f6ff;-webkit-box-shadow:0 0 0 1000px #101b30 inset;caret-color:#fff}
+.experience-password{position:relative}
+.experience-password input{padding-right:49px}
+.experience-password>button{position:absolute;right:4px;top:4px;width:41px;height:41px;display:grid;place-items:center;background:transparent;border:0;border-radius:5px;color:#98a9c6}
+.experience-password>button:hover{color:#fff;background:#ffffff0a}
+.experience-password>button .icon{width:18px;height:18px}
+.experience-caps{display:block;margin:8px 0 0;color:#eaca95;font-size:11px}.experience-caps[hidden]{display:none}
+.experience-auth .experience-login-submit{width:100%;min-height:49px;justify-content:space-between;border-radius:var(--radius-sm);padding:13px 17px;font-size:13px;background:linear-gradient(110deg,#324998,var(--brand-blue));border:1px solid #7896e329;color:#fff;margin-top:3px;box-shadow:0 5px 17px #00000022}
+.experience-auth .experience-login-submit:hover:not(:disabled){background:linear-gradient(110deg,#3f59ac,#304494);border-color:#99afe75c}
+.experience-auth .experience-login-submit:active:not(:disabled){transform:translateY(1px)}
+.experience-auth .experience-login-submit:disabled{opacity:.75}
+.experience-auth .experience-login-submit .icon{width:18px;height:18px}
+.experience-access-note{display:flex;align-items:flex-start;gap:9px;margin-top:27px;padding-top:22px;border-top:1px solid #ffffff0e}
+.experience-access-note>.icon{width:13px;height:13px;color:#8191ac;margin-top:4px;flex:none}
+.experience-access-note p{font-size:10px;color:#94a3bf;line-height:1.8}
+.experience-auth-error{font-size:12px;color:#ffd8d3;line-height:1.65}.experience-auth-error:not(:empty){margin:-5px 0 18px;border-left:2px solid var(--brand-red);padding:9px 12px;background:#bc2c2912}
+.experience-login :focus-visible{outline-color:#aec8f8}
+.experience-login-footer{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 clamp(24px,4.5vw,76px) 28px;color:#7d8da9;font-size:9px;line-height:1.8;letter-spacing:.035em}
+.experience-login-footer>span{letter-spacing:.12em}
+.experience-login-footer>div{display:flex;align-items:center;gap:18px}
+.experience-sound{display:inline-flex;align-items:center;gap:7px;padding:5px 0;border:0;background:none;color:#a3b1c8;font-size:10px;min-height:32px}
+.experience-sound .icon{width:14px;height:14px}.experience-sound:hover{color:#fff}
+.experience-footer-divider{height:13px;width:1px;background:#ffffff20}
+
+/* Move the actual login composition towards the viewer, revealing the workspace. */
+.experience-entry{position:fixed;inset:0;z-index:var(--z-transition);pointer-events:none;overflow:hidden;background:#040913;transform-origin:74% 48%;will-change:transform,opacity;animation:experience-entry-zoom 800ms cubic-bezier(.25,.65,.25,1) forwards}
+.experience-entry>.experience-login{width:100%;height:100%;margin:0;pointer-events:none}
+.experience-entry .experience-earth-canvas{transition:none;opacity:1}
+@keyframes experience-entry-zoom{0%{transform:scale(1) translateZ(0);opacity:1}40%{opacity:1}100%{transform:scale(1.65) translateZ(0);opacity:0}}
+
+/* Bright, information-dense workspace with a restrained aerospace sidebar. */
+.experience-workspace:not(.portal-login-screen){background:#f5f6f9}
+.experience-workspace:not(.portal-login-screen) .app{grid-template-columns:var(--sidebar-width) minmax(0,1fr);transition:grid-template-columns var(--motion-normal) var(--ease-premium)}
+.experience-workspace .sidebar{background:linear-gradient(168deg,#13203e 0,#0d162c 60%,#0d1425);padding-top:24px;border-right:1px solid #081020;box-shadow:3px 0 14px #0d142508}
+.experience-workspace .brand{margin-top:26px;border-bottom:1px solid #ffffff10;padding-bottom:23px;margin-bottom:25px}
+.experience-workspace .brand-lockup{width:200px;padding:16.67px;margin:0 auto 16px}
+.experience-workspace .brand-logo{width:166.66px;height:auto}
+.experience-workspace .brand-title{font-size:15px;line-height:1.55;font-weight:500;letter-spacing:-.02em}
+.experience-workspace .brand-sub{font-size:10px;color:#8395b4;line-height:1.7}
+.experience-workspace .nav-label{font-size:9px;letter-spacing:.14em;color:#8395b1;padding-bottom:14px}
+.experience-workspace .nav{gap:5px}
+.experience-workspace .nav button{font-size:12px;color:#b8c5db;font-weight:500;min-height:46px;border-radius:var(--radius-sm);position:relative;transition:background var(--motion-fast),color var(--motion-fast);padding:12px}
+.experience-workspace .nav button:hover{color:#fff;background:#ffffff08}
+.experience-workspace .nav button.active{color:#fff;background:#ffffff0f;border:1px solid #ffffff0c;box-shadow:none;font-weight:500}
+.experience-workspace .nav button.active:before{content:"";position:absolute;left:-1px;top:13px;bottom:13px;width:2px;background:var(--brand-red);border-radius:2px}
+.experience-workspace .nav-ico,.experience-workspace .nav .icon{width:18px;height:18px}
+.experience-workspace .side-card{color:#a0b0ca;font-size:11px;padding-top:28px;line-height:1.8}
+.experience-workspace .side-card strong{font-size:12px;font-weight:500}.experience-workspace .persona-dot{width:5px;height:5px;background:#a8bade}
+.experience-workspace .side-card .side-caption{font-size:10px;border-color:#ffffff13}
+.experience-workspace .account-logout{background:transparent;border-color:#ffffff21;border-radius:var(--radius-sm);min-height:37px;font-size:11px;font-weight:400}
+.experience-workspace .account-logout:hover{background:#ffffff09;border-color:#ffffff3b}
+.experience-collapse{position:absolute;right:18px;top:16px;width:31px;height:30px;border:1px solid #ffffff0e;border-radius:5px;background:#ffffff04;display:grid;place-items:center;color:#879abc}
+.experience-collapse:hover{background:#ffffff0d;color:#fff}.experience-collapse .icon{width:17px;height:17px}
+.experience-workspace .topbar{min-height:82px;max-height:92px;background:#fffffffa;padding:15px 32px;border-bottom:1px solid #e3e7ee;box-shadow:0 1px 6px #12203803;z-index:var(--z-header)}
+.experience-workspace .product-kicker{font-size:10px;letter-spacing:0;text-transform:none;color:#778197;line-height:1.6}
+.experience-workspace .product-context{font-size:12px;color:#24314a;font-weight:500;margin-top:3px}
+.experience-workspace .top-actions{gap:20px}.experience-workspace .content{padding-top:30px;max-width:var(--content-max)}
+.experience-workspace .connection-badge{font-size:10px;font-weight:400;border:0;background:#f3f5f9;min-height:29px;border-radius:5px}
+.experience-search{display:flex;align-items:center;gap:10px;min-height:35px;border:1px solid #e4e7ee;border-radius:var(--radius-sm);padding:7px 10px;background:#fafbfc;color:#758098;font-size:11px}
+.experience-search:hover{background:#f1f4f9;border-color:#c8cfdd;color:#354663}.experience-search .icon{width:15px;height:15px}.experience-search kbd{margin-left:16px;padding:0 4px;border:1px solid #dce1e9;border-radius:3px;background:#fff;font:9px "Segoe UI",sans-serif;color:#8993a6}
+.experience-profile{display:flex;align-items:center;gap:10px;min-height:38px;padding-left:18px;border-left:1px solid #e5e8ee}
+.experience-avatar{width:33px;height:33px;display:grid;place-items:center;flex:none;background:#eef1f9;border:1px solid #dce2ef;color:var(--brand-blue);border-radius:50%;font-size:11px;font-weight:600}
+.experience-profile-name{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#28364f;font-size:11px;font-weight:500;line-height:1.6}
+.experience-profile-name small{display:block;color:#8490a4;font-size:9px;font-weight:400;max-width:155px;overflow:hidden;text-overflow:ellipsis}
+.experience-workspace .page-footer{border-color:#e4e7ee;color:#8690a2;font-size:10px;line-height:1.8;margin-top:36px}
+.experience-workspace.experience-sidebar-collapsed:not(.portal-login-screen) .app{grid-template-columns:var(--sidebar-collapsed-width) minmax(0,1fr)}
+.experience-sidebar-collapsed .sidebar{padding-left:10px;padding-right:10px;overflow-x:hidden}
+.experience-sidebar-collapsed .experience-collapse{right:26px}
+.experience-sidebar-collapsed .brand{padding:0 0 23px;margin-top:30px;margin-bottom:22px}
+.experience-sidebar-collapsed .brand-lockup{width:64px;padding:5.34px;margin:12px -1px 0}.experience-sidebar-collapsed .brand-logo{width:53.32px}
+.experience-sidebar-collapsed .brand-title,.experience-sidebar-collapsed .brand-sub,.experience-sidebar-collapsed .nav-label,.experience-sidebar-collapsed .experience-nav-text,.experience-sidebar-collapsed .side-card>strong,.experience-sidebar-collapsed .side-caption{display:none}
+.experience-sidebar-collapsed .nav button{justify-content:center;width:47px;min-height:46px;padding:13px;margin:0 auto}
+.experience-sidebar-collapsed .side-card{padding:20px 0 0}.experience-sidebar-collapsed .account-logout{font-size:9px;padding:8px 0;line-height:1.4;min-height:36px;letter-spacing:-.02em}
+.experience-sidebar-collapsed .experience-collapse .icon{transform:rotate(180deg)}
+@media(min-width:1700px){.experience-login-layout{min-height:calc(100dvh - 235px)}.experience-story{min-height:720px;padding-bottom:125px}.experience-planet-scene{left:-85px;top:0}.experience-auth{max-width:465px;padding:44px}.experience-story-bottom{bottom:53px}.experience-login-header{max-width:1700px;margin:auto}.experience-login-footer{max-width:1700px;margin:auto}}
+@media(max-width:1200px){.experience-login-layout{grid-template-columns:minmax(0,1fr) 365px;gap:24px}.experience-auth{padding:32px 29px}.experience-story{min-height:600px}.experience-story h1{font-size:45px}.experience-planet-scene{width:650px;height:650px;left:-142px;top:-5px}.experience-story-copy>p{max-width:335px;font-size:13px}.experience-story-bottom{gap:10px;font-size:9px}.experience-workspace .topbar{padding:14px 24px}.experience-workspace .top-actions{gap:12px}.experience-profile-name{display:none}.experience-profile{padding-left:12px}.experience-search kbd{display:none}}
+@media(max-width:960px){.experience-product-label{font-size:8px;max-width:190px}.experience-login-layout{grid-template-columns:minmax(0,1fr) 345px;gap:15px;padding-left:32px;padding-right:32px}.experience-auth{padding:31px 26px;margin-bottom:65px}.experience-story h1{font-size:38px}.experience-planet-scene{left:-206px;width:650px;height:650px;top:-5px}.experience-story-copy>p{max-width:290px}.experience-story-bottom{max-width:290px;flex-wrap:wrap}.experience-story-bottom i{width:10px}.experience-login-header{padding-left:32px;padding-right:32px}.experience-login-footer{padding-left:32px;padding-right:32px}.experience-login-footer>div>span:last-child{display:none}.experience-footer-divider{display:none}.experience-workspace .connection-badge{display:none}.experience-search{min-height:35px}.experience-search span{display:none}.experience-search .icon{width:17px;height:17px}}
+@media(max-width:800px){.experience-workspace:not(.portal-login-screen) .app,.experience-workspace.experience-sidebar-collapsed:not(.portal-login-screen) .app{grid-template-columns:minmax(0,1fr)}.experience-workspace .sidebar{width:256px;padding:24px 16px 20px}.experience-workspace .experience-collapse{display:none}.experience-workspace .brand{margin-top:0;padding-bottom:23px;margin-bottom:25px}.experience-sidebar-collapsed .brand-lockup{width:200px;padding:16.67px;margin:0 auto 16px}.experience-sidebar-collapsed .brand-logo{width:166.66px}.experience-sidebar-collapsed .brand-title,.experience-sidebar-collapsed .brand-sub,.experience-sidebar-collapsed .nav-label,.experience-sidebar-collapsed .experience-nav-text,.experience-sidebar-collapsed .side-card>strong,.experience-sidebar-collapsed .side-caption{display:block}.experience-sidebar-collapsed .nav button{justify-content:flex-start;width:100%;padding:12px;margin:0}.experience-sidebar-collapsed .side-card{padding:28px 12px 0}.experience-sidebar-collapsed .account-logout{font-size:11px;padding:8px 12px}.experience-workspace .topbar{padding:12px 20px;min-height:75px}.experience-workspace .content{padding-top:24px}.experience-workspace .product-context{max-width:240px}.experience-workspace .mobile-menu{background:transparent;border-color:#e2e6ed}.experience-profile{border:0;padding-left:0}}
+@media(max-width:720px){.experience-login-header{padding:13px 24px 0;align-items:flex-start}.experience-brand-clearspace{width:166px;padding:15px;margin-left:-15px}.experience-brand-clearspace img{width:150px}.experience-product-label{margin-top:27px;max-width:128px;font-size:7px;letter-spacing:.1em}.experience-login-layout{display:block;padding:0 24px;max-width:500px;margin:0 auto}.experience-story{min-height:245px;padding:60px 0 22px;justify-content:flex-end}.experience-planet-scene{width:455px;height:455px;top:-167px;left:-175px;opacity:.7}.experience-story:after{left:-60px;right:-60px;height:220px;bottom:0;background:linear-gradient(0deg,#060d1a,transparent)}.experience-story-copy{padding-left:0}.experience-eyebrow{font-size:8px;margin-bottom:12px;letter-spacing:.1em}.experience-story h1{font-size:34px;line-height:1.13;margin-bottom:12px}.experience-story-copy>p{max-width:325px;font-size:11px;line-height:1.8}.experience-story-bottom{display:none}.experience-auth{max-width:none;margin:8px 0 34px;padding:28px 27px 25px;border-radius:18px}.experience-auth h2{font-size:29px}.experience-auth-kicker{font-size:8px;margin-bottom:13px}.experience-auth-intro{font-size:11px;margin-bottom:25px}.experience-auth-intro br{display:none}.experience-auth input{font-size:16px}.experience-auth .field{margin-bottom:18px}.experience-login-footer{padding:0 24px 20px;font-size:7px;gap:10px}.experience-login-footer>span{max-width:150px;font-size:7px}.experience-login-footer>div{gap:8px}.experience-sound{font-size:9px}.experience-sound .icon{width:12px}.experience-access-note{margin-top:23px;padding-top:18px}.experience-access-note p{font-size:9px}.experience-auth-line{left:27px;right:27px}}
+@media(max-width:480px){.experience-workspace .topbar{flex-wrap:nowrap;gap:8px;padding:12px 16px}.experience-workspace .top-actions{gap:8px}.experience-workspace .product-kicker{font-size:8px;max-width:175px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.experience-workspace .product-context{font-size:10px;max-width:175px}.experience-avatar{width:29px;height:29px;font-size:10px}.experience-search{width:31px;height:33px;padding:7px}.experience-workspace .mobile-menu{width:33px;height:35px}.experience-workspace .content{padding-top:20px}.experience-login-layout{padding:0 20px}.experience-login-header{padding-left:20px;padding-right:20px}.experience-auth{padding:27px 24px}.experience-story h1{font-size:32px}}
+@media(prefers-reduced-motion:reduce){.experience-login *, .experience-entry,.experience-entry *{animation:none!important;transition:none!important}.experience-entry{display:none}.experience-workspace .app{transition:none!important}}
+@media print{.experience-entry,.experience-login{display:none}.experience-workspace .app{display:block!important}.experience-workspace .content{padding:0}}
+
+/* Reference composition: the Earth supplies the atmosphere; interface copy stays
+   quiet and the translucent entry panel floats above its night hemisphere. */
+@media(min-width:721px){
+  .experience-login:before{background:linear-gradient(90deg,transparent 35%,#070d1b45 75%,#0a102075 100%)}
+  .experience-planet-scene{width:clamp(880px,100vw,1700px);height:clamp(880px,100vw,1700px);left:-230px;top:-85px}
+  .experience-story{padding-bottom:75px}
+  .experience-story:after{left:-100px;right:-100px;bottom:-10px;height:235px;background:linear-gradient(0deg,#040a17c9,transparent)}
+  .experience-story-copy{max-width:430px}
+  .experience-story h1{font-size:clamp(27px,2.3vw,39px);letter-spacing:-.035em;font-weight:500;line-height:1.2;margin-bottom:12px}
+  .experience-story-copy>p{font-size:12px;color:#c0cbe0;line-height:1.8}
+  .experience-eyebrow{font-size:9px;letter-spacing:.12em;margin-bottom:13px}
+  .experience-auth{margin-bottom:28px;background:linear-gradient(135deg,#152139b3,#070e1bd9);border-color:#b6c8ea27;box-shadow:0 30px 100px #00000040}
+}
+@media(min-width:1700px){.experience-planet-scene{left:-285px;top:-110px}.experience-story{padding-bottom:98px}}
+@media(min-width:721px) and (max-width:1050px){.experience-planet-scene{left:-330px;top:-50px;width:1150px;height:1150px}.experience-story-copy{max-width:310px}.experience-story h1{font-size:28px}.experience-story{padding-bottom:62px}}
+@media(max-width:720px){.experience-planet-scene{width:610px;height:610px;top:-170px;left:-148px;opacity:.85}.experience-story{min-height:211px;padding-top:65px}.experience-story h1{font-size:28px}.experience-story-copy>p{font-size:11px}.experience-story:after{height:190px;bottom:-4px}.experience-auth{background:linear-gradient(145deg,#182339cf,#0b1324e0)}}
+
+/* Keep the full sign-in form and footer in a laptop viewport. At shorter
+   heights the page can scroll instead of clipping its interactive controls. */
+@media(min-width:721px){
+  .experience-login{display:flex;flex-direction:column;height:100dvh;min-height:640px}
+  .experience-login-header,.experience-login-footer{flex:none;width:100%}
+  .experience-login-layout{flex:1;width:100%;min-height:0}
+  .experience-story{min-height:0;padding-top:0}
+  .experience-auth{margin-top:12px;margin-bottom:12px}
+}
+@media(min-width:721px) and (max-height:820px){
+  .experience-login-header{padding-top:7px}
+  .experience-brand-clearspace{width:190px;padding:16px;margin-left:-16px}
+  .experience-brand-clearspace img{width:160px}
+  .experience-login-footer{padding-bottom:20px}
+  .experience-auth{max-width:400px;padding:24px 30px 22px;margin:10px 0}
+  .experience-auth-kicker{display:none}
+  .experience-auth h2{font-size:31px;line-height:1.2;margin-bottom:12px}
+  .experience-auth-intro{font-size:11px;line-height:1.7;margin-bottom:21px}
+  .experience-auth .field{margin-bottom:17px}
+  .experience-auth .field label{font-size:11px;line-height:1.4;margin-bottom:7px}
+  .experience-auth input{min-height:44px;padding:10px 13px;font-size:13px}
+  .experience-password input{padding-right:44px}
+  .experience-password>button{top:3px;right:3px;width:38px;height:38px}
+  .experience-auth .experience-login-submit{min-height:44px;padding:10px 15px}
+  .experience-access-note{margin-top:20px;padding-top:16px}
+  .experience-access-note p{font-size:9px;line-height:1.7}
+  .experience-story{padding-bottom:48px}
+  .experience-planet-scene{top:-62px}
+}
+
+/* High-resolution maps remain crisp; reserve the right-hand panel for entry. */
+.experience-earth-fallback{transform:none;object-fit:cover}
+.experience-auth{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+@media(min-width:721px){
+  .experience-auth{border-radius:16px;background:linear-gradient(145deg,#142038ed,#091220f5);border-color:#9bb4da32;box-shadow:0 24px 80px #00000035}
+  .experience-login-layout{grid-template-columns:minmax(0,1fr) minmax(340px,410px);gap:clamp(30px,6vw,100px)}
+  .experience-planet-scene{width:clamp(1000px,105vw,1820px);height:clamp(1000px,105vw,1820px);left:clamp(-280px,-17vw,-180px);top:-85px}
+  .experience-story-copy{padding:16px 0 0;max-width:420px}
+  .experience-story-copy>p{color:#e0e8f6}.experience-story h1{font-weight:500}
+}
+@media(min-width:1700px){.experience-planet-scene{left:-340px;top:-125px}}
+@media(min-width:721px) and (max-width:1050px){.experience-planet-scene{left:-335px;top:-45px;width:1150px;height:1150px}}
+@media(max-width:720px){.experience-entry{transform-origin:50% 65%}.experience-auth{border-radius:12px}.experience-starfield{opacity:.32}}
+@media(prefers-reduced-motion:reduce){.experience-entry{display:none;animation:none}.experience-earth-canvas{transition:none}}

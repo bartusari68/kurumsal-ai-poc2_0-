@@ -1,0 +1,158 @@
+test_verified_positive_preserves_internal_provenance_and_computes_full_fit (test_ai_reliability.GroundingTests.test_verified_positive_preserves_internal_provenance_and_computes_full_fit) ... ok
+test_hallucinated_course_need_or_quote_is_an_error_not_no_course (test_ai_reliability.GroundingTests.test_hallucinated_course_need_or_quote_is_an_error_not_no_course) ... ok
+test_foreign_evidence_duplicate_or_unassessed_need_fails_closed (test_ai_reliability.GroundingTests.test_foreign_evidence_duplicate_or_unassessed_need_fails_closed) ... ok
+test_supported_no_match_and_empty_catalog_remain_valid (test_ai_reliability.GroundingTests.test_supported_no_match_and_empty_catalog_remain_valid) ... ok
+test_no_model_text_can_bypass_server_thresholds (test_ai_reliability.GroundingTests.test_no_model_text_can_bypass_server_thresholds) ... ok
+test_one_of_four_needs_cannot_gain_relevance_points_from_unmet_needs (test_ai_reliability.GroundingTests.test_one_of_four_needs_cannot_gain_relevance_points_from_unmet_needs) ... ok
+test_truncated_json_is_rejected_even_when_json_parses (test_ai_reliability.ProviderOutputValidationTests.test_truncated_json_is_rejected_even_when_json_parses) ... ok
+test_invalid_vectors_and_rerank_results_cannot_turn_into_empty_search (test_ai_reliability.ProviderOutputValidationTests.test_invalid_vectors_and_rerank_results_cannot_turn_into_empty_search) ... ok
+test_malformed_reranker_is_explicit_failure (test_ai_reliability.RetrievalReliabilityTests.test_malformed_reranker_is_explicit_failure) ... C:\Users\Administrator\Desktop\kurumsal-ai-poc\.venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\indexing.py:190: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  entry.page_count, entry.chunk_count, entry.indexed_at = page_count, len(rows), datetime.utcnow()
+ok
+test_course_scoped_chat_retrieval_filters_before_candidate_cutoff (test_ai_reliability.RetrievalReliabilityTests.test_course_scoped_chat_retrieval_filters_before_candidate_cutoff) ... ok
+test_long_course_does_not_hide_other_course_evidence (test_ai_reliability.RetrievalReliabilityTests.test_long_course_does_not_hide_other_course_evidence) ... Executing <Task finished name='Task-21' coro=<RetrievalReliabilityTests.test_long_course_does_not_hide_other_course_evidence() done, defined at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_ai_reliability.py:139> result=None created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.109 seconds
+ok
+test_all_three_components_are_checked_and_reloads_reuse_cache (test_ai_status.HealthTests.test_all_three_components_are_checked_and_reloads_reuse_cache) ... ok
+test_concurrent_request_failure_cannot_be_overwritten_by_green_probe (test_ai_status.HealthTests.test_concurrent_request_failure_cannot_be_overwritten_by_green_probe) ... ok
+test_embedding_success_cannot_hide_exhausted_analysis_quota (test_ai_status.HealthTests.test_embedding_success_cannot_hide_exhausted_analysis_quota) ... ok
+test_invalid_analysis_response_does_not_show_connected (test_ai_status.HealthTests.test_invalid_analysis_response_does_not_show_connected) ... ok
+test_manual_refresh_or_cache_expiry_can_recover (test_ai_status.HealthTests.test_manual_refresh_or_cache_expiry_can_recover) ... ok
+test_missing_key_makes_no_provider_calls (test_ai_status.HealthTests.test_missing_key_makes_no_provider_calls) ... ok
+test_real_failure_invalidates_previously_green_health (test_ai_status.HealthTests.test_real_failure_invalidates_previously_green_health) ... ok
+test_credit_auth_network_and_timeout_have_distinct_codes (test_ai_status.ProviderErrorTests.test_credit_auth_network_and_timeout_have_distinct_codes) ... ok
+test_daily_quota_metadata_and_millisecond_reset_are_parsed_without_account_details (test_ai_status.ProviderErrorTests.test_daily_quota_metadata_and_millisecond_reset_are_parsed_without_account_details) ... ok
+test_malformed_headers_and_html_bodies_are_safe (test_ai_status.ProviderErrorTests.test_malformed_headers_and_html_bodies_are_safe) ... ok
+test_temporary_rate_limit_is_not_labelled_daily_quota (test_ai_status.ProviderErrorTests.test_temporary_rate_limit_is_not_labelled_daily_quota) ... ok
+test_http_200_error_envelope_is_treated_as_quota_failure (test_ai_status.ProviderTransportTests.test_http_200_error_envelope_is_treated_as_quota_failure) ... AI request failed: component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+ok
+test_successful_provider_response_remains_usable (test_ai_status.ProviderTransportTests.test_successful_provider_response_remains_usable) ... ok
+test_ai_client_does_not_generate_fake_result_without_key (test_api.ApiTests.test_ai_client_does_not_generate_fake_result_without_key) ... ok
+test_analyze_endpoint_returns_service_result (test_api.ApiTests.test_analyze_endpoint_returns_service_result) ... ok
+test_analyze_quota_is_not_a_generic_server_connection_error (test_api.ApiTests.test_analyze_quota_is_not_a_generic_server_connection_error) ... AI operation failed: path=/api/requests/analyze component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+ok
+test_brand_assets_are_served_locally (test_api.ApiTests.test_brand_assets_are_served_locally) ... ok
+test_document_status_is_paginated_and_never_lists_deleted_sources (test_api.ApiTests.test_document_status_is_paginated_and_never_lists_deleted_sources) ... ok
+test_folder_sync_is_started_in_background (test_api.ApiTests.test_folder_sync_is_started_in_background) ... ok
+test_health_exposes_quota_even_when_application_is_healthy (test_api.ApiTests.test_health_exposes_quota_even_when_application_is_healthy) ... ok
+test_health_reports_verified_connection (test_api.ApiTests.test_health_reports_verified_connection) ... ok
+test_incomplete_index_returns_explicit_conflict_not_silent_analysis (test_api.ApiTests.test_incomplete_index_returns_explicit_conflict_not_silent_analysis) ... ok
+test_index_status_hides_internal_hash_and_path_key (test_api.ApiTests.test_index_status_hides_internal_hash_and_path_key) ... ok
+test_invalid_analysis_response_is_distinct_and_does_not_expose_internal_details (test_api.ApiTests.test_invalid_analysis_response_is_distinct_and_does_not_expose_internal_details) ... AI operation failed: path=/api/requests/analyze component=analysis code=AI_INVALID_RESPONSE
+ok
+test_root_serves_current_interface (test_api.ApiTests.test_root_serves_current_interface) ... ok
+test_api_upload_joins_the_same_index_without_duplicates (test_indexing.DirectoryIndexTests.test_api_upload_joins_the_same_index_without_duplicates) ... ok
+test_changed_content_reindexes_even_with_preserved_mtime (test_indexing.DirectoryIndexTests.test_changed_content_reindexes_even_with_preserved_mtime) ... ok
+test_chunk_config_change_invalidates_then_rebuilds_existing_index (test_indexing.DirectoryIndexTests.test_chunk_config_change_invalidates_then_rebuilds_existing_index) ... ok
+test_concurrent_sync_does_not_create_duplicate_courses (test_indexing.DirectoryIndexTests.test_concurrent_sync_does_not_create_duplicate_courses) ... ok
+test_deleted_file_is_removed_from_retrieval_not_history (test_indexing.DirectoryIndexTests.test_deleted_file_is_removed_from_retrieval_not_history) ... ok
+test_deleted_source_disappears_before_sync_and_can_be_readded (test_indexing.DirectoryIndexTests.test_deleted_source_disappears_before_sync_and_can_be_readded) ... ok
+test_empty_pdf_reports_ocr_requirement (test_indexing.DirectoryIndexTests.test_empty_pdf_reports_ocr_requirement) ... PDF index failed: scan.pdf (ValueError)
+ok
+test_failed_replacement_keeps_old_chunks_but_excludes_them (test_indexing.DirectoryIndexTests.test_failed_replacement_keeps_old_chunks_but_excludes_them) ... PDF index failed: course.pdf (AIResponseError)
+PDF index failed: course.pdf (AIResponseError)
+ok
+test_file_deleted_during_reranking_cannot_be_returned (test_indexing.DirectoryIndexTests.test_file_deleted_during_reranking_cannot_be_returned) ... ok
+test_full_analysis_success_keeps_real_pdf_evidence_and_persists_once (test_indexing.DirectoryIndexTests.test_full_analysis_success_keeps_real_pdf_evidence_and_persists_once) ... ok
+test_legacy_existing_pdf_is_adopted_without_duplicate_course (test_indexing.DirectoryIndexTests.test_legacy_existing_pdf_is_adopted_without_duplicate_course) ... ok
+test_legacy_missing_abc_is_never_retrieved (test_indexing.DirectoryIndexTests.test_legacy_missing_abc_is_never_retrieved) ... ok
+test_malformed_file_does_not_hide_healthy_file (test_indexing.DirectoryIndexTests.test_malformed_file_does_not_hide_healthy_file) ... PDF index failed: broken.pdf (FileDataError)
+ok
+test_missing_root_is_an_error_not_an_empty_success (test_indexing.DirectoryIndexTests.test_missing_root_is_an_error_not_an_empty_success) ... ok
+test_new_files_nested_and_uppercase_extension_are_discovered (test_indexing.DirectoryIndexTests.test_new_files_nested_and_uppercase_extension_are_discovered) ... ok
+test_no_matching_training_is_a_saved_unmet_need_not_an_ai_failure (test_indexing.DirectoryIndexTests.test_no_matching_training_is_a_saved_unmet_need_not_an_ai_failure) ... ok
+test_positive_match_without_valid_course_assessment_still_fails_closed (test_indexing.DirectoryIndexTests.test_positive_match_without_valid_course_assessment_still_fails_closed) ... ok
+test_provider_change_reindexes (test_indexing.DirectoryIndexTests.test_provider_change_reindexes) ... ok
+test_short_embedding_batch_cannot_be_marked_ready (test_indexing.DirectoryIndexTests.test_short_embedding_batch_cannot_be_marked_ready) ... PDF index failed: two.pdf (AIResponseError)
+ok
+test_unchanged_files_do_not_call_embedding_again (test_indexing.DirectoryIndexTests.test_unchanged_files_do_not_call_embedding_again) ... ok
+test_upload_rejects_path_escape_and_does_not_overwrite (test_indexing.DirectoryIndexTests.test_upload_rejects_path_escape_and_does_not_overwrite) ... ok
+test_approved_cannot_disguise_corrections_and_modified_requires_actual_change (test_learning.LearningTests.test_approved_cannot_disguise_corrections_and_modified_requires_actual_change) ... C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\learning.py:193: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  RequestWorkflow.version == expected_version).values(version=version, updated_at=datetime.utcnow()))
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\learning.py:205: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "snapshot_created_at": datetime.utcnow().isoformat() + "Z",
+ok
+test_changed_analysis_source_requires_fresh_assessment_before_approval (test_learning.LearningTests.test_changed_analysis_source_requires_fresh_assessment_before_approval) ... ok
+test_decision_and_report_endpoints_preserve_permissions_and_version_contract (test_learning.LearningTests.test_decision_and_report_endpoints_preserve_permissions_and_version_contract) ... ok
+test_decision_freezes_ai_actor_and_version_without_changing_original_analysis (test_learning.LearningTests.test_decision_freezes_ai_actor_and_version_without_changing_original_analysis) ... ok
+test_employee_does_not_receive_internal_decisions_or_options (test_learning.LearningTests.test_employee_does_not_receive_internal_decisions_or_options) ... ok
+test_guard_upgrade_covers_existing_table_without_changing_rows (test_learning.LearningTests.test_guard_upgrade_covers_existing_table_without_changing_rows) ... ok
+test_history_is_append_only_in_orm_and_bulk_sql (test_learning.LearningTests.test_history_is_append_only_in_orm_and_bulk_sql) ... ok
+test_invalid_topic_and_whitespace_requests_are_rejected (test_learning.LearningTests.test_invalid_topic_and_whitespace_requests_are_rejected) ... ok
+test_only_analyst_and_current_referred_department_can_review (test_learning.LearningTests.test_only_analyst_and_current_referred_department_can_review) ... ok
+test_prior_case_category_department_votes_are_explicit_and_conflicts_visible (test_learning.LearningTests.test_prior_case_category_department_votes_are_explicit_and_conflicts_visible) ... ok
+test_repeated_review_is_one_vote_and_latest_rejection_revokes_feedback (test_learning.LearningTests.test_repeated_review_is_one_vote_and_latest_rejection_revokes_feedback) ... ok
+test_report_keeps_analysis_and_department_stage_counts_separate (test_learning.LearningTests.test_report_keeps_analysis_and_department_stage_counts_separate) ... ok
+test_report_scope_and_zero_denominator_are_safe (test_learning.LearningTests.test_report_scope_and_zero_denominator_are_safe) ... ok
+test_reporting_counts_latest_request_and_distinguishes_confirmed_repeated_needs (test_learning.LearningTests.test_reporting_counts_latest_request_and_distinguishes_confirmed_repeated_needs) ... ok
+test_stale_decisions_are_rejected_without_duplicate_history (test_learning.LearningTests.test_stale_decisions_are_rejected_without_duplicate_history) ... ok
+test_threshold_new_course_brief_and_non_training_routing (test_learning.LearningTests.test_threshold_new_course_brief_and_non_training_routing) ... ok
+test_unconfirmed_human_need_and_changed_source_cannot_boost_retrieval (test_learning.LearningTests.test_unconfirmed_human_need_and_changed_source_cannot_boost_retrieval) ... ok
+test_anonymous_upload_is_denied (test_pdf_intake.PDFIntakeTests.test_anonymous_upload_is_denied) ... ok
+test_employee_upload_extracts_without_creating_a_request (test_pdf_intake.PDFIntakeTests.test_employee_upload_extracts_without_creating_a_request) ... ok
+test_expensive_parser_is_bounded_by_timeout (test_pdf_intake.PDFIntakeTests.test_expensive_parser_is_bounded_by_timeout) ... ok
+test_local_extraction_has_text_and_safe_filename (test_pdf_intake.PDFIntakeTests.test_local_extraction_has_text_and_safe_filename) ... ok
+test_page_limit_is_enforced_before_content_extraction (test_pdf_intake.PDFIntakeTests.test_page_limit_is_enforced_before_content_extraction) ... ok
+test_partial_extraction_and_truncation_are_never_silent (test_pdf_intake.PDFIntakeTests.test_partial_extraction_and_truncation_are_never_silent) ... ok
+test_scanned_encrypted_and_invalid_pdf_fail_explicitly (test_pdf_intake.PDFIntakeTests.test_scanned_encrypted_and_invalid_pdf_fail_explicitly) ... ok
+test_all_administrative_reads_and_writes_require_appropriate_role (test_portal_workflow.PortalWorkflowTests.test_all_administrative_reads_and_writes_require_appropriate_role) ... C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\portal_auth.py:164: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  expires_at=datetime.utcnow() + timedelta(hours=8)))
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\portal_auth.py:92: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  if not session or session.expires_at <= datetime.utcnow():
+ok
+test_bootstrap_does_not_reset_existing_accounts_or_passwords (test_portal_workflow.PortalWorkflowTests.test_bootstrap_does_not_reset_existing_accounts_or_passwords) ... ok
+test_cross_origin_changes_and_brute_force_are_rejected (test_portal_workflow.PortalWorkflowTests.test_cross_origin_changes_and_brute_force_are_rejected) ... ok
+test_designers_only_see_completed_analysis_referred_to_their_department (test_portal_workflow.PortalWorkflowTests.test_designers_only_see_completed_analysis_referred_to_their_department) ... C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow.py:180: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  updated_at=datetime.utcnow(), version=expected_version + 1))
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow.py:190: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  referral.analyst_id, referral.completed_at = principal.user_id, datetime.utcnow()
+C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow.py:149: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  status=target, public_note=note.strip(), updated_at=datetime.utcnow(), version=expected_version + 1)
+ok
+test_employee_cannot_set_manager_states (test_portal_workflow.PortalWorkflowTests.test_employee_cannot_set_manager_states) ... ok
+test_employee_preparation_and_health_do_not_reveal_inventory (test_portal_workflow.PortalWorkflowTests.test_employee_preparation_and_health_do_not_reveal_inventory) ... ok
+test_employee_response_has_no_raw_pdf_model_or_internal_score (test_portal_workflow.PortalWorkflowTests.test_employee_response_has_no_raw_pdf_model_or_internal_score) ... ok
+test_every_data_endpoint_requires_login_and_legacy_admin_cookie_is_not_auth (test_portal_workflow.PortalWorkflowTests.test_every_data_endpoint_requires_login_and_legacy_admin_cookie_is_not_auth) ... ok
+test_legacy_records_are_analyst_only_until_explicit_referral (test_portal_workflow.PortalWorkflowTests.test_legacy_records_are_analyst_only_until_explicit_referral) ... ok
+test_logout_expiry_deactivation_and_session_rotation_are_enforced (test_portal_workflow.PortalWorkflowTests.test_logout_expiry_deactivation_and_session_rotation_are_enforced) ... C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_portal_workflow.py:128: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  session.expires_at = datetime.utcnow() - timedelta(seconds=1)
+ok
+test_match_is_not_resolution_and_resolution_is_audited_and_reopenable (test_portal_workflow.PortalWorkflowTests.test_match_is_not_resolution_and_resolution_is_audited_and_reopenable) ... ok
+test_other_account_cannot_list_read_change_or_chat_against_my_request (test_portal_workflow.PortalWorkflowTests.test_other_account_cannot_list_read_change_or_chat_against_my_request) ... ok
+test_reassignment_revokes_old_department_and_stale_updates_cannot_overwrite (test_portal_workflow.PortalWorkflowTests.test_reassignment_revokes_old_department_and_stale_updates_cannot_overwrite) ... ok
+test_return_to_analysis_hides_from_designers_until_new_referral (test_portal_workflow.PortalWorkflowTests.test_return_to_analysis_hides_from_designers_until_new_referral) ... ok
+test_same_employee_account_retains_history_across_browsers (test_portal_workflow.PortalWorkflowTests.test_same_employee_account_retains_history_across_browsers) ... ok
+test_status_filters_search_and_pagination_have_real_distinct_results (test_portal_workflow.PortalWorkflowTests.test_status_filters_search_and_pagination_have_real_distinct_results) ... ok
+test_bad_chunk_overlap_is_rejected (test_provider_config.ProviderConfigTests.test_bad_chunk_overlap_is_rejected) ... ok
+test_embedding_identity_changes_when_model_preprocessing_changes (test_provider_config.ProviderConfigTests.test_embedding_identity_changes_when_model_preprocessing_changes) ... ok
+test_explicit_provider_wins_and_missing_key_never_uses_another_provider_key (test_provider_config.ProviderConfigTests.test_explicit_provider_wins_and_missing_key_never_uses_another_provider_key) ... ok
+test_groq_retry_rejects_daily_quota_long_delay_and_invalid_headers (test_provider_config.ProviderConfigTests.test_groq_retry_rejects_daily_quota_long_delay_and_invalid_headers) ... ok
+test_groq_selection_uses_only_groq_credential_and_endpoint (test_provider_config.ProviderConfigTests.test_groq_selection_uses_only_groq_credential_and_endpoint) ... ok
+test_settings_representation_does_not_expose_provider_secrets (test_provider_config.ProviderConfigTests.test_settings_representation_does_not_expose_provider_secrets) ... ok
+test_unknown_model_cannot_download_or_execute_remote_code (test_provider_config.ProviderConfigTests.test_unknown_model_cannot_download_or_execute_remote_code) ... ok
+test_groq_payload_respects_reasoning_and_output_limits (test_provider_config.ProviderRoutingTests.test_groq_payload_respects_reasoning_and_output_limits) ... ok
+test_groq_retry_is_bounded_and_second_failure_remains_visible (test_provider_config.ProviderRoutingTests.test_groq_retry_is_bounded_and_second_failure_remains_visible) ... AI request failed: component=analysis code=AI_RATE_LIMITED
+ok
+test_groq_short_rate_limit_is_retried_once_then_succeeds (test_provider_config.ProviderRoutingTests.test_groq_short_rate_limit_is_retried_once_then_succeeds) ... ok
+test_local_embedding_never_calls_remote_api_or_adds_nvidia_prefix (test_provider_config.ProviderRoutingTests.test_local_embedding_never_calls_remote_api_or_adds_nvidia_prefix) ... ok
+test_local_reranker_never_calls_groq (test_provider_config.ProviderRoutingTests.test_local_reranker_never_calls_groq) ... ok
+test_remote_embedding_uses_its_own_key_not_the_groq_key (test_provider_config.ProviderRoutingTests.test_remote_embedding_uses_its_own_key_not_the_groq_key) ... ok
+test_slow_local_work_does_not_block_server_event_loop (test_provider_config.ProviderRoutingTests.test_slow_local_work_does_not_block_server_event_loop) ... ok
+test_feedback_never_enters_fit_and_numeric_values_are_safe (test_taxonomy_scoring.ScoringTests.test_feedback_never_enters_fit_and_numeric_values_are_safe) ... ok
+test_foreign_evidence_empty_or_duplicate_requirements_cannot_inflate_score (test_taxonomy_scoring.ScoringTests.test_foreign_evidence_empty_or_duplicate_requirements_cannot_inflate_score) ... ok
+test_full_coverage_is_100_and_breakdown_sums_to_percentage (test_taxonomy_scoring.ScoringTests.test_full_coverage_is_100_and_breakdown_sums_to_percentage) ... ok
+test_no_needs_or_no_support_is_zero (test_taxonomy_scoring.ScoringTests.test_no_needs_or_no_support_is_zero) ... ok
+test_partial_and_missing_needs_reduce_percentage (test_taxonomy_scoring.ScoringTests.test_partial_and_missing_needs_reduce_percentage) ... ok
+test_classification_uses_server_labels_and_bounded_deduplicated_needs (test_taxonomy_scoring.TaxonomyTests.test_classification_uses_server_labels_and_bounded_deduplicated_needs) ... ok
+test_unique_bounded_categories (test_taxonomy_scoring.TaxonomyTests.test_unique_bounded_categories) ... ok
+test_unknown_and_critical_cases_require_human_review (test_taxonomy_scoring.TaxonomyTests.test_unknown_and_critical_cases_require_human_review) ... ok
+test_canonicalize (test_utils.UtilityTests.test_canonicalize) ... ok
+test_chunking (test_utils.UtilityTests.test_chunking) ... ok
+test_legacy_hash_vector_similarity (test_utils.UtilityTests.test_legacy_hash_vector_similarity) ... ok
+
+----------------------------------------------------------------------
+Ran 122 tests in 41.253s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

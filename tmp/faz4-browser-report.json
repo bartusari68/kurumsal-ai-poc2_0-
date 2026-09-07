@@ -1,0 +1,42 @@
+{
+  "offlineSubmissionEnabled": true,
+  "persistedOnFailure": true,
+  "sameRequestAfterRetry": true,
+  "extraInfoCreatedVersion": true,
+  "originalTextPreserved": true,
+  "final": {
+    "id": 1,
+    "text": "Sentetik API testi eğitimi ihtiyacım var.",
+    "sequence": 3,
+    "runs": [
+      {
+        "sequence": 3,
+        "status": "COMPLETED"
+      },
+      {
+        "sequence": 2,
+        "status": "COMPLETED"
+      },
+      {
+        "sequence": 1,
+        "status": "FAILED"
+      }
+    ],
+    "history": [
+      "REQUEST_SAVED",
+      "ANALYSIS_QUEUED",
+      "ANALYSIS_STARTED",
+      "ANALYSIS_FAILED",
+      "ANALYSIS_QUEUED",
+      "ANALYSIS_STARTED",
+      "ANALYSIS_COMPLETED",
+      "REQUEST_INFO",
+      "PROVIDE_INFO",
+      "ANALYSIS_QUEUED",
+      "ANALYSIS_STARTED",
+      "ANALYSIS_COMPLETED"
+    ],
+    "overflow": false
+  },
+  "errors": []
+}

@@ -1,0 +1,47 @@
+........Executing <Task finished name='Task-11' coro=<RetrievalReliabilityTests.test_malformed_reranker_is_explicit_failure() done, defined at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_ai_reliability.py:121> result=None created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.187 seconds
+..............AI request failed: component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+....AI operation failed: path=/api/requests/analyze component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+........AI operation failed: path=/api/requests/analyze component=analysis code=AI_INVALID_RESPONSE
+........PDF index failed: scan.pdf (ValueError)
+.PDF index failed: course.pdf (AIResponseError)
+PDF index failed: course.pdf (AIResponseError)
+.....PDF index failed: broken.pdf (FileDataError)
+......PDF index failed: two.pdf (AIResponseError)
+.....................................F.............AI request failed: component=analysis code=AI_RATE_LIMITED
+..............FE........................
+======================================================================
+ERROR: test_list_and_detail_share_action_owner_across_actual_workflow_states (test_review_advance.ReviewAdvanceTests.test_list_and_detail_share_action_owner_across_actual_workflow_states)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_review_advance.py", line 246, in test_list_and_detail_share_action_owner_across_actual_workflow_states
+    change_status(self.db, self.record, self.flow, owner_hash=analyst.token_hash, admin=True,
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow.py", line 162, in change_status
+    return execute_action(db, record, flow, principal, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow_core.py", line 134, in execute_action
+    ctx = policy.authorize(db, record, flow, principal.role, code, expected)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\workflow_policy.py", line 107, in authorize
+    raise HTTPException(422, "Bu a�amada bu i�lem i�in yetkiniz yok. Talebin g�ncel i�lem alan�n� kullan�n.")
+fastapi.exceptions.HTTPException: 422: Bu a�amada bu i�lem i�in yetkiniz yok. Talebin g�ncel i�lem alan�n� kullan�n.
+
+======================================================================
+FAIL: test_match_is_not_resolution_and_resolution_is_audited_and_reopenable (test_portal_workflow.PortalWorkflowTests.test_match_is_not_resolution_and_resolution_is_audited_and_reopenable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_portal_workflow.py", line 210, in test_match_is_not_resolution_and_resolution_is_audited_and_reopenable
+    self.assertEqual(resolved.status_code, 200)
+AssertionError: 422 != 200
+
+======================================================================
+FAIL: test_list_action_projection_does_not_load_timeline_or_decision_audit (test_review_advance.ReviewAdvanceTests.test_list_action_projection_does_not_load_timeline_or_decision_audit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_review_advance.py", line 265, in test_list_action_projection_does_not_load_timeline_or_decision_audit
+    self.assertFalse(any(table in statement for statement in statements
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 145 tests in 48.154s
+
+FAILED (failures=2, errors=1)
