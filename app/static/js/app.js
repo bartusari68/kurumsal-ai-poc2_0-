@@ -150,7 +150,7 @@ function renderShell(){return renderPortalShell()}
 function render(){
   if(!PORTAL.user)state.currentPage='portal-login';
   else if(state.currentPage==='portal-delegations')state.currentPage='portal-inbox';
-  else if(PORTAL.isAdmin&&state.currentPage!=='admin-panel'&&!/^portal-(inbox|notifications|development|development-detail|catalog|course|publication)$/.test(state.currentPage)){state.currentPage='admin-panel';PORTAL.adminTab='requests'}
+  else if(PORTAL.isAdmin&&state.currentPage!=='admin-panel'&&!/^portal-(inbox|notifications|development|development-detail|catalog|course|publication|training|training-detail|training-create|evaluations|evaluation|skills|skill|my-skills|my-skill|positions|position|my-role|position-planning)$/.test(state.currentPage)){state.currentPage='admin-panel';PORTAL.adminTab='requests'}
   else if(!PORTAL.isAdmin&&!/^(submitter-|portal-)/.test(state.currentPage))state.currentPage='submitter-home';
   renderShell();
   if(renderPortalRoute(state.currentPage))return;

@@ -1,0 +1,59 @@
+{
+  "live": [
+    {
+      "account": "calisan",
+      "endpoints": {
+        "/api/training": 200,
+        "/api/training/meta": 200,
+        "/api/catalog": 200,
+        "/api/operations/inbox": 200,
+        "/api/operations/notifications": 200,
+        "/api/operations/notifications/count": 200
+      },
+      "catalog_count": 8,
+      "can_plan_training": false
+    },
+    {
+      "account": "ihtiyac_admin",
+      "endpoints": {
+        "/api/training": 200,
+        "/api/training/meta": 200,
+        "/api/catalog": 200,
+        "/api/operations/inbox": 200,
+        "/api/operations/notifications": 200,
+        "/api/operations/notifications/count": 200
+      },
+      "catalog_count": 8,
+      "can_plan_training": true
+    },
+    {
+      "account": "teknik_admin",
+      "endpoints": {
+        "/api/training": 200,
+        "/api/training/meta": 200,
+        "/api/catalog": 200,
+        "/api/operations/inbox": 200,
+        "/api/operations/notifications": 200,
+        "/api/operations/notifications/count": 200
+      },
+      "catalog_count": 8,
+      "can_plan_training": true
+    },
+    {
+      "account": "muhendislik_admin",
+      "endpoints": {
+        "/api/training": 200,
+        "/api/training/meta": 200,
+        "/api/catalog": 200,
+        "/api/operations/inbox": 200,
+        "/api/operations/notifications": 200,
+        "/api/operations/notifications/count": 200
+      },
+      "catalog_count": 8,
+      "can_plan_training": true
+    }
+  ],
+  "old_business_tables_unchanged": true,
+  "pdfs_unchanged": 8,
+  "real_training_sessions_created": 0
+}

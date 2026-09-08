@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "skillEvidence": 4,
+  "requestDraftPreserved": true,
+  "publicationDraftPreserved": true,
+  "candidateDismissalPersists": true,
+  "evaluations": 3,
+  "status": "REFERRED",
+  "outcome": "PARTIALLY_RESOLVED",
+  "javascriptErrors": []
+}

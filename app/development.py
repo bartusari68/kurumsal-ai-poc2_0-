@@ -306,9 +306,9 @@ def queue(db, principal, offset, limit):
         'total': db.scalar(select(func.count()).select_from(stmt.subquery())), 'offset': offset, 'limit': limit}
 
 
-def inbox_items(db, principal):
+def inbox_items(db, principal, identifiers=None):
     from .operations import valid_delegation
-    rows = db.scalars(query(principal).where(Item.state.not_in(policy.TERMINAL)))
+    rows = db.scalars(query(principal).where(Item.state.not_in(policy.TERMINAL)).where(Item.id.in_(identifiers)) if identifiers is not None else query(principal).where(Item.state.not_in(policy.TERMINAL)))
     items = []
     for item in rows:
         actor = principal

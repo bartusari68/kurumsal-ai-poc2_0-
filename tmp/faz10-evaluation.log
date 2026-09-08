@@ -1,0 +1,8 @@
+..C:\Users\Administrator\Desktop\kurumsal-ai-poc\.venv\Lib\site-packages\sqlalchemy\engine\default.py:951: DeprecationWarning: The default datetime adapter is deprecated as of Python 3.12; see the sqlite3 documentation for suggested replacement recipes
+  cursor.execute(statement, parameters)
+.................
+----------------------------------------------------------------------
+Ran 19 tests in 32.718s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

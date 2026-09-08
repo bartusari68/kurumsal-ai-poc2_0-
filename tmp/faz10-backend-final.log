@@ -1,0 +1,45 @@
+......................AI request failed: component=analysis code=AI_DAILY_QUOTA_EXCEEDED
+....Analysis failed: run=1 code=INTERNAL_FAILURE type=RuntimeError
+..Analysis failed: run=1 code=TIMEOUT type=TimeoutError
+..C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_analysis_pipeline.py:261: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  started_at=datetime.utcnow()-timedelta(minutes=10), lease_expires_at=datetime.utcnow()-timedelta(seconds=1)))
+Executing <Task pending name='Task-136' coro=<DurableAnalysisTests.test_expired_processing_is_recovered_once_and_late_worker_cannot_finish_it() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_analysis_pipeline.py:272> wait_for=<Task pending name='Task-137' coro=<execute_run.<locals>.compute() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\analysis_pipeline.py:313> cb=[Task.task_wakeup()] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\tasks.py:420> cb=[_run_until_complete_cb() at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\base_events.py:181] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.109 seconds
+..Executing <Task pending name='Task-153' coro=<DurableAnalysisTests.test_extra_information_creates_version_and_preserves_original_and_first_result() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_analysis_pipeline.py:178> wait_for=<Task pending name='Task-156' coro=<execute_run.<locals>.compute() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\analysis_pipeline.py:313> cb=[Task.task_wakeup()] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\tasks.py:420> cb=[_run_until_complete_cb() at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\base_events.py:181] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.109 seconds
+.Executing <Task pending name='Task-162' coro=<DurableAnalysisTests.test_failed_new_run_keeps_previous_success_visible_and_old_decision_frozen() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_analysis_pipeline.py:193> wait_for=<Task pending name='Task-165' coro=<execute_run.<locals>.compute() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\analysis_pipeline.py:313> cb=[Task.task_wakeup()] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\tasks.py:420> cb=[_run_until_complete_cb() at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\base_events.py:181] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.156 seconds
+Analysis failed: run=2 code=INTERNAL_FAILURE type=RuntimeError
+.Analysis failed: run=1 code=SERVICE_UNAVAILABLE type=AIUnavailableError
+Analysis failed: run=2 code=TIMEOUT type=ReadTimeout
+Analysis failed: run=3 code=SERVICE_UNAVAILABLE type=ConnectError
+Analysis failed: run=4 code=INVALID_RESPONSE type=AIResponseError
+Analysis failed: run=5 code=RATE_LIMITED type=AIServiceError
+Analysis failed: run=6 code=SOURCE_UNAVAILABLE type=IndexNotReadyError
+Analysis failed: run=7 code=INTERNAL_FAILURE type=RuntimeError
+..Executing <Task pending name='Task-203' coro=<DurableAnalysisTests.test_human_decisions_link_to_their_own_run_and_old_verdict_is_not_current() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_analysis_pipeline.py:212> wait_for=<Task pending name='Task-206' coro=<execute_run.<locals>.compute() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\analysis_pipeline.py:313> cb=[Task.task_wakeup()] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\tasks.py:420> cb=[_run_until_complete_cb() at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\base_events.py:181] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.141 seconds
+.....Analysis failed: run=1 code=INTERNAL_FAILURE type=RuntimeError
+.Executing <Task pending name='Task-251' coro=<DurableAnalysisTests.test_retry_is_same_request_and_same_operation_remains_idempotent_after_completion() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_analysis_pipeline.py:113> wait_for=<Task pending name='Task-252' coro=<execute_run.<locals>.compute() running at C:\Users\Administrator\Desktop\kurumsal-ai-poc\app\analysis_pipeline.py:313> cb=[Task.task_wakeup()] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\tasks.py:420> cb=[_run_until_complete_cb() at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\base_events.py:181] created at C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\asyncio\runners.py:100> took 0.109 seconds
+Analysis failed: run=1 code=INTERNAL_FAILURE type=RuntimeError
+.....Analysis failed: run=2 code=RATE_LIMITED type=AIServiceError
+......Analysis failed: run=3 code=SOURCE_UNAVAILABLE type=IndexNotReadyError
+..Analysis failed: run=4 code=INVALID_RESPONSE type=AIResponseError
+...............................................................PDF index failed: scan.pdf (ValueError)
+.PDF index failed: course.pdf (AIResponseError)
+PDF index failed: course.pdf (AIResponseError)
+.....PDF index failed: broken.pdf (FileDataError)
+......PDF index failed: two.pdf (AIResponseError)
+...Intake failed: code=SERVICE_UNAVAILABLE type=AIUnavailableError
+........Intake failed: code=INVALID_RESPONSE type=ValidationError
+...Intake failed: code=INVALID_RESPONSE type=ValidationError
+Intake failed: code=INVALID_RESPONSE type=ValidationError
+Intake failed: code=INVALID_RESPONSE type=ValidationError
+Intake failed: code=INVALID_RESPONSE type=ValidationError
+.Intake failed: code=INVALID_RESPONSE type=ValidationError
+......................................Notification delivery pending: event=2 type=RuntimeError
+...........................C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_portal_workflow.py:130: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  session.expires_at = datetime.utcnow() - timedelta(seconds=1)
+...............AI request failed: component=analysis code=AI_RATE_LIMITED
+...................................................................................................................
+----------------------------------------------------------------------
+Ran 340 tests in 386.076s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

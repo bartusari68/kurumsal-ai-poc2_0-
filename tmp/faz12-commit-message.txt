@@ -1,0 +1,14 @@
+Complete phases 9-12: training operations, evidence and position requirements
+
+Synchronize the accumulated training/session operations, learning effectiveness,
+canonical skill evidence and versioned position requirement domains after the
+phase-8 system snapshot. Add own-position evidence explanations, controlled
+assignments, privacy-suppressed aggregates and explicit request-source snapshots.
+Preserve existing workflow, authentication roles and historical business data.
+
+Include the complete comparison workspace and a consistent SQLite snapshot,
+excluding environment files and virtual environments. Record the authorized
+phase-end GitHub publishing workflow and its staging helper.
+
+Validation: 391 Python tests and 111 JavaScript tests passed; browser flows,
+syntax checks and 51-table/eight-PDF preservation checks passed.

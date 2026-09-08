@@ -6,6 +6,7 @@ from datetime import date
 
 
 class AnalyzeRequest(BaseModel):
+    position_requirement_id: int | None = Field(default=None, gt=0)
     intake_token: str | None = Field(default=None, max_length=120000)
     idempotency_key: str | None = Field(default=None, min_length=8, max_length=80)
     text: str = Field(min_length=3, max_length=5000)

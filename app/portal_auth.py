@@ -150,8 +150,10 @@ def require_employee(account=Depends(owner_session)):
     return account
 
 
-def account_payload(account):
-    return {"authenticated": account is not None, "is_admin": is_admin(account), "identity_mode": "named_account",
+def account_payload(account, db=None):
+    from .positions import context
+    return {"position_context": context(db, account) if db is not None else {},
+            "authenticated": account is not None, "is_admin": is_admin(account), "identity_mode": "named_account",
             "user": {"id": account.user_id, "username": account.username, "display_name": account.display_name,
                      "role": account.role, "role_label": ROLES[account.role]} if account else None}
 
@@ -189,4 +191,4 @@ def login(request, response, username, password, db):
                           expires_at=utc_now() + timedelta(hours=8)))
     db.commit()
     response.set_cookie(COOKIE, token, httponly=True, samesite="strict", secure=request.url.scheme == "https", max_age=8 * 3600)
-    return account_payload(Principal(user.id, user.username, user.display_name, user.role))
+    return account_payload(Principal(user.id, user.username, user.display_name, user.role), db)

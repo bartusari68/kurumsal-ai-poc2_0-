@@ -8,6 +8,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
 from .time_policy import UTCDateTime as DateTime
+from .training_models import TrainingSession, Enrollment, TrainingEvent, TrainingNotification
+from .evaluation_models import LearningEvaluation, EvaluationEvent, EvaluationDelivery
+from .skill_models import SkillGroup, Skill, SkillTerm, CourseSkillMapping, RequestSkillNeed, SkillEvidence, SkillAudit
+from .position_models import PositionProfile, PositionRevision, PositionRequirement, UserPosition, PositionAudit, RequestPositionSource
 
 
 class OperationOutbox(Base):

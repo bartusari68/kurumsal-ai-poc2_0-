@@ -90,6 +90,14 @@ def request_detail(db, record, workflow, *, admin=False, role="EMPLOYEE"):
     payload["process"] = process_summary(db, record, workflow, manager=role in MANAGERS, role=role)
     from .development import request_links
     payload['development'] = request_links(db, record, workflow, role)
+    from .training import request_links as training_links
+    payload['training'] = training_links(db, record, workflow, role)
+    from .evaluation import request_outcomes
+    payload['effectiveness'] = request_outcomes(db, record.id)
+    from .skills import request_section
+    payload['skills'] = request_section(db,record,workflow,role)
+    from .positions import request_source
+    payload['position_source'] = request_source(db,record.id)
     if review_allowed:
         payload["routing"] = resolve_routing(db, record, workflow)
         payload["permissions"]["can_review_and_advance"] = policy.permitted("REVIEW_ADVANCE", ctx, role)

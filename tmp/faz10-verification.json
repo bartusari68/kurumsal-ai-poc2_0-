@@ -1,0 +1,104 @@
+{
+  "backend": {
+    "passed": 340,
+    "log": "tmp/faz10-backend-final.log"
+  },
+  "frontend": {
+    "passed": 95,
+    "log": "tmp/faz10-frontend-final.log"
+  },
+  "total": 435,
+  "baseline": 399,
+  "compileall": "passed",
+  "javascript_syntax": "passed",
+  "diff_check": "passed",
+  "live": {
+    "url": "http://127.0.0.1:8000/?v=20260908-17",
+    "employeeMenu": true,
+    "employeeInbox": true,
+    "managerEndpoints": true,
+    "realEvaluations": 0,
+    "javascriptErrors": []
+  },
+  "browser": {
+    "passed": true,
+    "evaluations": 3,
+    "status": "REFERRED",
+    "outcome": "PARTIALLY_RESOLVED",
+    "javascriptErrors": []
+  },
+  "preservation": {
+    "existing_tables": 41,
+    "changed_existing_tables": [
+      {
+        "table": "account_sessions",
+        "before": 7,
+        "after": 8
+      }
+    ],
+    "all_business_tables_unchanged": true,
+    "pdf_hashes_unchanged": true,
+    "pdf_count": 8,
+    "counts": {
+      "requests": 22,
+      "request_decisions": 7,
+      "course_versions": 8,
+      "training_sessions": 0,
+      "training_enrollments": 0,
+      "learning_evaluations": 0,
+      "evaluation_events": 0,
+      "evaluation_deliveries": 0
+    },
+    "integrity_check": "ok"
+  },
+  "benchmark": [
+    {
+      "mixed_items": 1000,
+      "page_size": 20,
+      "page_offsets": [
+        0,
+        20,
+        980
+      ],
+      "page_ms": [
+        64.75,
+        28.37,
+        207.7
+      ],
+      "authorization": "passed",
+      "database_pagination": true
+    },
+    {
+      "mixed_items": 5000,
+      "page_size": 20,
+      "page_offsets": [
+        0,
+        20,
+        4980
+      ],
+      "page_ms": [
+        44.78,
+        52.3,
+        98.41
+      ],
+      "authorization": "passed",
+      "database_pagination": true
+    },
+    {
+      "mixed_items": 10000,
+      "page_size": 20,
+      "page_offsets": [
+        0,
+        20,
+        9980
+      ],
+      "page_ms": [
+        49.08,
+        46.99,
+        160.29
+      ],
+      "authorization": "passed",
+      "database_pagination": true
+    }
+  ]
+}

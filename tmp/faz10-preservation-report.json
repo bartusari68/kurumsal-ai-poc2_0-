@@ -1,0 +1,24 @@
+{
+  "existing_tables": 41,
+  "changed_existing_tables": [
+    {
+      "table": "account_sessions",
+      "before": 7,
+      "after": 8
+    }
+  ],
+  "all_business_tables_unchanged": true,
+  "pdf_hashes_unchanged": true,
+  "pdf_count": 8,
+  "counts": {
+    "requests": 22,
+    "request_decisions": 7,
+    "course_versions": 8,
+    "training_sessions": 0,
+    "training_enrollments": 0,
+    "learning_evaluations": 0,
+    "evaluation_events": 0,
+    "evaluation_deliveries": 0
+  },
+  "integrity_check": "ok"
+}

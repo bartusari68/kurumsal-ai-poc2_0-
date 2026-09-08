@@ -1,0 +1,13 @@
+F..
+======================================================================
+FAIL: test_database_pagination_and_bounded_hydration (test_inbox_sql.InboxSQLTests.test_database_pagination_and_bounded_hydration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_inbox_sql.py", line 67, in test_database_pagination_and_bounded_hydration
+    self.assertTrue(any('UNION ALL' in q and 'LIMIT' in q and 'OFFSET' in q for q in statements))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 3 tests in 10.885s
+
+FAILED (failures=1)

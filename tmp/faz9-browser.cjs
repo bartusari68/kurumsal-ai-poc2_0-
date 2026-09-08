@@ -1,0 +1,26 @@
+const {chromium}=require('C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const assert=require('node:assert/strict'),fs=require('node:fs');
+(async()=>{const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});try{
+ const page=await browser.newPage({viewport:{width:1600,height:1100},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('http://127.0.0.1:8013/');await page.locator('#accountUsername').fill('teknik_admin');await page.locator('#accountPassword').fill('1234');await page.locator('#experienceLoginSubmit').click();await page.waitForFunction(()=>PORTAL.user&&PORTAL.ready);
+ await page.getByRole('button',{name:'Ders Kataloğu',exact:true}).click();await page.locator('#catalogContent [data-pub-course]').first().click();await page.locator('[data-training-create]').click();await page.locator('#trainingForm').waitFor();
+ await page.locator('[name="external_trainer"]').fill('Sentetik eğitmen');await page.locator('[name="start_at"]').fill('2026-10-01T09:00');await page.locator('[name="end_at"]').fill('2026-10-01T11:00');await page.locator('[name="location"]').fill('Sentetik eğitim salonu');await page.locator('[name="capacity"]').fill('2');await page.getByRole('button',{name:'Oturum taslağı oluştur',exact:true}).click();
+ await page.waitForFunction(()=>TRAIN.detail&&TRAIN.detail.status==='DRAFT'&&!TRAIN.busy);
+ const id=await page.evaluate(()=>TRAIN.id),user=await page.evaluate(()=>TRAIN.options.source_requests[0].user_id);
+ await page.locator('#trainingUser').selectOption(String(user));await page.locator('#trainingRequest').selectOption('1');await page.getByRole('button',{name:'Katılımcıyı kaydet',exact:true}).click();await page.waitForFunction(()=>TRAIN.detail.participant_count===1&&!TRAIN.busy);
+ await page.locator('[data-training-action="SCHEDULE"]').click();await page.waitForFunction(()=>TRAIN.detail.status==='SCHEDULED'&&!TRAIN.busy);
+ await page.getByRole('button',{name:'Eğitim Operasyonları',exact:true}).click();await page.locator('#trainingStatus').selectOption('SCHEDULED');await page.waitForFunction(()=>document.querySelectorAll('#trainingQueue tbody tr').length===1);await page.screenshot({path:'tmp/faz9-queue.png',fullPage:true});await page.locator('[data-training-open="'+id+'"]').click();
+ await page.locator('[data-training-action="START"]').click();await page.waitForFunction(()=>TRAIN.detail.status==='IN_PROGRESS'&&!TRAIN.busy);
+ await page.locator('[data-training-result="attendance"]').selectOption('ATTENDED');await page.locator('[data-training-result="completion"]').selectOption('COMPLETED');
+ await page.locator('[data-training-save-results="attendance"]').click();await page.waitForFunction(()=>TRAIN.detail.enrollments[0].attendance==='ATTENDED'&&!TRAIN.busy);
+ assert.equal(await page.locator('[data-training-result="completion"]').inputValue(),'COMPLETED');
+ await page.locator('[data-training-save-results="completion"]').click();await page.waitForFunction(()=>TRAIN.detail.enrollments[0].completion==='COMPLETED'&&!TRAIN.busy);
+ await page.locator('[data-training-action="FINALIZE_ATTENDANCE"]').click();await page.waitForFunction(()=>TRAIN.detail.attendance_finalized_at&&!TRAIN.busy);
+ await page.locator('[data-training-action="COMPLETE"]').click();await page.waitForFunction(()=>TRAIN.detail.status==='COMPLETED'&&!TRAIN.busy);
+ await page.screenshot({path:'tmp/faz9-completed.png',fullPage:true});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ const response=await page.request.get('http://127.0.0.1:8013/api/admin/requests/1');const request=await response.json();assert.equal(request.status,'REFERRED');assert.equal(request.training[0].training_completed,true);
+ await page.evaluate(()=>openPortalRequest(1,true));await page.getByRole('heading',{name:'İhtiyaca bağlı eğitimler',exact:true}).waitFor();await page.screenshot({path:'tmp/faz9-request-trace.png',fullPage:true});
+ await page.getByRole('button',{name:'Çıkış yap',exact:true}).click();await page.locator('#accountUsername').fill('calisan');await page.locator('#accountPassword').fill('1234');await page.locator('#experienceLoginSubmit').click();await page.waitForFunction(()=>PORTAL.user&&PORTAL.user.username==='calisan');
+ await page.getByRole('button',{name:/Bildirimler,/}).click();await page.locator('[data-notification-open]').first().click();await page.waitForFunction(()=>TRAIN.detail&&TRAIN.detail.id===1);assert.equal(await page.locator('[data-training-save-results]').count(),0);assert.equal(await page.evaluate(()=>TRAIN.detail.enrollments.length),1);
+ assert.deepEqual(errors,[]);const result={sessionId:id,status:'COMPLETED',requestStatus:request.status,requestTrainingCompleted:true,attendanceCompletionDraftPreserved:true,notificationOpensSession:true,employeeReadOnly:true,noOverflow:true,errors};fs.writeFileSync('tmp/faz9-browser-report.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+}finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

@@ -155,7 +155,7 @@ def enqueue(db, record, flow, *, trigger, user_id=None, key=None, retry_of=None)
     return run
 
 
-def persist_request(db, text, principal, key, *, intake_metadata=None):
+def persist_request(db, text, principal, key, *, intake_metadata=None, position_requirement_id=None):
     text = text.strip()
     if not 3 <= len(text) <= 5000:
         raise HTTPException(422, "Talep 3–5000 karakter içermelidir.")
@@ -168,6 +168,8 @@ def persist_request(db, text, principal, key, *, intake_metadata=None):
     if previous:
         if previous.text_hash != digest:
             raise HTTPException(409, "Bu gönderim anahtarı farklı bir talep için kullanılmış. Yeni gönderim başlatın.")
+        from .positions import validate_retry_source
+        validate_retry_source(db, previous.request_id, position_requirement_id)
         return db.get(RequestRecord, previous.request_id), db.get(RequestWorkflow, previous.request_id)
     try:
         record = RequestRecord(text=text)
@@ -178,6 +180,10 @@ def persist_request(db, text, principal, key, *, intake_metadata=None):
         db.add(RequestSubmission(request_id=record.id, owner_hash=principal.token_hash, idempotency_key=key, text_hash=digest))
         db.flush()
         from .process import add_process_event
+        if position_requirement_id:
+            from .positions import record_source
+            source = record_source(db, principal, record.id, position_requirement_id)
+            intake_metadata = {**(intake_metadata or {}), 'position_requirement': source}
         add_process_event(db, request_id=record.id, status=flow.status, actor="EMPLOYEE", principal=principal,
                           note="Talep kalıcı olarak kaydedildi; AI değerlendirmesi henüz tamamlanmadı.", action="REQUEST_SAVED", from_status=flow.status,
                           details=intake_metadata)
@@ -188,6 +194,8 @@ def persist_request(db, text, principal, key, *, intake_metadata=None):
         db.rollback()
         previous = receipt()
         if previous and previous.text_hash == digest:
+            from .positions import validate_retry_source
+            validate_retry_source(db, previous.request_id, position_requirement_id)
             return db.get(RequestRecord, previous.request_id), db.get(RequestWorkflow, previous.request_id)
         raise HTTPException(409, "Gönderim başka bir işlemde kaydedildi. Talep listenizi yenileyin.")
 

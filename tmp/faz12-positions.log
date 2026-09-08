@@ -1,0 +1,47 @@
+EE..................
+======================================================================
+ERROR: test_completion_and_authorized_outcome_remain_distinct_evidence (test_positions.PositionEvidenceTests.test_completion_and_authorized_outcome_remain_distinct_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_positions.py", line 150, in test_completion_and_authorized_outcome_remain_distinct_evidence
+    skill,version,dev,record,flow=self.live_version();p=self.profile(skill);self.assign(p)
+                                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_skills.py", line 181, in live_version
+    skill,version,dev,record,flow=self.mapped();version=self.metadata(version);version=self.publish_action(version,'PREPARE');version=self.publish_action(version,'PUBLISH')
+                                  ^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_skills.py", line 174, in mapped
+    skill=self.skill();version,dev,record,flow,payload=self.draft();self.need(record,skill)
+                                                       ^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_publishing.py", line 38, in draft
+    development,record,flow,request_payload=self.ready(enrichment)
+                                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_publishing.py", line 28, in ready
+    data=self.finish(data)
+         ^^^^^^^^^^^
+AttributeError: 'PositionEvidenceTests' object has no attribute 'finish'
+
+======================================================================
+ERROR: test_recommendations_include_only_published_exact_skill_versions (test_positions.PositionEvidenceTests.test_recommendations_include_only_published_exact_skill_versions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_positions.py", line 157, in test_recommendations_include_only_published_exact_skill_versions
+    skill,version,dev,record,flow=self.live_version();p=self.profile(skill);self.assign(p);self.actor=self.people['employee']
+                                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_skills.py", line 181, in live_version
+    skill,version,dev,record,flow=self.mapped();version=self.metadata(version);version=self.publish_action(version,'PREPARE');version=self.publish_action(version,'PUBLISH')
+                                  ^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_skills.py", line 174, in mapped
+    skill=self.skill();version,dev,record,flow,payload=self.draft();self.need(record,skill)
+                                                       ^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_publishing.py", line 38, in draft
+    development,record,flow,request_payload=self.ready(enrichment)
+                                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\kurumsal-ai-poc\tests\test_publishing.py", line 28, in ready
+    data=self.finish(data)
+         ^^^^^^^^^^^
+AttributeError: 'PositionEvidenceTests' object has no attribute 'finish'
+
+----------------------------------------------------------------------
+Ran 20 tests in 43.741s
+
+FAILED (errors=2)

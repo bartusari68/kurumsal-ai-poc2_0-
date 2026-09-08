@@ -238,13 +238,16 @@ def brief(row):
 
 
 def detail(db, row, actor):
+    from .training import catalog_action
     item = db.get(DevelopmentItem, row.source_development_id) if row.source_development_id else None
     authorized = bool(item and development.visible(db, item, actor))
     allowed = bool(item and permission(db, item, actor))
     publisher = db.get(PortalUser, row.published_by) if row.published_by else None
     index = db.scalar(select(DocumentIndex).where(DocumentIndex.course_id==row.course_id)) if allowed and row.course_id else None
     candidate = {'file_name': Path(db.get(Course,row.course_id).pdf_path).name, 'content_hash': index.content_hash} if index and index.status=='ready' else None
-    return {**brief(row), 'description': row.description, 'outcomes': json_loads(row.outcomes_json, []),
+    from .evaluation import aggregate
+    from .skills import mappings,mapping_editable
+    return {'skills': mappings(db,row), 'can_edit_skills': mapping_editable(db,row,actor), 'effectiveness': aggregate(db,actor,course_version_id=row.id) if actor.role != 'EMPLOYEE' else None, **brief(row), 'can_plan_training': catalog_action(db,row,actor), 'description': row.description, 'outcomes': json_loads(row.outcomes_json, []),
         'modules': json_loads(row.outline_json, []), 'knowledge': knowledge(db, row),
         'publisher': publisher.display_name if publisher else None, 'created_at': utc_stamp(row.created_at),
         'can_edit': allowed and row.state == 'DRAFT',
@@ -312,8 +315,8 @@ def compare(a,b):
         'modules':delta(flatten(a),flatten(b)), 'topics':delta(topics(a),topics(b))}
 
 
-def inbox_items(db, principal):
-    rows=db.scalars(select(Version).where(Version.state.in_(('DRAFT','READY_FOR_PUBLISH'))))
+def inbox_items(db, principal, identifiers=None):
+    rows=db.scalars(select(Version).where(Version.state.in_(('DRAFT','READY_FOR_PUBLISH'))).where(Version.id.in_(identifiers)) if identifiers is not None else select(Version).where(Version.state.in_(('DRAFT','READY_FOR_PUBLISH'))))
     items=[]
     from .operations import valid_delegation
     for row in rows:

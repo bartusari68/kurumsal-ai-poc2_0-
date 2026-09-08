@@ -1,5 +1,8 @@
 .env
+.env.*
+!.env.example
 .venv/
+venv/
 
 # These original model bytes are preserved in model-transfer/*.part via Git LFS.
 # Restore their original paths with scripts/restore_model_files.py.

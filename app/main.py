@@ -41,6 +41,14 @@ install_decision_guards(engine)
 install_analysis_guards(engine)
 from .operations import install_schema as install_operations_schema
 install_operations_schema(engine)
+from .training_models import install_guards as install_training_guards
+install_training_guards(engine)
+from .evaluation_models import install_guards as install_evaluation_guards
+install_evaluation_guards(engine)
+from .skill_models import install as install_skills
+install_skills(engine,SessionLocal)
+from .position_models import install as install_positions
+install_positions(engine)
 
 @asynccontextmanager
 async def lifespan(app):
@@ -65,6 +73,14 @@ from .development_api import router as development_router
 app.include_router(development_router)
 from .publishing_api import router as publishing_router
 app.include_router(publishing_router)
+from .training_api import router as training_router
+app.include_router(training_router)
+from .evaluation_api import router as evaluation_router
+app.include_router(evaluation_router)
+from .skill_api import router as skill_router
+app.include_router(skill_router)
+from .position_api import router as position_router
+app.include_router(position_router)
 
 
 @app.middleware("http")
@@ -225,7 +241,8 @@ def analyze(payload: AnalyzeRequest, db: Session = Depends(get_db), session=Depe
     from .analysis_pipeline import persist_request
     from .intake import submission_metadata
     metadata = submission_metadata(payload.intake_token, session.token_hash)
-    record, flow = persist_request(db, payload.text, session, payload.idempotency_key, intake_metadata=metadata)
+    record, flow = persist_request(db, payload.text, session, payload.idempotency_key, intake_metadata=metadata,
+        position_requirement_id=payload.position_requirement_id)
     result = request_detail(db, record, flow)
     result["message"] = "Talebiniz kaydedildi. Analiz durumu talep detayından takip edilebilir."
     return result
@@ -298,8 +315,8 @@ def dashboard(db: Session = Depends(get_db)):
 
 
 @app.get("/api/portal/session")
-def session_info(account=Depends(current_account)):
-    return account_payload(account)
+def session_info(account=Depends(current_account), db: Session = Depends(get_db)):
+    return account_payload(account, db)
 
 
 @app.post("/api/auth/login")
@@ -394,7 +411,8 @@ def admin_review_and_advance(request_id: int, payload: DecisionAdvanceRequest, s
 
 @app.get("/api/admin/review-report")
 def admin_review_report(session=Depends(require_admin), db: Session = Depends(get_db)):
-    return review_report(db, session)
+    from .evaluation import aggregate
+    return {**review_report(db, session), 'effectiveness': aggregate(db,session)}
 
 
 @app.post("/api/requests/{request_id}/actions")

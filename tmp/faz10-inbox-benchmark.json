@@ -1,0 +1,50 @@
+[
+  {
+    "mixed_items": 1000,
+    "page_size": 20,
+    "page_offsets": [
+      0,
+      20,
+      980
+    ],
+    "page_ms": [
+      64.75,
+      28.37,
+      207.7
+    ],
+    "authorization": "passed",
+    "database_pagination": true
+  },
+  {
+    "mixed_items": 5000,
+    "page_size": 20,
+    "page_offsets": [
+      0,
+      20,
+      4980
+    ],
+    "page_ms": [
+      44.78,
+      52.3,
+      98.41
+    ],
+    "authorization": "passed",
+    "database_pagination": true
+  },
+  {
+    "mixed_items": 10000,
+    "page_size": 20,
+    "page_offsets": [
+      0,
+      20,
+      9980
+    ],
+    "page_ms": [
+      49.08,
+      46.99,
+      160.29
+    ],
+    "authorization": "passed",
+    "database_pagination": true
+  }
+]

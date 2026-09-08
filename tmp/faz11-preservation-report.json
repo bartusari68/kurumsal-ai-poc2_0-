@@ -1,0 +1,240 @@
+{
+  "existing_table_count": 44,
+  "changed_business_tables": [],
+  "session_table_changed": false,
+  "counts": {
+    "courses": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "requests": {
+      "before": 22,
+      "after": 22,
+      "unchanged": true
+    },
+    "course_chunks": {
+      "before": 593,
+      "after": 593,
+      "unchanged": true
+    },
+    "request_matches": {
+      "before": 33,
+      "after": 33,
+      "unchanged": true
+    },
+    "human_reviews": {
+      "before": 1,
+      "after": 1,
+      "unchanged": true
+    },
+    "learned_mappings": {
+      "before": 1,
+      "after": 1,
+      "unchanged": true
+    },
+    "document_index": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "portal_sessions": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "request_workflows": {
+      "before": 13,
+      "after": 13,
+      "unchanged": true
+    },
+    "request_events": {
+      "before": 43,
+      "after": 43,
+      "unchanged": true
+    },
+    "portal_users": {
+      "before": 4,
+      "after": 4,
+      "unchanged": true
+    },
+    "account_sessions": {
+      "before": 9,
+      "after": 9,
+      "unchanged": true
+    },
+    "request_referrals": {
+      "before": 6,
+      "after": 6,
+      "unchanged": true
+    },
+    "request_decisions": {
+      "before": 7,
+      "after": 7,
+      "unchanged": true
+    },
+    "request_event_identities": {
+      "before": 5,
+      "after": 5,
+      "unchanged": true
+    },
+    "user_organizations": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "request_assignments": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "request_solution_plans": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "request_event_actions": {
+      "before": 7,
+      "after": 7,
+      "unchanged": true
+    },
+    "analysis_runs": {
+      "before": 1,
+      "after": 1,
+      "unchanged": true
+    },
+    "request_submissions": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "decision_analysis_links": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "operation_outbox": {
+      "before": 3,
+      "after": 3,
+      "unchanged": true
+    },
+    "notifications": {
+      "before": 1,
+      "after": 1,
+      "unchanged": true
+    },
+    "delegations": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "escalations": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "delegation_audit": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "development_items": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "development_outcomes": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "development_modules": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "development_events": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "development_topics": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "course_versions": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "course_catalog": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "course_version_documents": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "publication_events": {
+      "before": 8,
+      "after": 8,
+      "unchanged": true
+    },
+    "catalog_migrations": {
+      "before": 1,
+      "after": 1,
+      "unchanged": true
+    },
+    "training_sessions": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "training_enrollments": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "training_events": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "training_notifications": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "learning_evaluations": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "evaluation_events": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    },
+    "evaluation_deliveries": {
+      "before": 0,
+      "after": 0,
+      "unchanged": true
+    }
+  },
+  "pdfs_unchanged": true,
+  "pdf_count": 8,
+  "foreign_key_violations": [],
+  "skill_tables": {
+    "skill_groups": 11,
+    "skills": 0,
+    "skill_terms": 0,
+    "course_skill_mappings": 0,
+    "request_skill_needs": 0,
+    "skill_evidence": 0,
+    "skill_audit": 0
+  },
+  "passed": true
+}

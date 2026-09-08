@@ -4,7 +4,7 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 from .database import get_db
 from .portal_auth import owner_session
-from .models import Delegation, Notification
+from .models import Delegation, Notification, TrainingNotification
 from .schemas import DelegationRequest
 from . import operations
 
@@ -14,6 +14,9 @@ router = APIRouter(prefix='/api/operations')
 @router.get('/notifications/count')
 def count_notifications(session=Depends(owner_session), db: Session = Depends(get_db)):
     count = db.scalar(select(func.count()).select_from(Notification).where(Notification.recipient_id == session.user_id, Notification.read_at.is_(None)))
+    count += db.scalar(select(func.count()).select_from(TrainingNotification).where(TrainingNotification.recipient_id == session.user_id, TrainingNotification.read_at.is_(None)))
+    from .evaluation_models import EvaluationDelivery
+    count += db.scalar(select(func.count()).select_from(EvaluationDelivery).where(EvaluationDelivery.recipient_id==session.user_id,EvaluationDelivery.processed_at.is_not(None),EvaluationDelivery.read_at.is_(None)))
     return {'unread_count': count}
 
 
@@ -28,7 +31,7 @@ def read_all(session=Depends(owner_session), db: Session = Depends(get_db)):
 
 
 @router.post('/notifications/{notification_id}/read')
-def read_one(notification_id: int, session=Depends(owner_session), db: Session = Depends(get_db)):
+def read_one(notification_id: str, session=Depends(owner_session), db: Session = Depends(get_db)):
     return operations.read_notification(db, session, notification_id)
 
 

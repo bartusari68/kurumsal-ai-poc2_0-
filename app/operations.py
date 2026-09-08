@@ -6,7 +6,7 @@ from dataclasses import replace
 from datetime import datetime, timedelta
 
 from fastapi import HTTPException
-from sqlalchemy import and_, func, or_, select, update
+from sqlalchemy import and_, func, or_, select, update, union_all, literal
 from sqlalchemy.dialects.sqlite import insert
 
 from .models import (Delegation, DelegationAudit, EscalationRecord, Notification, OperationOutbox,
@@ -186,9 +186,12 @@ def link_delegation(db, user, request_id):
     return None
 
 
-def notifications(db, principal, offset, limit):
+def _request_notifications(db, principal, offset, limit, identifiers=None):
     user = db.get(PortalUser, principal.user_id)
-    rows = db.scalars(notification_query(principal).order_by(Notification.id.desc()).offset(offset).limit(limit))
+    query = notification_query(principal)
+    if identifiers is not None:
+        query = query.where(Notification.id.in_(identifiers))
+    rows = db.scalars(query.order_by(Notification.id.desc()).offset(offset).limit(limit))
     items = []
     for row in rows:
         visible = can_see(db, user, row.request_id)
@@ -203,7 +206,7 @@ def notifications(db, principal, offset, limit):
             visible = bool(item and development_visible(db,item,principal))
             if visible:
                 publication_id = version.id
-                development_delegation = next((value['delegation']['id'] for value in inbox_items(db,principal)
+                development_delegation = next((value['delegation']['id'] for value in inbox_items(db,principal,identifiers=[version.id])
                     if value['publication_id']==version.id and value['delegation']),None)
         if row.type.startswith('DEV_'):
             from .models import DevelopmentEvent, DevelopmentItem
@@ -213,7 +216,7 @@ def notifications(db, principal, offset, limit):
             visible = bool(item and development_visible(db, item, principal))
             if visible:
                 development_id = item.id
-                development_delegation = next((value['delegation']['id'] for value in inbox_items(db, principal)
+                development_delegation = next((value['delegation']['id'] for value in inbox_items(db, principal,identifiers=[item.id])
                     if value['development_id'] == item.id and value['delegation']), None)
         items.append({'id': row.id, 'title': row.title if visible else 'Talep erişiminiz değişti',
             'message': row.message if visible else 'Bu kaydın güncel içeriğine erişiminiz bulunmuyor.',
@@ -226,7 +229,49 @@ def notifications(db, principal, offset, limit):
         'total': db.scalar(select(func.count()).select_from(Notification).where(Notification.recipient_id == principal.user_id))}
 
 
+def notifications(db, principal, offset, limit):
+    from .models import TrainingNotification
+    from .training import notification_payload
+    from .evaluation_models import EvaluationDelivery
+    from .evaluation import notice_payload
+    combined = union_all(
+        select(Notification.id.label('id'), Notification.created_at.label('created_at'), literal('request').label('kind')).where(Notification.recipient_id == principal.user_id),
+        select(TrainingNotification.id.label('id'), TrainingNotification.created_at.label('created_at'), literal('training').label('kind')).where(TrainingNotification.recipient_id == principal.user_id),
+        select(EvaluationDelivery.id.label('id'),EvaluationDelivery.processed_at.label('created_at'),literal('evaluation').label('kind')).where(EvaluationDelivery.recipient_id==principal.user_id,EvaluationDelivery.processed_at.is_not(None))
+    ).subquery()
+    rows = db.execute(select(combined).order_by(combined.c.created_at.desc(),combined.c.id.desc(),combined.c.kind).offset(offset).limit(limit)).all()
+    request_ids = [r.id for r in rows if r.kind == 'request']
+    old = {r['id']: r for r in _request_notifications(db,principal,0,limit,request_ids)['items']} if request_ids else {}
+    return {'items': [old[r.id] if r.kind == 'request' else notice_payload(db,db.get(EvaluationDelivery,r.id),principal) if r.kind=='evaluation' else notification_payload(db,db.get(TrainingNotification,r.id),principal) for r in rows],
+        'total':db.scalar(select(func.count()).select_from(combined)), 'offset':offset, 'limit':limit}
+
+
 def read_notification(db, principal, identifier=None):
+    from .evaluation_models import EvaluationDelivery
+    if identifier is None or str(identifier).startswith('evaluation:'):
+        condition=[EvaluationDelivery.recipient_id==principal.user_id,EvaluationDelivery.processed_at.is_not(None)]
+        if identifier is not None:
+            value=str(identifier).split(':',1)[1]
+            if not value.isdecimal(): raise HTTPException(422,'Geçersiz bildirim.')
+            condition.append(EvaluationDelivery.id==int(value))
+            if not db.scalar(select(EvaluationDelivery.id).where(*condition)): raise HTTPException(404,'Bildirim bulunamadı.')
+        db.execute(update(EvaluationDelivery).where(*condition,EvaluationDelivery.read_at.is_(None)).values(read_at=utc_now()))
+        if identifier is not None:
+            db.commit();return {'read':True}
+    if identifier is not None:
+        try: identifier=int(identifier)
+        except ValueError: raise HTTPException(422,'Geçersiz bildirim.')
+    from .models import TrainingNotification
+    if identifier is None or identifier < 0:
+        conditions = [TrainingNotification.recipient_id == principal.user_id]
+        if identifier is not None:
+            conditions.append(TrainingNotification.id == -identifier)
+            if not db.scalar(select(TrainingNotification.id).where(*conditions)):
+                raise HTTPException(404,'Bildirim bulunamadı.')
+        db.execute(update(TrainingNotification).where(*conditions,TrainingNotification.read_at.is_(None)).values(read_at=utc_now()))
+        if identifier is not None:
+            db.commit()
+            return {'read':True}
     condition = [Notification.recipient_id == principal.user_id]
     if identifier is not None:
         condition.append(Notification.id == identifier)
@@ -323,46 +368,8 @@ def required_actions(db, record, flow, principal):
 
 
 def inbox(db, principal, offset=0, limit=20):
-    from .workflow import audience_scope, _queue_projection
-    from .process import action_projection
-    from .analysis_pipeline import current_result
-    normal = select(RequestRecord, RequestWorkflow).outerjoin(RequestWorkflow).where(
-        audience_scope(principal.token_hash, principal.role != 'EMPLOYEE', principal.role),
-        or_(RequestWorkflow.status != 'RESOLVED', RequestWorkflow.request_id.is_(None)))
-    candidates = {(record.id, None): (record, flow, principal) for record, flow in db.execute(normal)}
-    for row in db.scalars(select(Delegation).where(Delegation.delegate_id == principal.user_id, Delegation.active.is_(True))):
-        if not valid_delegation(db, row):
-            continue
-        query = select(RequestRecord, RequestWorkflow).join(RequestWorkflow)
-        if principal.role == 'EMPLOYEE':
-            query = query.where(RequestWorkflow.owner_hash == f'user:{row.delegator_id}')
-        else:
-            query = query.join(RequestAssignment).where(RequestAssignment.assignee_id == row.delegator_id)
-        for record, flow in db.execute(query):
-            if delegation_scope(db, row, record, flow):
-                candidates[(record.id, row.id)] = (record, flow, acting_principal(db, principal, row.id, record.id))
-    items = []
-    unread = set(db.scalars(select(Notification.request_id).where(Notification.recipient_id == principal.user_id, Notification.read_at.is_(None))))
-    for record, flow, acting in candidates.values():
-        actions = required_actions(db, record, flow, acting)
-        if not actions:
-            continue
-        ctx = policy.context(db, record, flow)
-        items.append({'request_id': record.id, 'topic': record.topic or f'Talep #{record.id}', 'text': record.text[:180],
-            'updated_at': utc_stamp(flow.updated_at if flow else record.created_at),
-            'responsible_unit_label': policy.DEPARTMENTS.get(ctx['scope'], 'İhtiyaç Analizi' if ctx['scope'] == 'NEEDS_ANALYST' else 'Talep sahibi'),
-            'status': ctx['state'], 'status_label': policy.STATUSES[ctx['state']],
-            'fit_percent': current_result(db, record, flow).get('coverage', {}).get('fit_percent'),
-            **action_projection(ctx['state'], active_department=ctx['department']),
-            **_queue_projection(db, record, flow, principal.role), 'required_actions': actions,
-            'action_required': actions[0]['label'],
-            'unread': record.id in unread, 'delegation': acting.delegation})
-    from .development import inbox_items
-    items.extend(inbox_items(db, principal))
-    from .publishing import inbox_items as publication_inbox
-    items.extend(publication_inbox(db, principal))
-    items.sort(key=lambda item: (-(item['aging']['current_stage_seconds'] or 0), item['request_id']))
-    return {'items': items[offset:offset+limit], 'total': len(items), 'offset': offset, 'limit': limit}
+    from .inbox_query import inbox as sql_inbox
+    return sql_inbox(db, principal, offset, limit)
 
 
 def delegation_lifecycle(db):
@@ -423,6 +430,8 @@ async def worker(factory):
         try:
             dispatch_events(factory)
             with factory() as db:
+                from .evaluation import dispatch as dispatch_evaluations
+                dispatch_evaluations(db)
                 delegation_lifecycle(db)
                 if utc_now() >= next_escalation_check:
                     check_escalations(db)

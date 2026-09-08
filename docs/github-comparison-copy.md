@@ -25,3 +25,10 @@ commit edilir; çalışan uygulamanın veritabanı değiştirilmez.
 
 Mimari karşılaştırmada uygulama kodunu, testleri, veri miktarını ve hazır
 model ağırlıklarını ayrı ölçün. Depo boyutu tek başına mimari kalite ölçütü değildir.
+
+Faz 12'den itibaren testleri geçen her fazın sonunda commit ve push yapılır.
+Yükleme öncesi `python scripts/stage_phase_snapshot.py --phase 12` benzeri komut,
+tüm karşılaştırma içeriğini ve canlı veritabanının tutarlı SQLite yedeğini Git
+indexine alır. `.env` türevleri ve sanal ortamlar dışarıda kalır; `.env.example`
+korunur. Araç uygulamanın veritabanını değiştirmez. Normal push sonrası uzak
+`main` commit'i doğrulanır; zorla geçmiş değiştirilmez.
