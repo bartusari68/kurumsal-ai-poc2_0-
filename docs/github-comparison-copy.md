@@ -20,15 +20,17 @@ python scripts/restore_model_files.py
 
 Araç parçaları doğrular, özgün model yollarına birleştirir ve bütün dosya
 özetini kontrol eder. Mevcut doğru model dosyalarını değiştirmez.
-Aktif veritabanı SQLite backup API ile tutarlı bir anlık kopya olarak
-commit edilir; çalışan uygulamanın veritabanı değiştirilmez.
+Faz 12 karşılaştırma kopyasındaki veritabanı SQLite backup API ile tutarlı
+anlık kopya olarak yüklenmiştir; çalışan veritabanı değiştirilmemiştir.
 
 Mimari karşılaştırmada uygulama kodunu, testleri, veri miktarını ve hazır
 model ağırlıklarını ayrı ölçün. Depo boyutu tek başına mimari kalite ölçütü değildir.
 
-Faz 12'den itibaren testleri geçen her fazın sonunda commit ve push yapılır.
-Yükleme öncesi `python scripts/stage_phase_snapshot.py --phase 12` benzeri komut,
-tüm karşılaştırma içeriğini ve canlı veritabanının tutarlı SQLite yedeğini Git
-indexine alır. `.env` türevleri ve sanal ortamlar dışarıda kalır; `.env.example`
-korunur. Araç uygulamanın veritabanını değiştirmez. Normal push sonrası uzak
-`main` commit'i doğrulanır; zorla geçmiş değiştirilmez.
+Faz sonunda testleri ve veri bütünlüğü doğrulamasını geçen değişiklikler commit ve
+push edilir. Faz 13 isteğiyle yükleme kapsamı güncellendi: kaynak kod, kaynak
+testleri, uygulama varlıkları ve dokümantasyon açık dosya listesiyle alınır.
+Generated/temp/test çalıştırma çıktıları, canlı veritabanı ve yedekleri yeni faz
+commitlerine alınmaz. Önceden yüklenen karşılaştırma kopyaları geçmişte korunur.
+`python scripts/stage_phase_snapshot.py --phase 13 --paths app/portfolio.py`
+gibi açık dosya listesi kullanılır; araç artık toplu add-all veya veritabanı
+kopyası oluşturmaz. Normal push sonrası uzak main ile yerel HEAD eşleşmesi doğrulanır.

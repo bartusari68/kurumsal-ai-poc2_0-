@@ -3,6 +3,7 @@ from sqlalchemy import select, func, or_, and_
 from .position_models import PositionProfile as Profile, PositionRevision as Revision, PositionRequirement as Requirement, UserPosition
 from .skill_models import SkillEvidence as Evidence, RequestSkillNeed as Need, CourseSkillMapping as Mapping
 from .models import Enrollment, LearningEvaluation, RequestWorkflow, CourseVersion, PortalUser
+from .governance_models import CourseGovernance
 from .time_policy import utc_stamp, utc_now
 from . import positions, position_policy as policy, skill_evidence, skill_reporting
 
@@ -17,8 +18,9 @@ def current_sources():
 
 def courses(db, skill_id):
     return [{'id': r.id, 'title': r.title, 'version_number': r.version_number}
-        for r in db.scalars(select(CourseVersion).where(CourseVersion.state == 'PUBLISHED', CourseVersion.id.in_(
-            select(Mapping.course_version_id).where(Mapping.skill_id == skill_id))).order_by(CourseVersion.title))]
+        for r in db.scalars(select(CourseVersion).outerjoin(CourseGovernance, CourseGovernance.course_id == CourseVersion.course_id).where(
+            CourseVersion.state == 'PUBLISHED', CourseVersion.id.in_(select(Mapping.course_version_id).where(Mapping.skill_id == skill_id)),
+            or_(CourseGovernance.lifecycle_state.is_(None), CourseGovernance.lifecycle_state == 'ACTIVE')).order_by(CourseVersion.title))]
 
 def evidence_state(db, user_id, skill_id):
     query = select(Evidence).where(Evidence.user_id == user_id, Evidence.skill_id == skill_id)

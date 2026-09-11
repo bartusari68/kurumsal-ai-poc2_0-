@@ -208,12 +208,17 @@ def create(db, principal, payload):
     existing = db.scalar(select(Item).where(Item.source_request_id == record.id, Item.work_type == payload.work_type,
         Item.state.not_in(policy.TERMINAL)))
     if existing:
+        from .portfolio import accept
+        accept(db, principal, payload.portfolio_handoff_id, 'DEVELOPMENT', existing)
+        db.commit()
         return detail(db, existing, principal)
     item = Item(source_request_id=record.id, work_type=draft['work_type'], title=draft['title'], summary=draft['summary'],
         responsible_unit=draft['responsible_unit'], assignee_id=ctx['assignee']['id'] if ctx['assignee'] else None,
         source_course_id=draft['source_course_id'], source_course_hash=draft['source_course_hash'],
         source_context_json=json_dumps(draft['context']), brief_json=json_dumps(draft['brief']), created_by=principal.user_id)
     db.add(item); db.flush(); audit(db, item, principal, 'CREATED', snapshot=True)
+    from .portfolio import accept
+    accept(db, principal, payload.portfolio_handoff_id, 'DEVELOPMENT', item)
     db.commit()
     return detail(db, item, principal)
 

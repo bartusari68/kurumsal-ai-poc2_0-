@@ -11,7 +11,22 @@ from .time_policy import UTCDateTime as DateTime
 from .training_models import TrainingSession, Enrollment, TrainingEvent, TrainingNotification
 from .evaluation_models import LearningEvaluation, EvaluationEvent, EvaluationDelivery
 from .skill_models import SkillGroup, Skill, SkillTerm, CourseSkillMapping, RequestSkillNeed, SkillEvidence, SkillAudit
+from .portfolio_models import PortfolioItem, PortfolioEvent, PortfolioHandoff, PortfolioLink
 from .position_models import PositionProfile, PositionRevision, PositionRequirement, UserPosition, PositionAudit, RequestPositionSource
+from .governance_models import CourseGovernance, GovernanceReview, GovernanceEvent, MandatoryPolicy, LearningRequirement
+from .identity_models import (Identity, ExternalIdentityLink, OrganizationUnit, OrganizationMembership,
+    UserManagerRelation, SyncRun, IdentityConflict, ExternalRoleMapping, ExternalPositionMapping,
+    IntegrationAuditEvent, NotificationPreference)
+from .communication_models import CommunicationDelivery
+
+# Domain aliases keep the additive models discoverable from the long-standing
+# ``app.models`` import path used by integrations and tests.
+ExternalIdentity = ExternalIdentityLink
+IdentityLink = ExternalIdentityLink
+OrganizationMembershipHistory = OrganizationMembership
+SyncConflict = IdentityConflict
+RoleMapping = ExternalRoleMapping
+PositionMapping = ExternalPositionMapping
 
 
 class OperationOutbox(Base):

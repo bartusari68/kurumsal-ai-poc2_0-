@@ -310,6 +310,7 @@ def translate_event(db, outbox):
         eligible = (valid_delegation(db, row) and development.assignee_id == row.delegator_id) if development else delegation_scope(db, row, record, flow)
         if eligible:
             recipients.add(row.delegate_id)
+    delivered_recipients = set()
     for recipient in sorted(recipients):
         user = db.get(PortalUser, recipient)
         if not user or not user.active or not can_see(db, user, entry.request_id):
@@ -322,6 +323,19 @@ def translate_event(db, outbox):
             source_event_id=entry.id, type=action, title=title, message=message,
             importance='warning' if action in ('ANALYSIS_FAILED', 'ESCALATED') else 'normal', created_at=utc_now())
             .on_conflict_do_nothing(index_elements=['source_event_id', 'recipient_id']))
+        delivered_recipients.add(recipient)
+    # Optional external channels are queued after the durable in-app record.
+    # Their failure is isolated inside communication.dispatch_deliveries and
+    # can never roll back the request workflow or the in-app notification.
+    try:
+        from .communication import enqueue_external_deliveries
+        enqueue_external_deliveries(db, event_id=entry.id, event_type=action,
+                                    recipient_ids=delivered_recipients,
+                                    context={'request_id': entry.request_id})
+    except Exception:
+        # Configuration or template errors must not make a business event
+        # retry forever; the in-app notification remains authoritative.
+        logging.getLogger(__name__).warning('Optional communication queue skipped: event=%s', entry.id)
 
 
 def dispatch_events(factory):
@@ -432,6 +446,8 @@ async def worker(factory):
             with factory() as db:
                 from .evaluation import dispatch as dispatch_evaluations
                 dispatch_evaluations(db)
+                from .communication import dispatch_deliveries
+                dispatch_deliveries(factory)
                 delegation_lifecycle(db)
                 if utc_now() >= next_escalation_check:
                     check_escalations(db)

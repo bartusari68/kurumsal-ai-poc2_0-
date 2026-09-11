@@ -157,6 +157,11 @@ def action(db, row, actor, payload):
     if payload.action != 'RETURN_DRAFT':
         validate(db, row)
     if payload.action == 'PUBLISH':
+        if row.course_id:
+            from .governance_models import CourseGovernance
+            lifecycle = db.get(CourseGovernance, row.course_id)
+            if lifecycle and lifecycle.lifecycle_state == 'RETIRED':
+                raise HTTPException(422, 'Emekliye ayrılmış bir ders için yeni sürüm yayınlanamaz; önce dersi aktif duruma getirin.')
         try:
             if row.course_id is None:
                 course = Course(code=row.proposed_code, name=row.title, description=row.description, pdf_path='')
@@ -201,6 +206,10 @@ def knowledge(db, row):
 
 
 def retrieval_allowed(db, course_id, digest):
+    from .governance_models import CourseGovernance
+    governance = db.get(CourseGovernance, course_id)
+    if governance and governance.lifecycle_state == 'RETIRED':
+        return False
     catalog = db.get(Catalog, course_id, populate_existing=True)
     if not catalog:
         return True
@@ -267,14 +276,20 @@ def development_link(db, item, actor):
     return {'version': brief(row) if row else None, 'can_create': not row and item.state == 'READY' and permission(db, item, actor)}
 
 
-def catalog_list(db, search='', offset=0, limit=20):
+def catalog_list(db, search='', offset=0, limit=20, actor=None):
     stmt = select(Course, Version, Catalog).join(Catalog, Catalog.course_id == Course.id).join(Version, Version.id == Catalog.current_version_id)
     if search:
         escaped=search.replace('\\','\\\\').replace('%','\\%').replace('_','\\_')
         stmt=stmt.where(or_(Course.code.ilike('%'+escaped+'%',escape='\\'),Version.title.ilike('%'+escaped+'%',escape='\\')))
-    return {'items': [{**brief(row), 'course_id': course.id, 'code': course.code, 'knowledge': knowledge(db,row),
+    items=[]
+    for course,row,catalog in db.execute(stmt.order_by(Course.code).offset(offset).limit(limit)):
+        item={**brief(row), 'course_id': course.id, 'code': course.code, 'knowledge': knowledge(db,row),
             'responsible_unit': policy.DEPARTMENTS.get(catalog.responsible_unit,'Birim bilgisi kayıtlı değil')}
-            for course,row,catalog in db.execute(stmt.order_by(Course.code).offset(offset).limit(limit))],
+        if actor and actor.role != 'EMPLOYEE':
+            from .governance import course_summary
+            item['governance'] = course_summary(db, course, actor)
+        items.append(item)
+    return {'items': items,
         'total': db.scalar(select(func.count()).select_from(stmt.subquery())), 'offset':offset,'limit':limit}
 
 
@@ -290,7 +305,13 @@ def course_detail(db, identifier, actor):
             if not item or not development.visible(db,item,actor):continue
         publisher=db.get(PortalUser,value.published_by) if value.published_by else None
         history.append({**brief(value),'publisher':publisher.display_name if publisher else None})
-    return {'course_id':identifier,'code':course.code,'current':detail(db,row,actor),'versions':history}
+    result = {'course_id':identifier,'code':course.code,'current':detail(db,row,actor),'versions':history}
+    # Governance metadata is an administrative concern; employees only see the
+    # published learning content and its source trace.
+    if actor.role != 'EMPLOYEE':
+        from . import governance
+        result['governance'] = governance.course_summary(db, course, actor)
+    return result
 
 
 def compare(a,b):

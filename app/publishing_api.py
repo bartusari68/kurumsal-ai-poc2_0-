@@ -7,7 +7,7 @@ router=APIRouter(prefix='/api/catalog')
 
 @router.get('')
 def catalog(search:str=Query('',max_length=100),offset:int=Query(0,ge=0),limit:int=Query(20,ge=1,le=100),actor=Depends(session),db=Depends(get_db)):
-    return service.catalog_list(db,search,offset,limit)
+    return service.catalog_list(db,search,offset,limit,actor)
 
 @router.get('/courses/{identifier}')
 def course(identifier:int,actor=Depends(session),db=Depends(get_db)):

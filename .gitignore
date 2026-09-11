@@ -3,6 +3,15 @@
 !.env.example
 .venv/
 venv/
+# Phase 13: exclude newly generated artifacts; historical tracked copies remain.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+/tmp/
+/backups/
+/data/app.db-*
+*.log
 
 # These original model bytes are preserved in model-transfer/*.part via Git LFS.
 # Restore their original paths with scripts/restore_model_files.py.

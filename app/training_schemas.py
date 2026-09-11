@@ -39,6 +39,7 @@ class SessionFields(Strict):
 
 
 class SessionCreate(SessionFields):
+    portfolio_handoff_id: int | None = Field(default=None, gt=0)
     course_version_id: int = Field(gt=0)
 
 

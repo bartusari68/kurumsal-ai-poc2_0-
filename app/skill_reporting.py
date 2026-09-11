@@ -2,6 +2,7 @@
 from sqlalchemy import select,func,and_,or_
 from .skill_models import Skill,RequestSkillNeed as Need,CourseSkillMapping as Mapping,SkillEvidence as Evidence
 from .models import RequestRecord,RequestWorkflow,RequestReferral,CourseVersion,LearningEvaluation,Enrollment,TrainingSession
+from .governance_models import CourseGovernance
 from . import skills,skill_evidence
 
 
@@ -19,7 +20,8 @@ def summary(db,skill,actor):
     active=db.scalar(select(func.count()).select_from(rows).outerjoin(RequestWorkflow,RequestWorkflow.request_id==rows.c.request_id)
         .where(rows.c.human_verified.is_(True),or_(RequestWorkflow.status!='RESOLVED',RequestWorkflow.request_id.is_(None))))
     courses=db.scalar(select(func.count(func.distinct(Mapping.course_version_id))).join(CourseVersion,CourseVersion.id==Mapping.course_version_id)
-        .where(Mapping.skill_id==skill.id,CourseVersion.state=='PUBLISHED'))
+        .outerjoin(CourseGovernance, CourseGovernance.course_id==CourseVersion.course_id)
+        .where(Mapping.skill_id==skill.id,CourseVersion.state=='PUBLISHED',or_(CourseGovernance.lifecycle_state.is_(None),CourseGovernance.lifecycle_state=='ACTIVE')))
     evidence_count=db.scalar(select(func.count()).select_from(Evidence).where(Evidence.skill_id==skill.id,skill_evidence.visible_aggregate(actor)))
     # Count actual evaluations once per skill, never once per outcome mapping.
     outcome_ids=select(Evidence.evaluation_id).where(Evidence.skill_id==skill.id,skill_evidence.visible_aggregate(actor),
@@ -47,7 +49,9 @@ def catalog(db,actor,search,offset,limit):
 
 def detail(db,actor,skill_id):
     skills.require_manager(actor);skill=skills.get_skill(db,skill_id)
-    versions=db.scalars(select(CourseVersion).where(CourseVersion.id.in_(select(Mapping.course_version_id).where(Mapping.skill_id==skill_id)),CourseVersion.state=='PUBLISHED').order_by(CourseVersion.title))
+    versions=db.scalars(select(CourseVersion).outerjoin(CourseGovernance, CourseGovernance.course_id==CourseVersion.course_id).where(
+        CourseVersion.id.in_(select(Mapping.course_version_id).where(Mapping.skill_id==skill_id)),CourseVersion.state=='PUBLISHED',
+        or_(CourseGovernance.lifecycle_state.is_(None),CourseGovernance.lifecycle_state=='ACTIVE')).order_by(CourseVersion.title))
     coverage=[{'id':v.id,'title':v.title,'version_number':v.version_number,'mappings':[m for m in skills.mappings(db,v) if m['skill_id']==skill_id]} for v in versions]
     needs=db.execute(select(Need,RequestRecord.topic,RequestWorkflow.status).join(RequestRecord,RequestRecord.id==Need.request_id)
         .outerjoin(RequestWorkflow,RequestWorkflow.request_id==Need.request_id).where(Need.skill_id==skill_id,request_scope(actor)).order_by(Need.id.desc()).limit(30))

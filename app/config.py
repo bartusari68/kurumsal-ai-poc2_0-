@@ -10,6 +10,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
 
+def _env_bool(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on", "enabled"}
+
+
 @dataclass(frozen=True)
 class Settings:
     groq_api_key: str = field(default=os.getenv("GROQ_API_KEY", "").strip(), repr=False)
@@ -45,6 +52,34 @@ class Settings:
     local_batch_size: int = int(os.getenv("LOCAL_BATCH_SIZE", "2"))
     local_max_tokens: int = int(os.getenv("LOCAL_MAX_TOKENS", "1024"))
     local_threads: int = int(os.getenv("LOCAL_THREADS", "4"))
+    # Enterprise integration settings are opt-in.  Secret-bearing fields are
+    # excluded from repr so diagnostics can never print them accidentally.
+    environment: str = os.getenv("APP_ENV", "development").strip().lower()
+    local_login_enabled: bool = _env_bool("LOCAL_LOGIN_ENABLED", True)
+    directory_enabled: bool = _env_bool("DIRECTORY_ENABLED", False)
+    directory_provider: str = os.getenv("DIRECTORY_PROVIDER", "").strip().lower()
+    directory_url: str = field(default=os.getenv("DIRECTORY_URL", "").strip(), repr=False)
+    directory_timeout_seconds: float = float(os.getenv("DIRECTORY_TIMEOUT_SECONDS", "10"))
+    directory_attribute_map_json: str = os.getenv("DIRECTORY_ATTRIBUTE_MAP_JSON", "{}").strip() or "{}"
+    directory_username: str = field(default=os.getenv("DIRECTORY_USERNAME", "").strip(), repr=False)
+    directory_password: str = field(default=os.getenv("DIRECTORY_PASSWORD", "").strip(), repr=False)
+    directory_jit_enabled: bool = _env_bool("DIRECTORY_JIT_ENABLED", False)
+    oidc_enabled: bool = _env_bool("OIDC_ENABLED", False)
+    oidc_provider: str = os.getenv("OIDC_PROVIDER", "entra").strip().lower()
+    oidc_issuer: str = os.getenv("OIDC_ISSUER", "").strip().rstrip("/")
+    oidc_client_id: str = os.getenv("OIDC_CLIENT_ID", "").strip()
+    oidc_redirect_uri: str = os.getenv("OIDC_REDIRECT_URI", "").strip()
+    oidc_scopes: str = os.getenv("OIDC_SCOPES", "openid profile email").strip()
+    oidc_client_secret: str = field(default=os.getenv("OIDC_CLIENT_SECRET", "").strip(), repr=False)
+    oidc_jit_enabled: bool = _env_bool("OIDC_JIT_ENABLED", False)
+    email_enabled: bool = _env_bool("EMAIL_ENABLED", False)
+    email_from: str = os.getenv("EMAIL_FROM", "").strip()
+    smtp_host: str = os.getenv("SMTP_HOST", "").strip()
+    smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
+    smtp_username: str = field(default=os.getenv("SMTP_USERNAME", "").strip(), repr=False)
+    smtp_password: str = field(default=os.getenv("SMTP_PASSWORD", "").strip(), repr=False)
+    teams_enabled: bool = _env_bool("TEAMS_ENABLED", False)
+    teams_webhook_url: str = field(default=os.getenv("TEAMS_WEBHOOK_URL", "").strip(), repr=False)
 
     def __post_init__(self):
         provider = self.llm_provider or ("groq" if self.groq_api_key else "openrouter")
@@ -57,6 +92,11 @@ class Settings:
             raise ValueError("CHUNK_SIZE en az 100; CHUNK_OVERLAP daha küçük ve negatif olmayan bir değer olmalı.")
         if self.local_batch_size < 1 or self.local_threads < 1 or self.local_max_tokens < 32:
             raise ValueError("Yerel model çalışma sınırları geçersiz.")
+        if self.directory_timeout_seconds <= 0 or self.smtp_port < 1 or self.smtp_port > 65535:
+            raise ValueError("Entegrasyon bağlantı ayarları geçersiz.")
+        object.__setattr__(self, "environment", (self.environment or "development").strip().lower())
+        object.__setattr__(self, "directory_provider", self.directory_provider.strip().lower())
+        object.__setattr__(self, "oidc_provider", self.oidc_provider.strip().lower() or "oidc")
         # Relative paths belong to this application, not the launch directory.
         pdf_dir = self.pdf_dir if self.pdf_dir.is_absolute() else PROJECT_ROOT / self.pdf_dir
         object.__setattr__(self, "pdf_dir", pdf_dir.resolve())
@@ -81,6 +121,24 @@ class Settings:
     @property
     def api_base_url(self) -> str:
         return self.groq_base_url if self.llm_provider == "groq" else self.openrouter_base_url
+
+    @property
+    def oidc_configured(self) -> bool:
+        """True only when an explicit, complete OIDC configuration exists."""
+        return bool(self.oidc_enabled and self.oidc_issuer and self.oidc_client_id and self.oidc_redirect_uri)
+
+    @property
+    def directory_configured(self) -> bool:
+        return bool(self.directory_enabled and self.directory_provider)
+
+    @property
+    def email_configured(self) -> bool:
+        # Disabled by default and never inferred from an arbitrary address.
+        return bool(self.email_enabled and self.email_from and self.smtp_host)
+
+    @property
+    def teams_configured(self) -> bool:
+        return bool(self.teams_enabled and self.teams_webhook_url)
 
 
 settings = Settings()

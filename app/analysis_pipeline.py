@@ -155,7 +155,7 @@ def enqueue(db, record, flow, *, trigger, user_id=None, key=None, retry_of=None)
     return run
 
 
-def persist_request(db, text, principal, key, *, intake_metadata=None, position_requirement_id=None):
+def persist_request(db, text, principal, key, *, intake_metadata=None, position_requirement_id=None, portfolio_handoff_id=None):
     text = text.strip()
     if not 3 <= len(text) <= 5000:
         raise HTTPException(422, "Talep 3–5000 karakter içermelidir.")
@@ -170,6 +170,8 @@ def persist_request(db, text, principal, key, *, intake_metadata=None, position_
             raise HTTPException(409, "Bu gönderim anahtarı farklı bir talep için kullanılmış. Yeni gönderim başlatın.")
         from .positions import validate_retry_source
         validate_retry_source(db, previous.request_id, position_requirement_id)
+        from .portfolio import retry_request
+        retry_request(db, previous.request_id, portfolio_handoff_id)
         return db.get(RequestRecord, previous.request_id), db.get(RequestWorkflow, previous.request_id)
     try:
         record = RequestRecord(text=text)
@@ -187,6 +189,8 @@ def persist_request(db, text, principal, key, *, intake_metadata=None, position_
         add_process_event(db, request_id=record.id, status=flow.status, actor="EMPLOYEE", principal=principal,
                           note="Talep kalıcı olarak kaydedildi; AI değerlendirmesi henüz tamamlanmadı.", action="REQUEST_SAVED", from_status=flow.status,
                           details=intake_metadata)
+        from .portfolio import accept
+        accept(db, principal, portfolio_handoff_id, "REQUEST", record)
         enqueue(db, record, flow, trigger="INITIAL", user_id=principal.user_id, key=key)
         db.commit()
         return record, flow
@@ -196,6 +200,8 @@ def persist_request(db, text, principal, key, *, intake_metadata=None, position_
         if previous and previous.text_hash == digest:
             from .positions import validate_retry_source
             validate_retry_source(db, previous.request_id, position_requirement_id)
+            from .portfolio import retry_request
+            retry_request(db, previous.request_id, portfolio_handoff_id)
             return db.get(RequestRecord, previous.request_id), db.get(RequestWorkflow, previous.request_id)
         raise HTTPException(409, "Gönderim başka bir işlemde kaydedildi. Talep listenizi yenileyin.")
 

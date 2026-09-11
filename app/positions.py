@@ -125,7 +125,15 @@ def assign(db, actor, user_id, payload):
             db.add(UserPosition(user_id=user_id, profile_id=payload.profile_id, assigned_by=actor.user_id))
         db.flush(); audit(db, actor, 'POSITION_ASSIGNED' if payload.profile_id else 'POSITION_UNASSIGNED', payload.profile_id,
             user_id=user_id, before=before, after=association(db, user_id))
-        db.commit(); return association(db, user_id)
+        db.commit()
+        # Position changes create a new requirement snapshot lazily from the
+        # active policies.  Historical requirements are never deleted.
+        try:
+            from . import governance
+            governance.sync_requirements(db, user_id)
+        except Exception:
+            db.rollback()
+        return association(db, user_id)
     except IntegrityError:
         db.rollback(); raise HTTPException(409, 'Pozisyon ilişkisi başka bir işlemde değişti.')
 

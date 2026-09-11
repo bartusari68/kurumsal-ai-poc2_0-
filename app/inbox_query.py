@@ -95,6 +95,12 @@ event_steps AS (
  AND (s.status IN ('DRAFT','SCHEDULED','IN_PROGRESS') OR
  (s.status='COMPLETED' AND (s.attendance_finalized_at IS NULL OR EXISTS
  (SELECT 1 FROM training_enrollments e WHERE e.session_id=s.id AND e.status='ENROLLED' AND e.completion='PENDING'))))
+), governance_work AS (
+ SELECT 'governance' kind,g.course_id id,0 request_id,0 did,4 kind_order,0 tie_group,
+        coalesce(g.next_review_at,g.updated_at) stage_at
+ FROM course_governance g
+ WHERE :role='NEEDS_ANALYST' AND g.lifecycle_state='ACTIVE' AND g.review_enabled=1
+   AND g.next_review_at IS NOT NULL AND g.next_review_at<=:now
 )
 """
 
@@ -107,6 +113,7 @@ def queue_sql(include_evaluations=True):
     return BASE+''', work AS (
  SELECT * FROM request_work UNION ALL SELECT * FROM development_work
  UNION ALL SELECT * FROM publication_work UNION ALL SELECT * FROM training_work
+ UNION ALL SELECT * FROM governance_work
  '''+extra+'''), ranked AS (
  SELECT *, max(0,cast(round((julianday(:now)-julianday(coalesce(stage_at,:now)))*86400,3) AS INTEGER)) age FROM work
  ) '''
@@ -125,6 +132,16 @@ def hydrate(db, principal, kind, identifier, delegation_id):
     if kind=='evaluation':
         from .evaluation import inbox_item
         return inbox_item(db,identifier,principal)
+    if kind=='governance':
+        from .governance_models import CourseGovernance
+        from .models import Course
+        from . import governance
+        course=db.get(Course, identifier); summary=governance.course_summary(db, course, principal) if course else {}
+        return {'kind':'governance','course_id':identifier,'request_id':0,'topic':course.name if course else 'Ders yönetişimi',
+            'title':course.name if course else 'Ders yönetişimi','status':summary.get('governance_status','REVIEW_DUE'),
+            'status_label':summary.get('governance_status_label','İnceleme zamanı geldi'),'action_required':'Ders incelemesini tamamla',
+            'updated_at':summary.get('review_policy',{}).get('next_review_at'),'responsible_unit_label':'İhtiyaç analizi',
+            'fit_percent':None,'unread':False,'governance':summary}
     if kind!='request':
         module={'development':development,'publication':publishing,'training':training}[kind]
         rows=module.inbox_items(db,principal,identifiers=[identifier])
