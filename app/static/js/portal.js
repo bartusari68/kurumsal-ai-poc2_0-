@@ -40,11 +40,13 @@ function clearPortalAccount(){
   if(typeof resetEvaluation==='function')resetEvaluation();
   if(typeof resetSkills==='function')resetSkills();
   if(typeof resetPositions==='function')resetPositions();
+  if(typeof resetPortfolio==='function')resetPortfolio();
   if(typeof resetIntake==='function')resetIntake();
+  if(typeof INTEGRATIONS!=='undefined')INTEGRATIONS={epoch:0};
   PORTAL.accountGeneration++;
   PORTAL.user=null;PORTAL.isAdmin=false;PORTAL.epoch++;PORTAL.listRevision++;
   PORTAL.list=null;PORTAL.detail=null;PORTAL.selectedId=null;PORTAL.filter='';PORTAL.search='';PORTAL.offset=0;PORTAL.adminTab='requests';
-  LIVE_REQUEST.submissionKey=null;LIVE_REQUEST.submissionText=null;LIVE_REQUEST.submissionPositionId=null;LIVE_REQUEST.text='';LIVE_REQUEST.result=null;LIVE_REQUEST.error='';LIVE_REQUEST.busy=false;
+  LIVE_REQUEST.submissionKey=null;LIVE_REQUEST.submissionText=null;LIVE_REQUEST.submissionPositionId=null;LIVE_REQUEST.submissionPortfolioId=null;LIVE_REQUEST.text='';LIVE_REQUEST.result=null;LIVE_REQUEST.error='';LIVE_REQUEST.busy=false;
   PORTAL_PDF={busy:false,error:'',document:null};PORTAL.taxonomy=null;PORTAL.drafts={};PORTAL.sort='newest';PORTAL.fixedList=false;PORTAL.view='';
   LIVE_AI={status:'checking',message:'Bağlantı kontrol ediliyor.'};if(DOC_INDEX.timer){clearTimeout(DOC_INDEX.timer);DOC_INDEX.timer=null}DOC_INDEX.report=null;var toastNode=typeof $==='function'?$('#toast'):null;if(toastNode){toastNode.textContent='';if(toastNode.classList)toastNode.classList.remove('show')}
 }
@@ -64,6 +66,13 @@ function renderPortalLogin(){
     authenticate:function(credentials){return apiRequest('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(credentials)})},
     onAuthenticated:function(session){clearPortalAccount();acceptPortalSession(session);render();if(!PORTAL.isAdmin)checkAIHealth()}
   });
+  // Keep the optional SSO action invisible unless the server reports a
+  // complete, validated OIDC configuration.
+  apiRequest('/api/auth/oidc/start',{},10000).then(function(info){
+    var form=$('#portalAccountLogin');if(!form||!info||!info.authorization_url)return;
+    var button=document.createElement('button');button.type='button';button.className='btn experience-sso';button.textContent='Kurumsal SSO ile giriş';
+    button.addEventListener('click',function(){window.location.assign(info.authorization_url)});form.appendChild(button);
+  }).catch(function(){});
 }
 function renderPortalShell(){
   var admin=PORTAL.isAdmin,guest=!PORTAL.user;
@@ -81,7 +90,12 @@ function renderPortalShell(){
   nav.push(['portal-evaluations','DC','Değerlendirmelerim']);
   nav.push(['portal-my-skills','DC','Yetkinliklerim']);
   if((PORTAL.positionContext||{}).has_position)nav.push(['portal-my-role','DC','Rolüm ve Gelişim Alanlarım']);
+  nav.push(['portal-planning-handoffs','DC','Planlama İşlemlerim']);
+  if((PORTAL.positionContext||{}).can_manage_positions)nav.push(['portal-portfolio','DC','L&D Portföyü']);
   if((PORTAL.positionContext||{}).can_manage_positions)nav.push(['portal-positions','DC','Pozisyon / Rol Profilleri']);
+  if(PORTAL.user.role==='NEEDS_ANALYST')nav.push(['portal-governance','DC','Eğitim Yönetişimi']);
+  if(admin)nav.push(['portal-integrations','HQ','Kurumsal Entegrasyonlar']);
+  if(PORTAL.user.role==='EMPLOYEE')nav.push(['portal-requirements','DC','Zorunlu Eğitimlerim']);
   if(PORTAL.user.role!=='EMPLOYEE')nav.push(['portal-skills','DC','Yetkinlik Kataloğu']);
   $('#sidebar').innerHTML='<div class="brand" data-no-translate><div class="brand-lockup"><img class="brand-logo" src="/static/assets/brand/logo-white.png" alt="TUSAŞ — Türk Havacılık Uzay Sanayii" width="180" height="75"></div><div class="brand-title">Kurumsal Öğrenme<br>ve Yapay Zekâ</div><div class="brand-sub">Bilgiden gelişime, birlikte.</div></div><div class="nav-label">Çalışma alanı</div><nav class="nav" aria-label="Sayfalar" data-no-translate>'+nav.map(function(item){var active=state.currentPage===item[0]||(state.currentPage==='portal-detail'&&item[0]==='portal-requests');return '<button data-page="'+item[0]+'" class="'+(active?'active':'')+'" '+(active?'aria-current="page"':'')+'><span class="nav-ico">'+navIcon(item[1])+'</span>'+item[2]+'</button>'}).join('')+'</nav><div class="side-card" data-no-translate><strong><span class="persona-dot"></span>'+esc(PORTAL.user.username)+'</strong><span class="side-caption">'+esc(PORTAL.user.role_label)+'</span><button class="btn account-logout" data-portal="account-logout">Çıkış yap</button></div>';
   renderAIConnectionStatus();
@@ -99,6 +113,9 @@ function renderPortalRoute(route){
   if(typeof evaluationRoute==='function'&&evaluationRoute(route))return true;
   if(typeof skillRoute==='function'&&skillRoute(route))return true;
   if(typeof positionRoute==='function'&&positionRoute(route))return true;
+  if(typeof portfolioRoute==='function'&&portfolioRoute(route))return true;
+  if(typeof governanceRoute==='function'&&governanceRoute(route))return true;
+  if(typeof integrationsRoute==='function'&&integrationsRoute(route))return true;
   if(route==='submitter-home'){renderPortalHome();return true}
   if(route==='submitter-request'){renderPortalRequest();return true}
   if(route==='portal-requests'||route==='portal-resolved'){PORTAL.offset=0;renderPortalList(route==='portal-resolved'?'RESOLVED':'');return true}
@@ -126,7 +143,7 @@ async function renderPortalHome(){
 }
 
 function renderPortalRequest(){
-  $('#appView').innerHTML='<div data-no-translate>'+pageHead('Talep iletin','İhtiyacınızı kendi cümlelerinizle anlatın. İlgili içerikleri bulalım ve talebinizi takibe alalım.','<button class="btn" data-page="portal-requests">Gönderdiğim talepler</button>')+(typeof positionSourceBanner==='function'?positionSourceBanner():'')+'<section class="card request-form-card portal-request-form"><form id="submitterRequestForm"><div class="field"><label for="submitterRequestText">Hangi konuda desteğe ihtiyacınız var?</label><textarea id="submitterRequestText" required minlength="3" maxlength="5000" rows="6" '+(LIVE_REQUEST.busy?'disabled':'')+' placeholder="Örneğin: Haftalık raporlar için Excel dosyalarını elle birleştiriyorum. Power Query ile bu işi otomatikleştirmek ve Pivot tablolarla raporlamak istiyorum.">'+esc(LIVE_REQUEST.text)+'</textarea><div class="field-foot"><p class="hint">Yaptığınız iş, yaşadığınız güçlük ve ulaşmak istediğiniz sonuç.</p><span class="character-count" id="requestCharacterCount">'+LIVE_REQUEST.text.length+' / 5.000</span></div></div>'+renderPortalPDF()+'<div id="aiAvailabilityNotice" class="notice"></div><div id="submitterFormError" role="alert">'+(LIVE_REQUEST.error?'<div class="notice warning">'+esc(LIVE_REQUEST.error)+'</div>':'')+'</div><div class="portal-submit-footer"><p class="caption">Talep metniniz ve ilgili içerik özetleri dış analiz hizmetinde işlenir. Yalnızca paylaşımı onaylı bilgi kullanın.</p><button class="btn primary" id="submitterAnalyzeButton" type="submit" disabled>'+(LIVE_REQUEST.busy?'<span class="spinner"></span><span id="portalBusyLabel">Talebiniz kaydediliyor…</span>':'Talebi gönder '+navIcon('arrow'))+'</button></div></form></section><div id="submitterAnalysisResult" class="request-result" tabindex="-1" aria-busy="'+LIVE_REQUEST.busy+'">'+(LIVE_REQUEST.result?renderEmployeeResult(LIVE_REQUEST.result):'')+'</div></div>';
+  $('#appView').innerHTML='<div data-no-translate>'+pageHead('Talep iletin','İhtiyacınızı kendi cümlelerinizle anlatın. İlgili içerikleri bulalım ve talebinizi takibe alalım.','<button class="btn" data-page="portal-requests">Gönderdiğim talepler</button>')+(typeof positionSourceBanner==='function'?positionSourceBanner():'')+(typeof portfolioSourceBanner==='function'?portfolioSourceBanner():'')+'<section class="card request-form-card portal-request-form"><form id="submitterRequestForm"><div class="field"><label for="submitterRequestText">Hangi konuda desteğe ihtiyacınız var?</label><textarea id="submitterRequestText" required minlength="3" maxlength="5000" rows="6" '+(LIVE_REQUEST.busy?'disabled':'')+' placeholder="Örneğin: Haftalık raporlar için Excel dosyalarını elle birleştiriyorum. Power Query ile bu işi otomatikleştirmek ve Pivot tablolarla raporlamak istiyorum.">'+esc(LIVE_REQUEST.text)+'</textarea><div class="field-foot"><p class="hint">Yaptığınız iş, yaşadığınız güçlük ve ulaşmak istediğiniz sonuç.</p><span class="character-count" id="requestCharacterCount">'+LIVE_REQUEST.text.length+' / 5.000</span></div></div>'+renderPortalPDF()+'<div id="aiAvailabilityNotice" class="notice"></div><div id="submitterFormError" role="alert">'+(LIVE_REQUEST.error?'<div class="notice warning">'+esc(LIVE_REQUEST.error)+'</div>':'')+'</div><div class="portal-submit-footer"><p class="caption">Talep metniniz ve ilgili içerik özetleri dış analiz hizmetinde işlenir. Yalnızca paylaşımı onaylı bilgi kullanın.</p><button class="btn primary" id="submitterAnalyzeButton" type="submit" disabled>'+(LIVE_REQUEST.busy?'<span class="spinner"></span><span id="portalBusyLabel">Talebiniz kaydediliyor…</span>':'Talebi gönder '+navIcon('arrow'))+'</button></div></form></section><div id="submitterAnalysisResult" class="request-result" tabindex="-1" aria-busy="'+LIVE_REQUEST.busy+'">'+(LIVE_REQUEST.result?renderEmployeeResult(LIVE_REQUEST.result):'')+'</div></div>';
   bindPortalRequest();bindPortalPDF();applyAIStatusToCurrentPage();if(PORTAL_PDF.busy)$('#submitterAnalyzeButton').disabled=true;
   if(typeof mountIntake==='function')mountIntake();
 }
@@ -194,9 +211,9 @@ function bindPortalRequest(){
     event.preventDefault();if(LIVE_REQUEST.busy||PORTAL_PDF.busy||(typeof intakeCanSubmit==='function'&&!intakeCanSubmit()))return;
     var generation=PORTAL.accountGeneration;
     var text=$('#submitterRequestText').value.trim();if(text.length<3)return;
-    if(LIVE_REQUEST.submissionText!==text||!LIVE_REQUEST.submissionKey){LIVE_REQUEST.submissionKey=crypto.randomUUID();LIVE_REQUEST.submissionText=text;LIVE_REQUEST.submissionPositionId=typeof POS!=='undefined'&&POS.source?POS.source.requirement_id:null}
+    if(LIVE_REQUEST.submissionText!==text||!LIVE_REQUEST.submissionKey){LIVE_REQUEST.submissionKey=crypto.randomUUID();LIVE_REQUEST.submissionText=text;LIVE_REQUEST.submissionPositionId=typeof POS!=='undefined'&&POS.source?POS.source.requirement_id:null;LIVE_REQUEST.submissionPortfolioId=typeof portfolioSourceId==='function'?portfolioSourceId('REQUEST'):null}
     LIVE_REQUEST.text=text;LIVE_REQUEST.result=null;LIVE_REQUEST.error='';LIVE_REQUEST.busy=true;renderPortalRequest();
-    try{var analysisResult=await apiRequest('/api/requests/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text,position_requirement_id:LIVE_REQUEST.submissionPositionId||null,idempotency_key:LIVE_REQUEST.submissionKey,intake_token:typeof intakeSubmissionToken==='function'?intakeSubmissionToken():null})});if(generation!==PORTAL.accountGeneration)return;LIVE_REQUEST.result=analysisResult;if(typeof POS!=='undefined')POS.source=null;toast('Talebiniz kaydedildi. Analiz durumu talep detayında izlenebilir.');openPortalRequest(analysisResult.request_id,false)}
+    try{var analysisResult=await apiRequest('/api/requests/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text,position_requirement_id:LIVE_REQUEST.submissionPositionId||null,portfolio_handoff_id:LIVE_REQUEST.submissionPortfolioId||null,idempotency_key:LIVE_REQUEST.submissionKey,intake_token:typeof intakeSubmissionToken==='function'?intakeSubmissionToken():null})});if(generation!==PORTAL.accountGeneration)return;LIVE_REQUEST.result=analysisResult;if(typeof POS!=='undefined')POS.source=null;if(typeof PFL!=='undefined')PFL.source=null;toast('Talebiniz kaydedildi. Analiz durumu talep detayında izlenebilir.');openPortalRequest(analysisResult.request_id,false)}
     catch(error){if(generation===PORTAL.accountGeneration)LIVE_REQUEST.error=error.message}
     finally{if(generation!==PORTAL.accountGeneration)return;LIVE_REQUEST.busy=false;if(state.currentPage==='submitter-request'){renderPortalRequest();var target=$(LIVE_REQUEST.result?'#submitterAnalysisResult':'#submitterRequestText');target.focus({preventScroll:true});target.scrollIntoView({block:'start',behavior:'auto'})}}
   });
@@ -343,7 +360,7 @@ function portalDetailBody(result,admin){
   var referral=ref?'<section class="referral-summary"><div><div class="eyebrow">KAYITLI YÖNLENDİRME</div><h2>'+esc(ref.department_label)+'</h2><p>'+esc(ref.analysis_summary)+'</p></div><span class="badge b-blue">'+(ref.active?'Birimde değerlendirme aktif':'Yönlendirme kapatıldı')+'</span></section>':'';
   var status=portalStatusEditor(result,admin);
   if(firstReview)status='<details class="case-secondary-actions" '+(portalDraftDirty(portalDraft(result,'status'),'status')?'open':'')+'><summary>Diğer süreç işlemleri</summary>'+status+'</details>';
-  return '<article class="case-file">'+portalCaseHeader(result)+(typeof developmentLinks==='function'?developmentLinks(result):'')+portalAnalysisState(result)+portalProcessSteps(result)+'<div class="case-layout"><div class="case-main">'+original+(firstReview?review:status+review)+brief+portalPlan(result)+portalAssignment(result)+referral+(firstReview?status:'')+'</div>'+portalCurrentAction(result,firstReview?'portalDecisionForm':'portalStatusForm')+'</div>'+(typeof trainingRequestLinks==='function'?trainingRequestLinks(result):'')+(typeof positionRequestSource==='function'?positionRequestSource(result):'')+(typeof skillRequestSection==='function'?skillRequestSection(result):'')+(typeof evaluationRequestSection==='function'?evaluationRequestSection(result.effectiveness):'')+portalTimeline(result)+(admin?'<details class="card decision-audit"><summary>İnsan kararlarını ilk YZ önerisiyle karşılaştır</summary>'+portalDecisionHistory(result)+'</details>':'')+'</article>';
+  return '<article class="case-file">'+(typeof PFL!=='undefined'&&PFL.source?.kind==='DEVELOPMENT'&&PFL.source.context.source_request_id===result.request_id?portfolioSourceBanner():'')+portalCaseHeader(result)+(typeof developmentLinks==='function'?developmentLinks(result):'')+portalAnalysisState(result)+portalProcessSteps(result)+'<div class="case-layout"><div class="case-main">'+original+(firstReview?review:status+review)+brief+portalPlan(result)+portalAssignment(result)+referral+(firstReview?status:'')+'</div>'+portalCurrentAction(result,firstReview?'portalDecisionForm':'portalStatusForm')+'</div>'+(typeof trainingRequestLinks==='function'?trainingRequestLinks(result):'')+(typeof positionRequestSource==='function'?positionRequestSource(result):'')+(typeof skillRequestSection==='function'?skillRequestSection(result):'')+(typeof evaluationRequestSection==='function'?evaluationRequestSection(result.effectiveness):'')+portalTimeline(result)+(admin?'<details class="card decision-audit"><summary>İnsan kararlarını ilk YZ önerisiyle karşılaştır</summary>'+portalDecisionHistory(result)+'</details>':'')+'</article>';
 }
 
 function portalReviewEditor(result){
@@ -404,13 +421,14 @@ async function renderPortalDetail(){
 function renderAdminPanel(){
   if(!PORTAL.isAdmin)return;
   if(PORTAL.adminTab==='detail'){renderPortalDetail();return}
-  var analyst=portalIsAnalyst(),tabs=analyst?[['requests','İş merkezi'],['learning','Kararlar ve ihtiyaç raporu'],['sources','İçerik ve bağlantı'],['taxonomy','Kategori rehberi']]:[['requests','Birimimin iş merkezi']];
-  if(!analyst&&PORTAL.adminTab!=='requests')PORTAL.adminTab='requests';
+  var analyst=portalIsAnalyst(),tabs=analyst?[['requests','İş merkezi'],['learning','Kararlar ve ihtiyaç raporu'],['sources','İçerik ve bağlantı'],['taxonomy','Kategori rehberi'],['integrations','Kurumsal Entegrasyonlar']]:[['requests','Birimimin iş merkezi'],['integrations','Kurumsal Entegrasyonlar']];
+  if(!analyst&&PORTAL.adminTab!=='requests'&&PORTAL.adminTab!=='integrations')PORTAL.adminTab='requests';
   $('#appView').innerHTML='<div data-no-translate>'+pageHead(analyst?'İhtiyaç analizi iş merkezi':'Eğitim tasarımı iş merkezi',analyst?'Bekleyen ihtiyacı değerlendirin. Karar ve uygun sonraki aşama aynı işlemde kaydedilir.':'Birimine yönlendirilen ihtiyaçları değerlendirin, çözümü planlayın ve sonucu izleyin.')+'<div class="portal-tabs" role="tablist" aria-label="Yönetim bölümleri">'+tabs.map(function(tab){return '<button role="tab" aria-selected="'+(PORTAL.adminTab===tab[0])+'" data-portal="admin-tab" data-tab="'+tab[0]+'">'+tab[1]+'</button>'}).join('')+'</div><div id="portalAdminContent"></div></div>';
   if(PORTAL.adminTab==='requests'){if(!PORTAL.list)portalRestoreFilters(true);$('#portalAdminContent').innerHTML='<div id="portalListStats"></div><section class="card work-queue"><div class="section-title"><div><div class="eyebrow">'+(analyst?'TALEP HAVUZU':'BİRİM İŞ LİSTESİ')+'</div><h2>'+(analyst?'Değerlendirilecek talepler':'Yönlendirilen ihtiyaçlar')+'</h2></div><span class="caption">'+esc(PORTAL.user.role_label)+'</span></div>'+renderListControls(true)+'<div id="portalListContent" aria-live="polite">'+portalSkeleton('İş listeniz yükleniyor')+'</div></section>';bindListFilters(true);loadPortalList(true)}
   if(PORTAL.adminTab==='learning')renderReviewReport();
   if(PORTAL.adminTab==='sources')renderAdminSources();
   if(PORTAL.adminTab==='taxonomy')renderTaxonomyGuide();
+  if(PORTAL.adminTab==='integrations')renderIntegrationsPanel('#portalAdminContent');
 }
 
 function portalReportLinks(ids){return '<div class="report-request-links">'+(ids||[]).map(function(id){return '<button class="link-btn" data-portal="open-request" data-admin="1" data-id="'+Number(id)+'" aria-label="'+Number(id)+' numaralı talebi aç">#'+Number(id)+'</button>'}).join('')+'</div>'}

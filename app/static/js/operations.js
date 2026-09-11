@@ -23,13 +23,17 @@ function operationsRoute(route){
   if(['portal-inbox','portal-notifications'].indexOf(route)<0)return false;
   OPS.offset=0;if(route==='portal-inbox')renderOperationsInbox();else renderOperationsNotifications();return true;
 }
+function governanceInboxRows(items){
+  return '<div class="table-wrap"><table class="request-table"><thead><tr><th>Ders</th><th>Durum</th><th>Son işlem</th><th>İşlem</th></tr></thead><tbody>'+items.map(function(item){return '<tr><th><strong>'+esc(item.title||'Ders yönetişimi')+'</strong><span class="request-table-category">Yönetişim incelemesi</span></th><td>'+governanceBadge(item.status,item.status_label)+'</td><td>'+portalDateTime(item.updated_at)+'</td><td><button class="btn sm" data-page="portal-governance">İncelemeyi aç</button></td></tr>'}).join('')+'</tbody></table></div>';
+}
 function operationsPager(data){return '<div class="portal-pagination"><span>'+data.total+' kayıt</span><div><button class="btn sm" id="operationsPrev" '+(data.offset===0?'disabled':'')+'>Önceki</button> <button class="btn sm" id="operationsNext" '+(data.offset+data.limit>=data.total?'disabled':'')+'>Sonraki</button></div></div>'}
 function bindOperationsPager(data,reload){$('#operationsPrev').onclick=function(){OPS.offset=Math.max(0,OPS.offset-20);reload()};$('#operationsNext').onclick=function(){OPS.offset+=20;reload()}}
 async function renderOperationsInbox(){
   var epoch=PORTAL.epoch;$('#appView').innerHTML=pageHead('İşlerim','Şu anda sizden beklenen işlemler.')+'<section class="card" id="operationsContent">'+portalSkeleton('İşleriniz yükleniyor')+'</section>';
   try{var data=await apiRequest('/api/operations/inbox?limit=20&offset='+OPS.offset);if(epoch!==PORTAL.epoch)return;
     var items=data.items.map(function(item){return Object.assign({},item,{subcategory:item.action_required})});
-    $('#operationsContent').innerHTML=(items.length?developmentTable(items,true):portalEmpty('Şu anda bekleyen işiniz yok','Sizden işlem beklendiğinde bu listede görünecek.'))+operationsPager(data);
+    var governanceItems=items.filter(function(item){return item.kind==='governance'}),standardItems=items.filter(function(item){return item.kind!=='governance'});
+    $('#operationsContent').innerHTML=((governanceItems.length?governanceInboxRows(governanceItems):'')+(standardItems.length?developmentTable(standardItems,true):(!governanceItems.length?portalEmpty('Şu anda bekleyen işiniz yok','Sizden işlem beklendiğinde bu listede görünecek.'):'')))+operationsPager(data);
     bindOperationsPager(data,renderOperationsInbox);
   }catch(error){if(epoch===PORTAL.epoch)$('#operationsContent').innerHTML=portalError(error)}
 }

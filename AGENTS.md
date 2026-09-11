@@ -8,11 +8,13 @@
 - Include pending changes from earlier phases when synchronizing an accumulated
   local checkout; do not discard or reset them. Explain the accumulated scope in
   the commit rather than claiming separate historical commits that did not occur.
-- The comparison repository intentionally includes the complete project, database,
-  PDFs, model transfer parts, tests and supporting files. Exclude environment secrets
-  and virtual environments. Keep the existing lossless Git LFS model packaging.
-- Stage a consistent SQLite backup in the Git index for the live database; never
-  overwrite the application's database just to publish a snapshot.
+- From Faz 13 onward, the user's latest publishing scope excludes generated,
+  temporary and test-run artifacts. Stage reviewed source, source tests, assets and
+  documentation explicitly. Do not stage live databases, backups, logs, caches,
+  screenshots or generated fixtures. Preserve previously tracked comparison files
+  and the existing lossless Git LFS packaging; do not delete them to clean history.
+- Never overwrite the application's live database for publication. Keep environment
+  secrets and virtual environments excluded. Do not use an unrestricted git add-all.
 - Use normal history-preserving pushes. Inspect remote divergence before changing
   history, and verify the remote commit after upload. Do not claim upload success
   until Git confirms it. For large uploads, report each additional 500 MB.

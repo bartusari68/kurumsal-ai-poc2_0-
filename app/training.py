@@ -150,11 +150,15 @@ def participants(db, row):
 
 
 def create(db, actor, payload):
-    values = payload.model_dump(exclude={'course_version_id'})
+    values = payload.model_dump(exclude={'course_version_id', 'portfolio_handoff_id'})
     validate_fields(db, values, actor)
     version = db.get(CourseVersion, payload.course_version_id)
     if not version or version.state != 'PUBLISHED':
         raise HTTPException(422, 'Yeni oturum yalnızca yayımlanmış güncel ders sürümünden oluşturulabilir.')
+    from .governance_models import CourseGovernance
+    lifecycle = db.get(CourseGovernance, version.course_id) if version.course_id else None
+    if lifecycle and lifecycle.lifecycle_state == 'RETIRED':
+        raise HTTPException(422, 'Emekliye ayrılmış bir ders için yeni eğitim oturumu açılamaz.')
     changed = db.execute(update(CourseCatalog).where(CourseCatalog.course_id == version.course_id,
         CourseCatalog.current_version_id == version.id).values(revision=CourseCatalog.revision))
     if changed.rowcount != 1:
@@ -169,6 +173,8 @@ def create(db, actor, payload):
     row = Session(course_version_id=version.id, created_by=uid(actor), **values)
     db.add(row); db.flush()
     record_event(db, row, actor, 'CREATED', details={'course_version_id': version.id})
+    from .portfolio import accept
+    accept(db, actor, payload.portfolio_handoff_id, 'SESSION', row)
     db.commit()
     return detail(db, row, actor)
 
@@ -426,8 +432,11 @@ def options(db, actor, course_version_id=None, session_id=None, header=None):
 
 def catalog_action(db, version, actor):
     catalog = db.get(CourseCatalog,version.course_id) if version.course_id else None
+    from .governance_models import CourseGovernance
+    lifecycle = db.get(CourseGovernance, version.course_id) if version.course_id else None
     return bool(actor.role in policy.MANAGERS and version.state == 'PUBLISHED' and catalog and
-        catalog.current_version_id == version.id and catalog.responsible_unit in (None,actor.role))
+        catalog.current_version_id == version.id and catalog.responsible_unit in (None,actor.role) and
+        (not lifecycle or lifecycle.lifecycle_state == 'ACTIVE'))
 
 
 def request_links(db, record, flow, role):

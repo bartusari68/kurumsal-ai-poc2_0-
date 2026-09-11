@@ -6,6 +6,7 @@ from datetime import date
 
 
 class AnalyzeRequest(BaseModel):
+    portfolio_handoff_id: int | None = Field(default=None, gt=0)
     position_requirement_id: int | None = Field(default=None, gt=0)
     intake_token: str | None = Field(default=None, max_length=120000)
     idempotency_key: str | None = Field(default=None, min_length=8, max_length=80)
@@ -103,6 +104,7 @@ class DevelopmentBase(BaseModel):
 
 
 class DevelopmentCreate(DevelopmentBase):
+    portfolio_handoff_id: int | None = Field(default=None, gt=0)
     source_request_id: int = Field(gt=0)
     expected_request_version: int = Field(ge=0)
     work_type: Literal['NEW_COURSE', 'COURSE_ENRICHMENT']

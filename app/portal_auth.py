@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, Request, Response
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
-from .config import PROJECT_ROOT
+from .config import PROJECT_ROOT, settings
 from .database import SessionLocal, get_db
 from .models import AccountSession, PortalUser
 
@@ -41,6 +41,10 @@ def create_user(db, username, password, role, display_name):
                       password_salt=salt, password_hash=password_digest(FIXED_LOCAL_PASSWORD, salt))
     db.add(user)
     db.flush()
+    # Keep the named local-account fallback explicitly represented in the
+    # identity domain while preserving the historical PortalUser fields.
+    from .identity import ensure_local_identity
+    ensure_local_identity(db, user)
     return user
 
 
@@ -53,9 +57,21 @@ def ensure_admin_credentials():
                 create_user(db, username, FIXED_LOCAL_PASSWORD, role, ROLES[role])
                 credentials_changed = True
 
+        from .identity import ensure_local_identity
+        from .identity_models import Identity
         for user in db.scalars(select(PortalUser)):
+            # Rows predating the identity table are legacy local accounts.  An
+            # explicitly directory/SSO-provisioned user must not be silently
+            # converted into a local-login account at startup.
+            has_identity = db.scalar(select(Identity.id).where(Identity.user_id == user.id))
+            if not has_identity:
+                ensure_local_identity(db, user)
+                has_local_identity = True
+            else:
+                has_local_identity = bool(db.scalar(select(Identity.id).where(
+                    Identity.user_id == user.id, Identity.identity_type == "LOCAL")))
             expected = password_digest(FIXED_LOCAL_PASSWORD, user.password_salt)
-            if not hmac.compare_digest(expected, user.password_hash):
+            if has_local_identity and not hmac.compare_digest(expected, user.password_hash):
                 salt = secrets.token_hex(16)
                 user.password_salt = salt
                 user.password_hash = password_digest(FIXED_LOCAL_PASSWORD, salt)
@@ -109,7 +125,8 @@ def current_account(request: Request, db: Session = Depends(get_db)):
     if not session or session.expires_at <= utc_now():
         return None
     user = db.get(PortalUser, session.user_id)
-    if not user or not user.active or user.role not in ROLES:
+    from .identity import authentication_allowed
+    if not user or not user.active or user.role not in ROLES or not authentication_allowed(db, user):
         return None
     return Principal(user.id, user.username, user.display_name, user.role)
 
@@ -180,7 +197,11 @@ def login(request, response, username, password, db):
     user = db.scalar(select(PortalUser).where(PortalUser.username == name))
     salt = user.password_salt if user else "0" * 32
     digest = password_digest(password, salt)
-    if not user or not user.active or user.role not in ROLES or not hmac.compare_digest(digest, user.password_hash):
+    from .identity import authentication_allowed
+    from .identity_models import Identity
+    has_local_identity = bool(user and db.scalar(select(Identity.id).where(
+        Identity.user_id == user.id, Identity.identity_type == "LOCAL", Identity.status == "ACTIVE")))
+    if not user or not user.active or user.role not in ROLES or not settings.local_login_enabled or not has_local_identity or not authentication_allowed(db, user) or not hmac.compare_digest(digest, user.password_hash):
         for key in keys:
             _attempts[key].append(now)
         raise HTTPException(401, "Kullanıcı adı veya parola hatalı.")
@@ -189,6 +210,11 @@ def login(request, response, username, password, db):
     token = secrets.token_urlsafe(32)
     db.add(AccountSession(token_hash=hashlib.sha256(token.encode()).hexdigest(), user_id=user.id,
                           expires_at=utc_now() + timedelta(hours=8)))
+    from .identity_models import Identity
+    local_identity = db.scalar(select(Identity).where(Identity.user_id == user.id,
+                                                        Identity.identity_type == "LOCAL"))
+    if local_identity:
+        local_identity.last_authenticated_at = utc_now()
     db.commit()
     response.set_cookie(COOKIE, token, httponly=True, samesite="strict", secure=request.url.scheme == "https", max_age=8 * 3600)
     return account_payload(Principal(user.id, user.username, user.display_name, user.role), db)

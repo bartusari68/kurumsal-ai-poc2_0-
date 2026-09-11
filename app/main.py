@@ -21,6 +21,7 @@ from .config import settings
 from .database import Base, engine, get_db, SessionLocal
 from .indexing import IndexNotReadyError, active_course_ids, index_status, public_status, start_sync
 from .models import Course, HumanReview, RequestDecision, RequestRecord, install_decision_guards, install_analysis_guards
+from . import governance_models
 from .pdf_intake import PDFIntakeError, MAX_REQUEST_BYTES, extract_request_pdf
 from .schemas import AnalyzeRequest, ChatRequest, IntakeRequest, ReviewRequest, AdminLogin, StatusChange, ReferralRequest, DecisionRequest, DecisionAdvanceRequest
 from .learning import record_decision, record_decision_and_advance, review_report
@@ -49,10 +50,21 @@ from .skill_models import install as install_skills
 install_skills(engine,SessionLocal)
 from .position_models import install as install_positions
 install_positions(engine)
+from .portfolio_models import install as install_portfolio
+install_portfolio(engine)
+from .governance_models import install as install_governance
+install_governance(engine)
+from .identity_models import install as install_identity
+install_identity(engine)
 
 @asynccontextmanager
 async def lifespan(app):
     ensure_admin_credentials()
+    # Additive identity migration: materialize canonical organisation and
+    # manager snapshots for legacy nullable metadata without rewriting history.
+    from .identity import backfill_legacy_organizations
+    with SessionLocal() as db:
+        backfill_legacy_organizations(db)
     from .analysis_pipeline import worker
     task = asyncio.create_task(worker(SessionLocal))
     from .operations import worker as operations_worker
@@ -66,7 +78,7 @@ async def lifespan(app):
         await asyncio.to_thread(local_models.close)
 
 
-app = FastAPI(title="Kurumsal Öğrenme ve Yapay Zekâ", version="0.4.0", lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(title="Kurumsal Öğrenme ve Yapay Zekâ", version="0.5.0", lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
 from .operations_api import router as operations_router
 app.include_router(operations_router)
 from .development_api import router as development_router
@@ -81,6 +93,14 @@ from .skill_api import router as skill_router
 app.include_router(skill_router)
 from .position_api import router as position_router
 app.include_router(position_router)
+from .portfolio_api import router as portfolio_router
+app.include_router(portfolio_router)
+from .governance_api import router as governance_router
+app.include_router(governance_router)
+from .identity_api import router as identity_router, auth_router as identity_auth_router, communications_router
+app.include_router(identity_router)
+app.include_router(identity_auth_router)
+app.include_router(communications_router)
 
 
 @app.middleware("http")
@@ -143,6 +163,7 @@ def index():
 @app.get("/api/health", dependencies=[Depends(require_analyst)])
 async def health(refresh: bool = False, db: Session = Depends(get_db)):
     connection = await ai_client.healthcheck(force=refresh)
+    from .identity import provider_status
     return {
         "status": "ok",
         "ai_mode": settings.ai_mode,
@@ -154,6 +175,7 @@ async def health(refresh: bool = False, db: Session = Depends(get_db)):
         "rerank_provider": getattr(settings, "rerank_provider", "openrouter"),
         "course_count": len(active_course_ids(db)),
         "request_count": db.scalar(select(func.count(RequestRecord.id))) or 0,
+        "integrations": provider_status(db),
     }
 
 
@@ -242,7 +264,7 @@ def analyze(payload: AnalyzeRequest, db: Session = Depends(get_db), session=Depe
     from .intake import submission_metadata
     metadata = submission_metadata(payload.intake_token, session.token_hash)
     record, flow = persist_request(db, payload.text, session, payload.idempotency_key, intake_metadata=metadata,
-        position_requirement_id=payload.position_requirement_id)
+        position_requirement_id=payload.position_requirement_id, portfolio_handoff_id=payload.portfolio_handoff_id)
     result = request_detail(db, record, flow)
     result["message"] = "Talebiniz kaydedildi. Analiz durumu talep detayından takip edilebilir."
     return result
